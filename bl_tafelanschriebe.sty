@@ -1,0 +1,121 @@
+\RequirePackage{scrpage2}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[ngerman]{babel}
+\RequirePackage[german]{babelbib}
+\RequirePackage{microtype}
+\RequirePackage{pifont}
+\RequirePackage{lmodern}
+\RequirePackage{latexsym,amssymb,amsmath,mathdots}
+% \RequirePackage{txfonts}
+% \RequirePackage[scaled=.9]{helvet}
+\RequirePackage{xspace}
+\RequirePackage[pdfborder={0 0 0}]{hyperref}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\usetikzlibrary{automata,positioning,arrows.meta,shapes.geometric,calc,fit}
+\RequirePackage{ifthen}
+\RequirePackage{rotating}
+
+\RequirePackage{chngcntr}
+\counterwithout{figure}{section}
+\renewcommand\thefigure{\arabic{figure}}
+\counterwithout{equation}{section}
+
+\renewcommand\thepart{\arabic{part}}
+\renewcommand\partname{Kapitel}
+
+\renewcommand\floatpagefraction{.99}
+\renewcommand\topfraction{.99}
+\renewcommand\bottomfraction{.99}
+\renewcommand\textfraction{.01}
+
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
+\hyphenation{Konzept-inklusion}
+
+\newcommand{\textbfsf}[1]{\textbf{\textsf{#1}}}
+\newcommand{\textsfbf}[1]{\textbf{\textsf{#1}}}
+
+% Beweisumgebung
+\newcommand{\qedsymbol}{\ding{111}}
+\newcommand{\qedhere}{\hspace*{\fill}\qedsymbol}
+\newcommand{\quasiqedhere}{\hspace*{\fill}(\qedsymbol)}
+\newenvironment{beweis}{%
+  \par\medskip\noindent
+  \textup{\textsfbf{Beweis.}}
+}{%
+%   \hspace*{\fill}\qedsymbol
+  \par\smallskip\noindent
+}
+
+% ----- Frakturbuchstaben -----
+\newcommand{\Amf}{\ensuremath{\mathfrak{A}}\xspace}
+\newcommand{\Bmf}{\ensuremath{\mathfrak{B}}\xspace}
+\newcommand{\Imf}{\ensuremath{\mathfrak{I}}\xspace}
+\newcommand{\Nmf}{\ensuremath{\mathfrak{N}}\xspace}
+
+% ----- kalligrafische Buchstaben -----
+\newcommand{\Amc}{\ensuremath{\mathcal{A}}\xspace}
+\newcommand{\Bmc}{\ensuremath{\mathcal{B}}\xspace}
+\newcommand{\Fmc}{\ensuremath{\mathcal{F}}\xspace}
+\newcommand{\Gmc}{\ensuremath{\mathcal{G}}\xspace}
+\newcommand{\Imc}{\ensuremath{\mathcal{I}}\xspace}
+\newcommand{\Jmc}{\ensuremath{\mathcal{J}}\xspace}
+\newcommand{\Kmc}{\ensuremath{\mathcal{K}}\xspace}
+\newcommand{\Omc}{\ensuremath{\mathcal{O}}\xspace}
+\newcommand{\Pmc}{\ensuremath{\mathcal{P}}\xspace}
+\newcommand{\Smc}{\ensuremath{\mathcal{S}}\xspace}
+\newcommand{\Tmc}{\ensuremath{\mathcal{T}}\xspace}
+\newcommand{\Umc}{\ensuremath{\mathcal{U}}\xspace}
+
+% ----- Carstens phi-Abkürzung -----
+\newcommand{\vp}{\ensuremath{\varphi}\xspace}
+
+% ----- Makros für lineare Strukturen und deren Labels -----
+\newcommand{\linstruc}[1]{%
+  \node[state] (elem0) {0};
+  \foreach \x [remember=\x as \lastx (initially 0)] in {1,...,#1} {
+      \node[state] (elem\x) [right=of elem\lastx] {\x};
+      \path[->] (elem\lastx) edge node[above] {$s$} (elem\x);
+  };
+
+  \path[->] (elem#1) edge[loop right] node[right] {$s$} ();
+}
+
+% 1st param: location of label w.r.t. to element (default: above)
+% 2nd param: distance to element
+% 3rd param: element name
+% 4th param: alignment among labels
+% 5th param: label text (without "tabular")
+\newcommand{\linstruclab}[5][above]{%
+  \node [#1=#2 of elem#3] {\begin{tabular}{@{}#4@{}}#5\end{tabular}};
+}
+
+\renewcommand{\Vec}[1]{\ensuremath{\overrightarrow{#1}}}
+
+\newcommand{\bspnr}[1]{{\footnotesize\textsf{#1}}}
+
+\newcommand{\auf}{\ensuremath{\langle}}
+\newcommand{\zu}{\ensuremath{\rangle}}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt,line width = .8pt] (char) {{\small #1}};}}
+
+\newcommand{\term}[1]{\textsf{#1}}
+
+\newcommand{\DL}[1]{\ensuremath{\mathcal{ALC}}}
+\newcommand{\ALC}{\DL{ALC}}
+
+\newcommand{\parI}{\par\smallskip}
+\newcommand{\parII}{\par\medskip}
+\newcommand{\parIII}{\par\bigskip}
+
+\newenvironment{tboxarray}{%
+  \renewcommand{\arraystretch}{1.2}
+  \begin{array}{@{}r@{~~}r@{~~}c@{~~}l@{~~}l@{}}
+}{%
+  \end{array}
+}

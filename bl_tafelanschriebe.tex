@@ -1,0 +1,359 @@
+% !TeX spellcheck = de_DE_frami
+\documentclass[fontsize=11pt, twoside=false, numbers=autoenddot]{scrbook}
+\usepackage{bl_tafelanschriebe}
+
+\pagestyle{plain}
+% \pagestyle{scrheadings}
+% % \chead{\headmark}
+% \chead{\partmark}
+% \renewcommand{\sectionmark}[1]{\markright{\textsl{#1}}}
+% \renewcommand{\chaptermark}[1]{\markright{\textsl{#1}}{}}
+% \renewcommand{\partmark}[1]{\markright{\textsl{#1}}}
+\parindent0pt
+\parskip\smallskipamount
+
+\title{Tafelmitschriften zur Vorlesung \glqq Beschreibungslogik\grqq\\ im Sommersemester 2019}
+\author{%
+  Prof.\ Dr.\ Thomas Schneider\\[1pt]
+  AG Theorie der Künstlichen Intelligenz \\[1pt]
+  Fachbereich 3 \\
+  \includegraphics[width=.4\linewidth]{logo_ub.jpg} \\[\baselineskip]~%
+}
+\date{Stand: \today}
+\publishers{{\large Dieses Dokument ist noch unvollständig und wird regelmäßig aktualisiert.}}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\refstepcounter{part}
+% ===================================================================
+% ===================================================================
+% ===================================================================
+\part{Grundlagen}
+
+% ===================================================================
+\section*{T2.1~ Beispiele für {\boldmath \ALC}-Konzepte}
+
+Mit den Konzeptnamen
+%
+\parI
+\begin{quote}
+  \term{Student}, \term{Naturwissenschaft}, \term{Professor}, \term{Emeritus},
+  \term{PflichtVL}, \term{VL}, \term{Einfach}, \mbox{\term{Interessant}},\\
+  $A,B$
+\end{quote}
+%
+\parI
+und den Rollennamen
+%
+\parI
+\begin{quote}
+  \term{studiert}, \term{hält}, \term{hatÜbungsaufgabe},\\
+  $r$
+\end{quote} 
+%
+\parI
+kann man z.\,B.\ folgende zusammengesetzte \ALC-Konzepte bilden:
+%
+\parI
+\begin{itemize}
+  \item
+    $\term{Student} \sqcap \exists\term{studiert}.\term{Naturwissenschaft}$ \\
+    (beschreibt Studierende, die mindestens eine Naturwissenschaft studieren)
+    \parI
+  \item
+    $\term{Professor} \sqcap \term{Emeritus} \sqcap \forall\term{hält}.\lnot\term{PflichtVL}$ \\
+    (beschreibt Professor*innen im Ruhestand, die keine Pflichtvorlesungen halten)
+    \parI
+  \item 
+    $\term{VL} \sqcap \lnot\term{PflichtVL} \sqcap \forall\term{hatÜbungsaufgabe}.(\term{Einfach} \sqcup \term{Interessant})$ \\
+    (beschreibt Wahlvorlesungen, bei denen alle Übungsaufgaben einfach oder interessant sind)
+    \parI
+  \item
+    $A \sqcap \exists r.(\lnot B \sqcup \forall r.A)$
+\end{itemize}
+%
+\parI
+(Die Beschreibungen in Klammern werden eigentlich erst richtig klar, wenn die Semantik definiert ist.)
+
+% ===================================================================
+\section*{T2.2~ Beispiele für Interpretationen und Extensionen}
+
+Wir betrachten die Interpretation $\Imc = (\Delta^\Imc,\cdot^\Imc)$ mit
+%
+\begin{align*}
+  \Delta^\Imc            & = \{s_1,s_2,s_3,v_1,v_2\} \\[4pt]
+  \term{Mensch}^\Imc     & = \{s_1,s_2,s_3\}         \\
+  \term{Student}^\Imc    & = \{s_1,s_2,s_3\}         \\
+  \term{Vorlesung}^\Imc  & = \{v_1,v_2\}             \\
+  \term{PflichtVL}^\Imc  & = \{v_1\}                 \\
+  \term{WahlVL}^\Imc     & = \{v_2\}                 \\
+  \term{hört}^\Imc       & = \{(s_1,v_1),(s_2,v_1),(s_2,v_2),(s_3,v_1)\} \\
+  \term{bekanntMit}^\Imc & = \{(s_1,s_2),(s_2,s_1),(s_1,s_1),(s_2,s_2),(s_3,s_3)\}.
+\end{align*}
+%
+Jede Interpretation kann in offensichtlicher Weise als (knoten- und kantenbeschrifteter)
+gerichteter Graph aufgefasst werden; für unsere Beispielinterpretation \Imc:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (s1)                                   {$s_1$};
+    \node[state] (s2) [right=35mm of s1]                {$s_2$};
+    \node[state] (s3) [right=35mm of s2]                {$s_3$};
+    \node[state] (v1) [below right=25mm and 17mm of s1] {$v_1$};
+    \node[state] (v2) [right=35mm of v1]                {$v_2$};
+    
+    \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+    \node [above=-1mm of s2] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+    \node [above=-1mm of s3] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+    \node [below=0mm of v1] {\begin{tabular}{@{}c@{}}\term{Vorlesung}\\\term{PflichtVL}\end{tabular}};
+    \node [below=0mm of v2] {\begin{tabular}{@{}c@{}}\term{Vorlesung}\\\term{WahlVL}\end{tabular}};
+    
+    \path[->] (s1) edge[loop left]     node[left]             {\term{bekanntMit}} ()
+              (s1) edge[bend left =10] node[above]            {\term{bekanntMit}} (s2)
+              (s2) edge[bend left =10] node[below]            {\term{bekanntMit}} (s1)
+              (s2) edge[loop right]    node[right]            {\term{bekanntMit}} ()
+              (s3) edge[loop right]    node[right]            {\term{bekanntMit}} ()
+              (s1) edge                node[left =1mm]        {\term{hört}}       (v1)
+              (s2) edge                node[right=1mm]        {\term{hört}}       (v1)
+              (s2) edge                node[right=1mm,pos=.7] {\term{hört}}       (v2)
+              (s3) edge                node[right=3mm,pos=.3] {\term{hört}}       (v1)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
+Beispiele für die Extensionen einiger zusammengesetzter Konzepte in dieser Interpretation:
+%
+\begin{alignat*}{2}
+  (\term{VL} \sqcap \term{PflichtVL})^\Imc & = \{v_1,v_2\} \cap \{v_1\}          && = \{v_1\} \\
+  (\lnot\term{VL})^\Imc                    & = \Delta^\Imc \setminus \{v_1,v_2\} && = \{s_1,s_2,s_3\} \\
+  (\term{Student} \sqcup \term{VL})^\Imc   & = \{s_1,s_2,s_3\} \cup \{v_1,v_2\} && = \Delta^\Imc \\
+  (\exists\term{bekanntMit}.\term{Student})^\Imc & = \{s_1,s_2,s_3\} \\
+  (\exists\term{bekanntMit}.\exists\term{bekanntMit}.\term{Student})^\Imc & = \{s_1,s_2,s_3\} \\
+  (\forall\term{hört}.\term{PflichtVL})^\Imc & = \{s_1,s_3,v_1,v_3\}
+\end{alignat*}
+%
+In der letzten Zeile beachte man die Besonderheit der Werterestriktion ($\forall$),
+dass ein Domänenelement $d$, welches \emph{keine} ausgehenden $r$-Kanten besitzt,
+immer eine Instanz von $\forall r.C$ ist, für jedes beliebige Konzept $C$.
+
+% ===================================================================
+\section*{T2.3~ Semantik von {\boldmath $\top$ und $\bot$}}
+
+Es gelten:
+%
+\par\vspace*{-2.7\baselineskip}
+\begin{alignat*}{4}
+  \top^\Imc & = (A \sqcup \lnot A)^\Imc & = A^\Imc \cup (\Delta^\Imc \setminus A^\Imc) & = \Delta^\Imc \\
+  \bot^\Imc & = (A \sqcap \lnot A)^\Imc & = A^\Imc \cap (\Delta^\Imc \setminus A^\Imc) & = \emptyset^\Imc
+\end{alignat*}
+%
+Dabei folgt die erste Gleichheit jeder Zeile aus der Definition von $\top$ bzw.\ $\bot$
+auf Folie~2.9,
+die zweite Gleichheit aus der Semantik (Def.~2.2)
+und die dritte aus der Mengenlehre.
+
+\pagebreak
+% ===================================================================
+\section*{T2.4~ Beispiele für "`unerfüllbar"' und "`subsumiert"'}
+
+\begin{enumerate}
+  \item[(a)]
+    Das Konzept $C = \exists r.A \sqcap \forall r. \lnot A$ is \emph{nicht} erfüllbar:
+    \par\smallskip
+    Angenommen, $C$ sei erfüllbar, d.\,h.\ es gibt eine Interpretation $\Imc$
+    mit $C^\Imc \neq \emptyset$. Sei $d \in C^\Imc$.
+    Wegen $d \in (\exists r.A)^\Imc$ gibt es ein Element $e \in A^\Imc$
+    mit $(d,e) \in r^\Imc$. Wegen $d \in (\forall r.\lnot A)^\Imc$
+    gilt aber $e \in (\lnot A)^\Imc$, also $e \notin A^\Imc$,
+    was ein Widerspruch zu $e \in A^\Imc$ ist. Also ist die Annahme falsch.
+    \par\medskip
+  \item[(b)]
+    $\exists r.(A \sqcap B) \sqsubseteq \exists r.A \sqcap \exists r.B$:
+    \par\smallskip
+    Sei \Imc eine Interpretation und $d \in (\exists r.(A \sqcap B))^\Imc$.
+    Dann gibt es ein Element $e \in (A \sqcap B)^\Imc$ mit $(d,e) \in r^\Imc$.
+    Wegen $e \in A^\Imc$ gilt $d \in (\exists r.A)^\Imc$;
+    wegen $e \in B^\Imc$ gilt $d \in (\exists r.B)^\Imc$.
+    Also ist $d \in (\exists r.A \sqcap \exists r.B)^\Imc$.
+    \par\smallskip
+    Die Rückrichtung dieser Subsumtion gilt nicht -- finde ein Gegenbeispiel, d.\,h.\
+    eine Interpretation $\Imc$ mit
+    $(\exists r.A \sqcap \exists r.B)^\Imc \nsubseteq (\exists r.(A \sqcap B))^\Imc$.
+\end{enumerate}
+
+% ===================================================================
+\section*{T2.5~ Beispiele für TBoxen und deren Semantik}
+
+Wir betrachten folgende TBox.
+\[
+  \begin{tboxarray}
+    \Tmc = \{
+      & \term{Student}   & \equiv & \term{Mensch} \sqcap \exists\term{hört}.\term{Vorlesung} & \\
+      & \term{Vorlesung} & \equiv & \term{PflichtVL} \sqcup \term{WahlVL}                    & \\
+      & \term{Student} \sqcap \exists\term{hört}.\term{Vorlesung} & \sqsubseteq & \exists\term{bekanntMit}.\term{Student} & \\
+      & \term{PflichtVL} \sqcap \term{WahlVL} & \sqsubseteq & \bot & \}
+  \end{tboxarray}
+\]
+Die Interpretation aus T2.2 ist Modell von \Tmc.
+Sie erfüllt z.\,B.\ auch die folgende Konzeptinklusion.
+\begin{equation}
+  \label{eq:zusaetzl_KI}
+  \term{Student} \sqsubseteq \exists\term{bekanntMit}.\term{Mensch}
+\end{equation}
+
+Ein weiteres Modell ist z.\,B. folgende Interpretation \Jmc.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (s1)                    {$s_1$};
+    \node[state] (s2) [right=35mm of s1] {$s_2$};
+    \node[state] (v1) [below=15mm of s1] {$v_1$};
+    
+    \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+    \node [above=.4mm of s2]  {\term{Mensch}};
+    \node [below=0mm of v1] {\begin{tabular}{@{}c@{}}\term{Vorlesung}\\\term{PflichtVL}\end{tabular}};
+    
+    \path[->] (s1) edge[loop left] node[left]  {\term{bekanntMit}} ()
+              (s1) edge            node[above] {\term{bekanntMit}} (s2)
+              (s1) edge            node[right] {\term{hört}}       (v1)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
+\Jmc erfüllt ebenfalls die Konzeptinklusion~\eqref{eq:zusaetzl_KI}
+sowie z.\,B.\ $\term{VL} \equiv \term{PflichtVL}$.
+
+\goodbreak
+% ===================================================================
+\section*{T2.6~ Beispiele für "`erfüllbar"' und "`subsumiert"' bzgl.\ TBoxen}
+
+Sei \Tmc die TBox aus dem vorangehenden Beispiel.
+
+\begin{enumerate}
+  \item[(a)]
+    Das Konzept
+    \[
+      C = \term{Student} \sqcap \forall\term{hört}.\term{PflichtVL}
+    \]
+    ist erfüllbar bezüglich \Tmc, denn folgende Interpretation 
+    $\Imc'$ ist ein Modell von \Tmc mit $s_1 \in C^{\Imc'}$:
+    %
+    \begin{center}
+      \begin{tikzpicture}[%
+        >=Latex,
+        every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+        every edge/.style={draw=black,thin}
+      ]
+        \node[state] (s1)                    {$s_1$};
+        \node[state] (v1) [below=10mm of s1] {$v_1$};
+        
+        \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+        \node [below=0mm of v1] {\begin{tabular}{@{}c@{}}\term{Vorlesung}\\\term{PflichtVL}\end{tabular}};
+        
+        \path[->] (s1) edge[loop left] node[left]  {\term{bekanntMit}} ()
+                  (s1) edge            node[right] {\term{hört}}       (v1)
+        ;
+      \end{tikzpicture}
+    \end{center}
+    %
+    Ebenso ist die Interpretation \Imc aus T2.2 ein Modell von \Tmc mit $s_1 \in C^\Imc$.
+    \parII
+  \item[(b)]
+    Das Konzept
+    \[
+      C = \term{Student} \sqcap \forall\term{hört}.\term{PflichtVL} \sqcap \exists\term{hört}.\term{WahlVL}
+    \]
+    ist \emph{un}erfüllbar bezüglich \Tmc:
+    Angenommen, $C$ sei erfüllbar bzgl.\ \Tmc.
+    Dann gibt es ein Modell \Imc von \Tmc mit einer Instanz $d \in C^\Imc$.
+    Nach der Semantik von "`$\sqcap$"' (Def.~2.2) gelten
+    (i) $d \in (\forall\term{hört}.\term{PflichtVL})^\Imc$ und
+    (ii) $d \in (\exists\term{hört}.\term{WahlVL})^\Imc$.
+    Wegen (ii) gibt es ein Element $e \in \term{WahlVL}^\Imc$ mit $(d,e) \in \term{hört}^\Imc$.
+    Wegen (i) ist dann auch $e \in \term{PflichtVL}^\Imc$,
+    also $e \in (\term{PflichtVL} \sqcap \term{WahlVL})^\Imc$.
+    Weil \Imc jedoch ein Modell von \Tmc ist,
+    kann es wegen der Konzeptinklusion $\term{PflichtVL} \sqcap \term{WahlVL} \sqsubseteq \bot$
+    aus \Tmc ein solches Element $e$ nicht geben; ein Widerspruch.
+    Also ist die Annahme falsch.
+    \parII
+  \item[(c)]
+    Für die Konzepte
+    \[
+      C = \term{Student}
+      \qquad\text{und}\qquad
+      D = \exists\term{bekanntMit}.\term{Student}
+    \]
+    gilt $\Tmc \models C \sqsubseteq D$:
+    Sei \Imc ein Modell von \Tmc und $d \in C^\Imc$, d.\,h.\ $d \in \term{Student}^\Imc$.
+    Zu zeigen ist $d \in D^\Imc$, d.\,h.\ $d \in (\exists\term{bekanntMit}.\term{Student})^\Imc$.
+    
+    Wegen der ersten Zeile von~\Tmc gilt
+    $d \in (\exists\term{hört}.\term{Vorlesung})^\Imc$,
+    also auch $d \in (\term{Student} \sqcap \exists\term{hört}.\term{Vorlesung})^\Imc$.
+    Mit Zeile~3 von~\Tmc folgt wie gewünscht $d \in (\exists\term{bekanntMit}.\term{Student})^\Imc$.    
+\end{enumerate}
+%
+Dies ist bereits Schlussfolgern, denn wir haben implizites Wissen aus \Tmc abgeleitet:
+%
+\begin{enumerate}
+  \item[(a)]
+    Es \emph{kann} Student*innen geben, die nur Pflichtvorlesungen hören.
+  \item[(b)]
+    Es kann \emph{keine} Student*innen geben, die nur Pflichtvorlesungen,
+    aber mindestens eine Wahlvorlesung hören.
+  \item[(c)]
+    Jede*r Student*in ist mit mindestens einer/m Student*in bekannt.
+\end{enumerate}
+
+
+
+% ===================================================================
+% ===================================================================
+% ===================================================================
+\part{Ausdrucksstärke und Modellkonstruktionen}
+
+% ===================================================================
+% ===================================================================
+% ===================================================================
+\part{Tableau-Algorithmen}
+
+% ===================================================================
+% ===================================================================
+% ===================================================================
+\part{Komplexität}
+
+% ===================================================================
+% ===================================================================
+% ===================================================================
+\part{Effiziente Beschreibungslogiken}
+
+% ===================================================================
+% ===================================================================
+% ===================================================================
+\part{ABoxen und Anfragebeantwortung}
+
+
+%% ===================================================================
+%% ===================================================================
+%% ===================================================================
+%\part*{Anhang}
+%\addcontentsline{toc}{part}{Anhang}
+%
+
+%\pagebreak
+%\addcontentsline{toc}{part}{Literaturverzeichnis}
+%\bibliographystyle{babalpha}
+%\bibliography{biblio.bib}
+\end{document}
