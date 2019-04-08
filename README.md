@@ -9,8 +9,8 @@ Hier findet Ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
 ## Stand
 
-**7.4.2019:** T2.1–T2.6 (bis einschl. Vorlesung 8.4.)
+**8.4.2019:** T2.1–T2.6 (bis einschl. Vorlesung 8.4.)
 
 ## Versionsgeschichte
 
-**7.4.2019**&nbsp; 1. Commit mit T2.1–T2.6
+**7.–8.4.2019**&nbsp; 1. Commit, T2.1–T2.6
