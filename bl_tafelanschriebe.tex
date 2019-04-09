@@ -317,6 +317,168 @@ Dies ist bereits Schlussfolgern, denn wir haben implizites Wissen aus \Tmc abgel
     Jede*r Student*in ist mit mindestens einer/m Student*in bekannt.
 \end{enumerate}
 
+% ===================================================================
+\section*{T2.7~ Beweis der Monotonie von {\boldmath \ALC} (Lemma~2.7)}
+
+\textsfbf{Lemma 2.7}~
+Seien $\Tmc_1$ und $\Tmc_2$ TBoxen mit $\Tmc_1 \subseteq \Tmc_2$\,. Dann gilt:
+%
+\begin{enumerate}
+  \item[(1)]
+    Wenn $C$ erfüllbar bezüglich $\Tmc_2$ ist, dann ist $C$ erfüllbar bezüglich $\Tmc_1$.
+  \item[(2)]
+    Wenn $\Tmc_1 \models C \sqsubseteq D$, dann $\Tmc_2 \models C \sqsubseteq D$.
+\end{enumerate}
+
+\par\medskip\noindent
+\begin{beweis}
+  \begin{enumerate}
+    \item[\textsfbf{(1)}]
+      Sei $C$ erfüllbar bezüglich $\Tmc_2$.
+      Dann gibt es ein Modell \Imc von $\Tmc_2$ mit $C^\Imc \neq \emptyset$.
+      Da \Imc Modell von $\Tmc_2$ ist, erfüllt \Imc alle Konzeptinklusionen in $\Tmc_2$,
+      also wegen $\Tmc_1 \subseteq \Tmc_2$ auch alle Konzeptinklusionen in $\Tmc_1$,
+      und somit ist \Imc auch Modell von $\Tmc_1$.
+      Also gibt es ein Modell \Imc von $\Tmc_1$ mit $C^\Imc \neq \emptyset$;
+      d.\,h.\ $C$ ist erfüllbar bezüglich $\Tmc_1$.
+    \item[\textsfbf{(2)}]
+      Wir beweisen die Kontraposition.
+      Es gelte $\Tmc_2 \not\models C \sqsubseteq D$.%
+      \footnote{%
+        Das Zeichen $\not\models$ steht für "`nicht $\models$"',
+        also bedeutet $\Tmc \not\models C \sqsubseteq D$,
+        dass die Beziehung $\Tmc \models C \sqsubseteq D$ \emph{nicht} gilt
+        (d.\,h.\ bezüglich \Tmc wird $C$ \emph{nicht} von $D$ subsumiert).
+%        Vergleiche auch $=$ versus $\neq$ oder $\subseteq$ versus $\nsubseteq$.
+      }
+      Dann gibt es ein Modell \Imc von $\Tmc_2$ mit $C^\Imc \nsubseteq D^\Imc$.
+      Wie in (1) ist \Imc auch Modell von $\Tmc_1$,
+      also $\Tmc_1 \not\models C \sqsubseteq D$.
+      \qedhere
+  \end{enumerate}
+\end{beweis}
+%
+\par\noindent
+Auf der Folie steht auch: "`Die Umkehrungen von~(1) und~(2) sind im Allgemeinen \emph{nicht} richtig."'
+Davon kann man sich mittels einfacher Gegenbeispiele überzeugen:
+z.\,B.\ ist mit $\Tmc_1=\emptyset$ und $\Tmc_2=\{A \sqsubseteq B\}$
+die Umkehrung von~(2) widerlegt, denn $\Tmc_2 \models A \sqsubseteq B$,
+aber $\Tmc_1 \not\models A \sqsubseteq B$.
+
+% ===================================================================
+\section*{T2.8~ Beispiel für Subsumtion als Ordnungsrelation}
+
+Wir betrachten folgende TBox.
+\[
+  \begin{tboxarray}
+    \Tmc = \{
+      & \term{PC}        & \sqsubseteq & \term{Gerät} \sqcap \exists\term{hatTeil}.\term{CPU} & \\
+      & \term{PC}        & \equiv      & \term{Desktop} \sqcup \term{Laptop}                  & \\
+      & \term{Desktop}   & \sqsubseteq & \lnot\term{Laptop}                                   & \\
+      & \term{MobilerPC} & \equiv      & \term{PC} \sqcap \lnot \term{Desktop}                & \}
+  \end{tboxarray}
+\]
+Die dritte Zeile von \Tmc ist äquivalent zu $\term{Desktop} \sqcap \term{Laptop} \sqsubseteq \bot$, wie man leicht zeigt (probiere es selbst aus).
+
+Die Ordnung "`$\sqsubseteq$ bezüglich \Tmc{}"' kann man durch folgendes Hasse-Diagramm darstellen:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    sibling distance=20mm, level distance=10mm,
+    every node/.style = {draw=none, fill=none, inner sep=1mm, minimum size=1mm},
+    edge from parent/.style = {draw=black, thin, -}%
+  ]
+    \node(root) {\term{Gerät}}
+      child {
+        node {\term{PC}}
+        child {
+          node {\term{Desktop}}
+        }
+        child {
+          node (Laptop) {\term{Laptop}}
+        }
+      };
+      
+    \node[below=0mm of Laptop] {\term{MobilerPC}};
+
+    \node[right=30mm of root] {\term{CPU}};    
+  \end{tikzpicture}%
+\end{center}
+%
+Dass die Relation "`$\sqsubseteq$ bezüglich \Tmc{}"' \emph{nicht} antisymmetrisch ist,
+zeigt sich in diesem Beispiel dadurch, dass der Knoten unten rechts zwei Beschriftungen hat,
+also $\Tmc \models \term{Laptop} \equiv \term{MobilerPC}$.
+Wäre die Relation antisymmetrisch, dann dürfte nicht gleichzeitig
+$\Tmc \models \term{Laptop} \sqsubseteq \term{MobilerPC}$
+und $\Tmc \models \term{MobilerPC} \sqsubseteq \term{Laptop}$ gelten.
+
+% ===================================================================
+\section*{T2.9~ Beweis der wechselseitigen Reduktionen der Schlussfolgerungsprobleme}
+
+\textsfbf{Lemma 2.9}~
+\begin{enumerate}
+  \item[(1)]
+    Subsumtion ist polynomiell reduzierbar auf (Un)erfüllbarkeit:
+    \par\smallskip
+    $\Tmc \models C \sqsubseteq D$ ~~gdw.~~ $C \sqcap \neg D$ unerfüllbar bezüglich \Tmc
+    \par\smallskip
+  \item[(2)]
+    Erfüllbarkeit ist polynomiell reduzierbar auf (Nicht-)Äquivalenz:
+    \par\smallskip
+    $C$ erfüllbar bezüglich \Tmc ~~gdw.~~ $\Tmc \not\models C \equiv \bot$
+    \par\smallskip
+  \item[(3)]
+    Äquivalenz ist polynomiell reduzierbar auf Subsumtion:
+    \par\smallskip
+    $\Tmc \models C \equiv D$ ~~gdw.~~ $\Tmc \models \top \sqsubseteq (C \sqcap D) \sqcup (\neg C \sqcap \neg D)$
+\end{enumerate}
+
+\par\medskip\noindent
+\begin{beweis}
+  Wir beweisen exemplarisch Punkt~(1). Die Beweise der anderen zwei Punkte sind analog.
+  %
+%  \begin{center}
+%    \renewcommand{\arraystretch}{1.2}
+%    \begin{tabular}{@{}lcl@{}}
+%      $\Tmc \models C \sqsubseteq D$
+%      & gdw. & für alle Modelle \Imc von \Tmc gilt $C^\Imc \subseteq D^\Imc$ \\
+%      & gdw. & es gibt kein Modell \Imc von \Tmc mit $C^\Imc \nsubseteq D^\Imc$ \\
+%      & gdw. & es gibt kein Modell \Imc von \Tmc mit $C^\Imc \cap (\Delta^\Imc \setminus D^\Imc) \neq \emptyset$ \\
+%      & gdw. & es gibt kein Modell \Imc von \Tmc mit $(C \sqcap \lnot D)^\Imc \neq \emptyset$ \\
+%      & gdw. & $C \sqcap \lnot D$ unerfüllbar bezüglich \Tmc
+%    \end{tabular}
+%  \end{center}
+%  %
+%  Hier gilt das erste "`gdw."' wegen der Definition von Subsumtion (Def.~2.6),
+%  und die zweite Zeile ist eine logisch äquivalente Umformulierung der ersten.
+%  Die dritte Zeile ist äquivalent zur zweiten, weil für beliebige Mengen $M_1,M_2$ gilt,
+%  dass $M_1 \nsubseteq M_2$ gdw.\ $M_1 \cap \overline{M_2} \neq \emptyset$,
+%  wobei $\overline{M_2}$ das Komplement von $M_2$ ist.
+%  Man überzeuge sich davon anhand eines Venn-Diagramms.
+%  Die vierte Zeile ist schließlich äquivalent zur dritten wegen der
+%  Semantik von $\sqcap$ und $\lnot$ (Def.~2.2),
+%  und die fünfte ist äquivalent dazu wegen der Definition von Unerfüllbarkeit (Def.~2.6).
+  \begin{center}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{@{}lcl@{}}
+      $\Tmc \models C \sqsubseteq D$
+      & gdw. & für alle Modelle \Imc von \Tmc gilt $C^\Imc \subseteq D^\Imc$ \\
+      & gdw. & für alle Modelle \Imc von \Tmc gilt  $C^\Imc \cap (\Delta^\Imc \setminus D^\Imc) = \emptyset$ \\
+      & gdw. & für alle Modelle \Imc von \Tmc gilt  $(C \sqcap \lnot D)^\Imc = \emptyset$ \\
+      & gdw. & $C \sqcap \lnot D$ unerfüllbar bezüglich \Tmc
+    \end{tabular}
+  \end{center}
+  %
+  Hier gilt das erste "`gdw."' wegen der Definition von Subsumtion (Def.~2.6),
+  und die zweite Zeile ist äquivalent zur ersten, weil für beliebige Mengen $M_1,M_2$ gilt,
+  dass $M_1 \subseteq M_2$ gdw.\ $M_1 \cap \overline{M_2} = \emptyset$,
+  wobei $\overline{M_2}$ das Komplement von $M_2$ ist.
+  Man überzeuge sich davon anhand eines Venn-Diagramms.
+  Die dritte Zeile ist schließlich äquivalent zur dritten wegen der
+  Semantik von $\sqcap$ und $\lnot$ (Def.~2.2),
+  und die vierte ist äquivalent dazu wegen der Definition von Unerfüllbarkeit (Def.~2.6).
+  \qedhere
+\end{beweis}
 
 
 % ===================================================================
