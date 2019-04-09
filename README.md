@@ -9,7 +9,7 @@ Hier findet Ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
 ## Stand
 
-**9.4.2019:** T2.7–T2.9 (bis einschl. Vorlesung 10.4.)
+**9.4.2019:** T2.1–T2.9 (bis einschl. Vorlesung 10.4.)
 
 ## Versionsgeschichte
 
