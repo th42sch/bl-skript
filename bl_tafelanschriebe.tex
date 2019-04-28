@@ -413,7 +413,7 @@ $\Tmc \models \term{Laptop} \sqsubseteq \term{MobilerPC}$
 und $\Tmc \models \term{MobilerPC} \sqsubseteq \term{Laptop}$ gelten.
 
 % ===================================================================
-\section*{T2.9~ Beweis der wechselseitigen Reduktionen der Schlussfolgerungsprobleme}
+\section*{T2.9~ Wechselseitige Reduktion der Schlussfolgerungsprobleme}
 
 \textsfbf{Lemma 2.9}~
 \begin{enumerate}
@@ -480,11 +480,314 @@ und $\Tmc \models \term{MobilerPC} \sqsubseteq \term{Laptop}$ gelten.
   \qedhere
 \end{beweis}
 
+\vspace*{-.5\baselineskip}
+\enlargethispage*{15mm}
+% ===================================================================
+\section*{T2.10~ Beispiel für inverse Rollen}
+
+Betrachte folgende \ALC-TBox:
+\[
+  \begin{tboxarray}
+    \Tmc = \{
+      & \term{Professor} & \sqsubseteq & \term{Verrückt} \sqcap \exists\term{gibt}.\term{Vorlesung} & \\
+      & \term{Vorlesung} & \sqsubseteq & \forall\term{wirdGegebenVon}.\lnot\term{Verrückt}    & \}
+  \end{tboxarray}
+\]
+Intuitiv sollte \term{Professor} unerfüllbar bezüglich \Tmc sein;
+dies ist aber nicht der Fall, weil \term{Professor} in folgendem Modell von \Tmc
+eine Instanz hat:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (p)                   {$p$};
+    \node[state] (v) [right=30mm of p] {$v$};
+    \node[state] (d) [right=30mm of v] {$d$};
+    
+    \node [below=-.5mm of p] {\begin{tabular}{@{}c@{}}\term{Professor}\\\term{Verrückt}\end{tabular}};
+    \node [below=0mm of v] {\term{Vorlesung}};
+    \node [below=0mm of d] {\term{Dozent}};
+    
+    \path[->] (p) edge node[above] {\term{gibt}} (v)
+              (v) edge node[above] {\term{wirdGegebenVon}} (d)
+    ;
+  \end{tikzpicture}
+\end{center}
+\goodbreak
+In \ALCI kann man die zweite Konzeptinklusion in \Tmc durch
+\[
+  \term{Vorlesung} \,\sqsubseteq\, \forall\term{gibt}^-.\lnot\term{Verrückt}
+\]
+ersetzen. Dann wird \term{Professor} unerfüllbar bezüglich \Tmc
+(aber \Tmc hat immer noch Modelle).
+
+% ===================================================================
+\section*{T2.11~ Beispiele für Zahlenrestriktionen}
+
+Definition einer Hand als ein Organ mit genau fünf Fingern:
+\[
+  \term{Hand} \,\equiv\, \term{Organ} \sqcap \qnrgeq 5 {\term{hatTeil}}{\term{Finger}}
+                                      \sqcap \qnrleq 5 {\term{hatTeil}}{\term{Finger}}
+\]
+%
+\parI
+Forderung, dass in jedem Semester mindestens zwei Wahlpflichtmodule angeboten werden:
+\[
+  \term{Semester} \,\sqsubseteq\, \qnrgeq 2 {\term{angeboten}}{\term{Wahlpflichtmodul}}
+\]
 
 % ===================================================================
 % ===================================================================
 % ===================================================================
 \part{Ausdrucksstärke und Modellkonstruktionen}
+
+% ===================================================================
+\section*{T3.1~ Beispiele für Bisimulationen}
+
+\begin{enumerate}
+  \item
+    Für die Interpretationen
+    %
+    \parI
+    \begin{center}
+      \parbox[t]{.4\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+          every edge/.style={draw=black,thin}
+        ]
+          \node[state] (d) {$d$};
+          
+          \node [left=0mm of d] (dlab) {$A$};
+          
+          \node [above left=0mm and 5mm of d] {$\Imc_1$};
+          
+          \path[->] (d) edge [loop right] node[right] {$r$} ()
+          ;
+        \end{tikzpicture}%
+      }%
+      \hspace*{.1\linewidth}
+      \parbox[t]{.4\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+          every edge/.style={draw=black,thin}
+        ]
+          \node[state]                     (x0)                    {$x_0$};
+          \node[state]                     (x1) [right=10mm of x0] {$x_1$};
+          \node[state]                     (x2) [right=10mm of x1] {$x_2$};
+          \node[state,draw=none,fill=none] (x3) [right=10mm of x2] {$\cdots$};
+          
+          \node [below=0mm of x0]              {$A$};
+          \node [below=0mm of x1]              {$A$};
+          \node [below=0mm of x2]              {$A$};
+
+          \node [above left=0mm and 1mm of x0] {$\Imc_2$};
+          
+          \path[->] (x0) edge node[above] {$r$} (x1)
+                    (x1) edge node[above] {$r$} (x2)
+                    (x2) edge node[above] {$r$} (x3)
+          ;
+        \end{tikzpicture}%
+      }
+    \end{center}
+    %
+    ist $\rho = \Delta^{\Imc_1} \times \Delta^{\Imc_2}$ eine Bisimulation.
+    \parIII
+  \item
+    Für die Interpretationen
+    %
+    \parI
+    \begin{center}
+      \parbox[t]{.4\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+          every edge/.style={draw=black,thin}
+        ]
+          \node[state] (d)                  {$d$};
+          \node[state] (e) [below=6mm of d] {$e$};
+          
+          \node [left=0mm of d] {$A$};
+          \node [left=0mm of e] {$A,B$};
+          
+          \node [above left=0mm and 12mm of d] {$\Imc_1$};
+          
+          \path[->] (d) edge node[right] {$r$} (e)
+          ;
+        \end{tikzpicture}%
+      }%
+      \hspace*{.1\linewidth}
+      \parbox[t]{.4\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+          every edge/.style={draw=black,thin}
+        ]
+          \node[state] (x)                                 {$x$};
+          \node[state] (y)  [below left =6mm and 5mm of x] {$y$};
+          \node[state] (y') [below right=6mm and 5mm of x] {$y'$};
+          
+          \node [above right=-2.5mm and .5mm of x]  {$A$};
+          \node [left =0mm of y]                {$A,B$};
+          \node [right=0mm of y']               {$A,B$};
+
+          \node [above left=0mm and 23mm of x] {$\Imc_2$};
+          
+          \path[->] (x) edge node[pos=.3,left] {$r$} (y)
+                    (x) edge node[pos=.3,right] {$r$} (y')
+          ;
+        \end{tikzpicture}%
+      }
+    \end{center}
+    %
+    \parI
+    ist $\rho = \{(d,x),\,(e,y),\,(e,y')\}$ eine Bisimulation.
+    \parIII
+  \item
+    Für die Interpretationen
+    %
+    \parI
+    \begin{center}
+      \parbox[t]{.4\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+          every edge/.style={draw=black,thin}
+        ]
+          \node[state] (d)                   {$d$};
+          \node[state] (e) [below=10mm of d] {$e$};
+          
+          \node[left =0mm of d] {$A,B$};
+          \node[left =0mm of e] {$A$};
+          
+          \node [above left=0mm and 12mm of d] {$\Imc_1$};
+          
+          \path[->]
+            (d) edge [loop right,right]    node {$r$} ()
+            (d) edge [left, bend right=15] node {$s$} (e)
+            (e) edge [right,bend right=15] node {$r$} (d)
+          ;
+        \end{tikzpicture}%
+      }%
+      \hspace*{.1\linewidth}
+      \parbox[t]{.4\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+          every edge/.style={draw=black,thin}
+        ]
+          \node[state] (x)                                 {$x$};
+          \node[state] (y) [below left =10mm and 5mm of x] {$y$};
+          \node[state] (z) [below right=10mm and 5mm of x] {$z$};
+          
+          \node[right=0mm of x] {$A,B$};
+          \node[left =0mm of y] {$A,B$};
+          \node[right=0mm of z] {$A$};
+
+          \node [above left=0mm and 23mm of x] {$\Imc_2$};
+          
+          \path[->]
+            (x) edge [left, bend right=15] node {$r$} (y)
+            (y) edge [right,bend right=15] node {$r$} (x)
+            (x) edge [right] node               {$s$} (z)
+            (y) edge [below,bend right=15] node {$s$} (z)
+            (z) edge [above,bend right=15] node[pos=.35] {$r$} (y)
+          ;
+        \end{tikzpicture}%
+      }
+    \end{center}
+    %
+    \parI
+    ist $\rho = \{(d,x),\,(d,y),\,(e,z)\}$ eine Bisimulation.
+\end{enumerate}
+
+% ===================================================================
+\section*{T3.2~ Beweis des Bisimulationstheorems}
+
+\textsfbf{Theorem 3.2}~
+Seien $\Imc_1,\Imc_2$ Interpretationen, $d_1 \in \Delta^{\Imc_1}$ und $d_2 \in \Delta^{\Imc_2}$.
+
+\par\smallskip
+Wenn $(\Imc_1,d_1) \sim (\Imc_2,d_2)$,~ dann gilt f\"ur alle \ALC-Konzepte $C$:
+\[
+  d_1 \in C^{\Imc_1}\qquad\text{gdw.}\qquad d_2 \in C^{\Imc_2}
+\]      
+
+\par\noindent
+\begin{beweis}
+  Sei $\rho$ eine Bisimulation zwischen $\Imc_1$ und $\Imc_2$ mit $d_1\rho d_2$.
+  Wir beweisen die Behauptung per Induktion über die Struktur von $C$.
+  %
+  \begin{description}
+    \item[Induktionsanfang.]
+      Hier ist $C=A$ für einen Konzeptnamen $A$.
+      Nach Bedingung (1) für Bisimulationen (Definition~3.1) gilt wie gewünscht:
+      $d_1 \in A^{\Imc_1}$ gdw. $d_2 \in A^{\Imc_2}$
+    \item[Induktionsschritt.]
+      Wir müssen fünf Fälle gemäß des äußersten Konstruktors
+      von $C$ unterscheiden $(\lnot,\sqcap,\sqcup,\exists,\forall)$.
+      Wegen der (leicht nachzuweisenden) Äquivalenzen
+      %
+      \[
+        C \sqcup D  \,\equiv\, \lnot(\lnot C \sqcap \lnot D)
+        \qquad\text{und}\qquad
+        \forall r.C \,\equiv\, \lnot \exists r.\lnot C
+      \]
+      %
+      genügt es, wenn wir uns auf die drei Fälle $\lnot,\sqcap,\exists$ beschränken.
+      %
+      \begin{description}
+        \item[{\boldmath $C=\lnot D$}]
+          ~ %Dann gilt:
+          %
+          \parI
+          \begin{center}
+            \begin{tabular}{@{}llp{40mm}l@{}}
+              $d_1 \in C^{\Imc_1}$ & gdw. & $d_1 \notin D^{\Imc_1}$ & (Semantik "`$\lnot$"') \\
+                                   & gdw. & $d_2 \notin D^{\Imc_2}$ & (Induktionsvoraussetzung) \\
+                                   & gdw. & $d_2 \in C^{\Imc_2}$    & (Semantik "`$\lnot$"')
+            \end{tabular}
+          \end{center}
+          \parI
+        \item[{\boldmath $C=D \sqcap E$}]
+          ~ %Dann gilt:
+          %
+          \parI
+          \begin{center}
+            \begin{tabular}{@{}llp{40mm}l@{}}
+              $d_1 \in C^{\Imc_1}$
+              & gdw. & $d_1 \in D^{\Imc_1}$ und $d_1 \in E^{\Imc_1}$ & (Semantik "`$\sqcap$"') \\
+              & gdw. & $d_2 \in D^{\Imc_2}$ und $d_1 \in E^{\Imc_2}$ & (Induktionsvoraussetzung)\\
+              & gdw. & $d_2 \in C^{\Imc_2}$                          & (Semantik "`$\sqcap$"')
+            \end{tabular}
+          \end{center}
+          \parI
+        \item[{\boldmath $C=\exists r.D$}]
+          ~\par
+          Für die Richtung "`$\Rightarrow$"' argumentieren wir so:
+          %
+          \parIII
+          $d_1 \in C^{\Imc_1}$ \\
+          %
+          \begin{tabular}{@{}l@{}l@{~\,}l@{~~}l@{}}
+            & $\Rightarrow$ & es gibt $e_1 \in \Delta^{\Imc_1}$ mit $(d_1,e_1) \in r^{\Imc_1}$ und $e_1 \in D^{\Imc_1}$ & (Semantik "`$\exists$"') \\
+            & $\Rightarrow$ & es gibt $e_2 \in \Delta^{\Imc_2}$ mit $(d_2,e_2) \in r^{\Imc_2}$ und $e_1\rho e_2$ & (Bedingung~(2) Bisim.) \\
+            & $\Rightarrow$ & $e_2 \in D^{\Imc_2}$ & (Induktionsvorauss.) \\
+            & $\Rightarrow$ & $d_2 \in (\exists r.D)^{\Imc_2}$ & (Semantik "`$\exists$"')
+          \end{tabular}
+          %
+          \parIII
+          Das Argument für die Richtung "`$\Leftarrow$"' ist analog,
+          unter Verwendung von Bedingung~(3) für Bisimulationen.
+          \qedhere
+      \end{description}
+  \end{description}
+\end{beweis}
+
 
 % ===================================================================
 % ===================================================================
