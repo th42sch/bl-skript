@@ -1,9 +1,10 @@
 FILENAME=bl_tafelanschriebe
-INFILES=bl_tafelanschriebe.tex
+INFILES=bl_tafelanschriebe.tex bl_tafelanschriebe.tex
 
 
 main.pdf: $(INFILES)
 	pdflatex $(FILENAME)
+        bibtex $(FILENAME)
 	pdflatex $(FILENAME)
 	pdflatex $(FILENAME)
 

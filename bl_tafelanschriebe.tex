@@ -788,6 +788,247 @@ Wenn $(\Imc_1,d_1) \sim (\Imc_2,d_2)$,~ dann gilt f\"ur alle \ALC-Konzepte $C$:
   \end{description}
 \end{beweis}
 
+% ===================================================================
+\section*{T3.3~ Nichtausdrückbarkeit konkreter Eigenschaften}
+
+\textsfbf{Theorem 3.4}~
+In \ALC sind \emph{nicht ausdr\"uckbar:}
+%
+\begin{itemize}
+  \item
+    das \ALCI-Konzept $\exists r^- . \top$
+  \item
+    die \ALCQ-Konzepte 
+    %
+    \begin{itemize}
+      \item
+        $\qnrleq n r {\top}$,~ f\"ur alle $n > 0$
+      \item
+        $\qnrgeq n r {\top}$,~ f\"ur alle $n > 1$
+    \end{itemize}
+\end{itemize}
+
+\par\noindent
+\begin{beweis}
+  Siehe Proposition~3.3 und~3.4 in~\cite{DLintro}.
+\end{beweis}
+
+\goodbreak
+% ===================================================================
+\section*{T3.4~ Beispiel für ein Baummodell}
+
+Sei $C = A \sqcap \exists s.B \sqcap \forall s.\exists r.A$
+und $\Tmc = \{\top \sqsubseteq \exists s.A\}$.
+Ein Baummodell von $C$ und \Tmc:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=4mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                   {};
+    \node[state] (0)   [below left =6mm and 14mm of eps] {};
+    \node[state] (1)   [below right=6mm and 14mm of eps] {};
+    \node[state] (00)  [below left =7mm and 4mm of 0]    {};
+    \node[state] (01)  [below right=7mm and 4mm of 0]    {};
+    \node[state] (10)  [below left =7mm and 4mm of 1]    {};
+    \node[state] (11)  [below right=7mm and 4mm of 1]    {};
+    \node[state] (000) [below=8mm of 00]                 {};
+    \node[state] (010) [below=8mm of 01]                 {};
+    \node[state] (100) [below=8mm of 10]                 {};
+    \node[state] (110) [below=8mm of 11]                 {};
+    
+    \node [above right=-.5mm and -.5mm of eps] {$A$};
+    \node [above left =-.5mm and -.5mm of 0]   {$B$};
+    \node [above right=-.5mm and -.5mm of 1]   {$A$};
+    \node [right=-.5mm of 00]                  {$A$};
+    \node [right=-.5mm of 01]                  {$A$};
+    \node [right=-.5mm of 10]                  {$A$};
+    \node [right=-.5mm of 11]                  {$A$};
+    \node [right=-.5mm of 000]                 {$A$};
+    \node [right=-.5mm of 010]                 {$A$};
+    \node [right=-.5mm of 100]                 {$A$};
+    \node [right=-.5mm of 110]                 {$A$};
+
+    \node [inner sep=0mm,minimum size=4mm,below=8mm of 000] (0000) {$\vdots$};
+    \node [inner sep=0mm,minimum size=4mm,below=8mm of 010] (0100) {$\vdots$};
+    \node [inner sep=0mm,minimum size=4mm,below=8mm of 100] (1000) {$\vdots$};
+    \node [inner sep=0mm,minimum size=4mm,below=8mm of 110] (1100) {$\vdots$};
+
+    \path[->]
+      (eps) edge node[pos=.25,left =2mm] {$s$} (0)
+      (eps) edge node[pos=.25,right=2mm] {$s$} (1)
+      (0)   edge node[pos=.3,left]       {$s$} (00)
+      (0)   edge node[pos=.3,right]      {$r$} (01)
+      (1)   edge node[pos=.3,left]       {$s$} (10)
+      (1)   edge node[pos=.3,right]      {$r$} (11)
+      (00)  edge node[right]             {$s$} (000)
+      (01)  edge node[right]             {$s$} (010)
+      (10)  edge node[right]             {$s$} (100)
+      (11)  edge node[right]             {$s$} (110)
+      (000) edge node[right]             {$s$} (0000)
+      (010) edge node[right]             {$s$} (0100)
+      (100) edge node[right]             {$s$} (1000)
+      (110) edge node[right]             {$s$} (1100)
+    ;
+  \end{tikzpicture}%
+\end{center}
+
+% ===================================================================
+\section*{T3.5~ Beispiel für das Unravelling}
+
+Wir betrachten folgende Interpretation \Imc.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (d)                   {$d$};
+    \node[state] (e) [right=20mm of d] {$e$};
+    
+    \node[above=0mm of d] {$A,B$};
+    \node[above=0mm of e] {$B$};
+    
+    \node [above left=0mm and 6mm of d] {$\Imc$};
+    
+    \path[->]
+      (d) edge [loop below,below]    node {$r$} ()
+      (d) edge [above, bend left=15]  node {$r$} (e)
+      (e) edge [below,bend left=15]  node {$s$} (d)
+      (e) edge [loop below,below]    node {$r$} ()
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Dann gibt es beispielsweise folgende $d$-Pfade:
+%
+\begin{itemize}
+  \item
+    $\rho = ddedee$ mit $\textsf{end}(\rho) = e$
+  \item
+    $\rho' = deeed$ mit $\textsf{end}(\rho') = d$
+\end{itemize}
+%
+\parII
+Das Unravelling von \Imc an Stelle $d$ gemäß Definition~3.7 ist
+folgende Interpretation \Jmc.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=8.5mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                   {$d$};
+    \node[state] (0)   [below left =6mm and 20mm of eps] {$dd$};
+    \node[state] (1)   [below right=6mm and 20mm of eps] {$de$};
+    \node[state] (00)  [below left =7mm and 6mm of 0]    {$ddd$};
+    \node[state] (01)  [below right=7mm and 6mm of 0]    {$dde$};
+    \node[state] (10)  [below left =7mm and 6mm of 1]    {$ded$};
+    \node[state] (11)  [below right=7mm and 6mm of 1]    {$dee$};
+    
+    \node [above right=-1mm and -.5mm of eps]  {$A,B$};
+    \node [above left =-1mm and -.5mm of 0]    {$A,B$};
+    \node [above right=-.5mm and -.5mm of 1]   {$B$};
+    \node [right=-.5mm of 00]                  {\rule{0pt}{10pt}$A,B$};
+    \node [right=-.5mm of 01]                  {$B$};
+    \node [right=-.5mm of 10]                  {\rule{0pt}{10pt}$A,B$};
+    \node [right=-.5mm of 11]                  {$B$};
+
+%    \node [inner sep=0mm,minimum size=4mm,below=8mm of 00] (000) {$\vdots$};
+%    \node [inner sep=0mm,minimum size=4mm,below=8mm of 01] (010) {$\vdots$};
+%    \node [inner sep=0mm,minimum size=4mm,below=8mm of 10] (100) {$\vdots$};
+%    \node [inner sep=0mm,minimum size=4mm,below=8mm of 11] (110) {$\vdots$};
+%
+    \node [inner sep=0mm,minimum size=4mm,below=0mm of 00] {$\vdots$};
+    \node [inner sep=0mm,minimum size=4mm,below=0mm of 01] {$\vdots$};
+    \node [inner sep=0mm,minimum size=4mm,below=0mm of 10] {$\vdots$};
+    \node [inner sep=0mm,minimum size=4mm,below=0mm of 11] {$\vdots$};
+
+    \node [above left=0mm and 36mm of eps] {$\Jmc$};
+    
+    \path[->]
+      (eps) edge node[pos=.25,left =2mm] {$r$} (0)
+      (eps) edge node[pos=.25,right=2mm] {$r$} (1)
+      (0)   edge node[pos=.3,left]       {$r$} (00)
+      (0)   edge node[pos=.3,right]      {$r$} (01)
+      (1)   edge node[pos=.3,left]       {$s$} (10)
+      (1)   edge node[pos=.3,right]      {$r$} (11)
+%      (00)  edge node[right]             {$s$} (000)
+%      (01)  edge node[right]             {$s$} (010)
+%      (10)  edge node[right]             {$s$} (100)
+%      (11)  edge node[right]             {$s$} (110)
+    ;
+  \end{tikzpicture}%
+\end{center}
+
+\goodbreak
+% ===================================================================
+\section*{T3.6~ Beweis des Unravelling-Lemmas}
+
+\textsfbf{Lemma 3.8}~
+Für alle \ALC-Konzepte $C$ und alle $p \in \Delta^\Jmc$ gilt:
+\[
+  \textsf{end}(p) \in C^\Imc \qquad\text{gdw.}\qquad p \in C^\Jmc
+\]
+
+\par\noindent
+\begin{beweis}
+  Mit dem Bisimulationstheorem (Theorem~3.2) genügt es zu zeigen,
+  dass $\textsf{end}(p)$ und $p$ bisimilar sind,
+  d.\,h.\ $\big(\Imc,\textsf{end}(p)\big) \sim (\Jmc,p)$.
+  Siehe dazu Lemma~3.22 in~\cite{DLintro}.
+\end{beweis}
+
+% ===================================================================
+\section*{T3.7~ Beweis der Baummodelleigenschaft von {\boldmath \ALC}}
+
+\textsfbf{Theorem 3.6}~
+Wenn ein \ALC-Konzept $C$ bezüglich einer \ALC-TBox \Tmc erfüllbar ist,
+dann haben $C$ und \Tmc ein gemeinsames Baummodell \Imc.
+
+\par\noindent
+\begin{beweis}
+  Siehe Theorem~3.24 in~\cite{DLintro}.
+\end{beweis}
+
+% ===================================================================
+\section*{T3.8~ Gegenbeispiel für Rückrichtung Bisimulationstheorem}
+
+\textsfbf{Behauptung.}~
+Es gibt Interpretationen \Imc und \Jmc und $d \in \Imc$, $e \in \Jmc$, so dass
+\begin{enumerate}
+  \item[(i)]
+    $d \in C^\Imc$ gdw.\ $e \in C^\Jmc$ für alle \ALC-Konzepte $C$,
+  \item[(ii)]
+    aber $(\Imc,d) \not\sim (\Jmc,e)$.
+\end{enumerate}
+
+\par\noindent
+\begin{beweis}
+  Betrachte die folgenden Interpretationen \Imc und \Jmc.
+  %
+  \begin{center}
+    \dots\ Bild folgt \dots
+  \end{center}
+  %
+  Es gilt (ii):
+  versucht man, eine Bisimulation $\rho$ mit $d\mathbin{\rho}e$ zu konstruieren,
+  so benötigt man wegen $(e,e') \in r^\Imc$ einen $r$-Nachfolger $d'$ von $d$
+  mit $d' \mathbin{\rho} e'$.
+  Da jeder $r$-Nachfolger von $d$ aber nur endlich viele weitere Nachfolger hat,
+  kann man wegen des unendlichen $r$-Pfads unterhalb von $e'$
+  irgendwann nicht mehr Bedingung~(3) von Bisimulationen gewährleisten.
+  
+  \parII
+  Außerdem kann man mittels struktureller Induktion zeigen, dass (i) gilt.
+  \qedhere
+\end{beweis}
+
+
 
 % ===================================================================
 % ===================================================================
@@ -817,8 +1058,8 @@ Wenn $(\Imc_1,d_1) \sim (\Imc_2,d_2)$,~ dann gilt f\"ur alle \ALC-Konzepte $C$:
 %\addcontentsline{toc}{part}{Anhang}
 %
 
-%\pagebreak
-%\addcontentsline{toc}{part}{Literaturverzeichnis}
-%\bibliographystyle{babalpha}
-%\bibliography{biblio.bib}
+\pagebreak
+\addcontentsline{toc}{part}{Literaturverzeichnis}
+\bibliographystyle{babalpha}
+\bibliography{\jobname.bib}
 \end{document}
