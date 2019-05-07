@@ -1028,6 +1028,199 @@ Es gibt Interpretationen \Imc und \Jmc und $d \in \Imc$, $e \in \Jmc$, so dass
   \qedhere
 \end{beweis}
 
+% ===================================================================
+\section*{T3.9~ Beispiel für Teilkonzepte}
+
+Sei $C = \forall r.\exists r.(A \sqcap B)$.
+Dann ist $\textsf{sub}(C) = \{A,\, B,\, A \sqcap B,\, \exists r.(A \sqcap B),\, \forall r.\exists r.(A \sqcap B)\}$.
+
+\parII
+Sei $\Tmc = \{A \sqsubseteq \exists r.B,~ \forall r.B \sqsubseteq A\}$.
+Dann ist $\textsf{sub}(\Tmc) = \{A,\, B,\, \exists r.B,\, \forall r.B\}$.
+
+% ===================================================================
+\section*{T3.10~ Beispiel für Typen und Filtration}
+
+Seien $C = A \sqcap B$ und $\Tmc = \{A \sqsubseteq \exists r.A\}$.
+Dann ist $\textsf{sub}(C,\Tmc) = \{A,\, B,\, A \sqcap B,\, \exists r.A\}$.
+
+Wir betrachten die folgende Interpretation \Imc.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (d)                   {$d$};
+    \node[state] (f) [below=7mm of d] {$f$};
+    \node[state] (e) [right=20mm of d] {$e$};
+    \node[state] (g) [right=20mm of f] {$g$};
+    
+    \node[above=0mm of d] {$A$};
+    \node[above=0mm of e] {$A$};
+    \node[below=0mm of f] {$A,B$};
+    \node[below=0mm of g] {$A$};
+    
+    \node [above left=0mm and 6mm of d] {$\Imc$};
+    
+    \path[->]
+      (d) edge [above,bend left=15]  node {$r$} (e)
+      (e) edge [below,bend left=15]  node {$r$} (d)
+      (d) edge [left]                node {$r$} (f)
+      (e) edge [right]               node {$r$} (g)
+      (f) edge [below]               node {$r$} (g)
+      
+      (e) edge [loop right,right]    node {$r$} ()
+      (g) edge [loop right,right]    node {$r$} ()
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Dann gilt für $d$ und die vier Teilkonzepte in $\textsf{sub}(C,\Tmc)$:
+$d \in A^\Imc$, $d \notin B^\Imc$, $d \notin (A \sqcap B)^\Imc$ und $d \in (\exists r.A)^\Imc$.
+Also ist
+\[
+  t_\Imc(d) = \{A,\, \exists r.A\}.
+\]
+Analog erhält man:
+\[
+  t_\Imc(e) = \{A,\, \exists r.A\}
+  \qquad
+  t_\Imc(f) = \{A,\, B,\, A \sqcap B,\, \exists r.A\}
+  \qquad
+  t_\Imc(g) = \{A,\, \exists r.A\}
+\]
+Es gilt also $d \simeq e \simeq g \not\simeq f$, und somit gibt es zwei Äquivalenzklassen bezüglich $\simeq$\,:
+\[
+  [d] = \{d,e,g\}
+  \qquad
+  [f] = \{f\}
+\]
+Die Filtration von \Imc bezüglich $C$ und \Tmc gemäß Definition~3.17 ist dann
+folgende Interpretation \Jmc.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8.5mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (d)                   {$[d]$};
+%    \node[state] (f) [below=7mm of d] {$[f]$};
+    \node[state] (f) [right=20mm of d] {$[f]$};
+    
+    \node[above=0mm of d] {$A$};
+    \node[above=0mm of f] {$A,B$};
+    
+    \node [above left=0mm and 12mm of d] {$\Jmc$};
+    
+    \path[->]
+      (d) edge [above,bend left=15]  node {$r$} (f)
+      (f) edge [below,bend left=15]  node {$r$} (d)
+      
+      (d) edge [loop left,left]      node {$r$} ()
+    ;
+  \end{tikzpicture}%
+\end{center}
+
+%\pagebreak[4]
+% ===================================================================
+\section*{T3.11~ Beweis des Filtrationstheorems}
+
+\textsfbf{Theorem 3.17}~
+Sei \Imc ein Modell von $C$ und \Tmc, und sei \Jmc die Filtration von \Imc bezüglich $C$ und \Tmc.
+Dann ist auch \Jmc ein Modell von $C$ und \Tmc.
+
+\par\noindent
+\begin{beweis}
+  Wir verwenden die folgende Hilfsaussage.
+  %
+  \begin{quote}
+    Für alle $d \in \Delta^\Imc$ und $D \in \textsf{sub}(C,\Tmc)$ gilt:
+    \qquad
+    $d \in D^\Imc$
+    \quad gdw.\quad
+    $[d] \in D^\Jmc$
+  \end{quote}
+  %
+  Für den Beweis dieser Hilfsaussage siehe Lemma~3.15 in~\cite{DLintro}.
+  
+  \parII
+  Da \Imc ein Modell von $C$ und \Tmc ist,
+  gibt es ein Element $d \in C^\Imc$.
+  Mit der Hilfsaussage folgt $[d] \in C^\Jmc$; somit ist $\Jmc$ ein Modell von $C$.
+  
+  Um zu zeigen, dass $\Jmc$ auch ein Modell von \Tmc ist,
+  betrachten wir eine beliebige Konzeptinklusion $D \sqsubseteq E \in \Tmc$
+  und eine beliebige Instanz $[d] \in D^\Jmc$.
+  Mit der Hilfsaussage folgt $d \in D^\Imc$;
+  also $d \in E^\Imc$ (da \Tmc Modell von \Imc ist);
+  also mit der Hilfsaussage $[d] \in E^\Jmc$.
+  \qedhere
+\end{beweis}
+
+% ===================================================================
+\section*{T3.12~ {\boldmath \ALCQI} hat nicht die endliche Modelleigenschaft}
+
+Betrachte die TBox $\Tmc = \{(1)~ \top \sqsubseteq \exists r.\neg A,~ (2)~\top \sqsubseteq \qnrleq 1 {r^-} {\top}\}$.
+Dann hat der Konzeptname $A$ bezüglich \Tmc nur \emph{unendliche Modelle}:
+
+Sei \Imc ein Modell von $A$ und \Tmc und $d_0 \in \Delta^\Imc$.
+Wir müssen zeigen, dass $|\Delta^\Imc| = \infty$.
+
+
+Da \Imc Modell von \Tmc ist, muss es wegen~(1) einen $r$-Nachfolger $d_1$ von $d_0$ geben
+mit $d_1 \in (\lnot A)^\Imc$. Da $d_0 \in A^\Imc$, muss $d_1 \neq d_0$ gelten.
+
+Wegen~(1) muss es wiederum einen $r$-Nachfolger $d_2$ von $d_1$ geben
+mit $d_2 \in (\lnot A)^\Imc$. Wie im vorigen Fall muss $d_1 \neq d_0$ gelten.
+Außerdem muss $d_2 \neq d_1$ gelten, da sonst $d_1$ zwei $r$-Vorgänger hätte ($d_0$ und $d_1$)
+und dann~(2) verletzt wäre.
+
+Dieses Argument kann man so fortsetzen und immer wieder die Existenz eines neuen Elements
+$d_{i+1}$ folgern, dass verschieden von allen $d_0,\dots,d_i$ sein muss.
+Deshalb muss $\Delta^\Imc$ unendlich sein.
+
+% ===================================================================
+\section*{T3.13~ Anzahl der Interpretationen der Größe {\boldmath $\leq 2^n$}}
+
+\textsfbf{Behauptung.}~
+Sei $n = |C| + |\Tmc|$.
+Dann gibt es höchstens $2^{2^{5n}}$ Interpretationen \Imc mit $|\Delta^\Imc| \leq 2^n$.
+
+\par\noindent
+\begin{beweis}
+  Zunächst betrachten wir die Anzahl aller Interpretationen \Imc mit $|\Delta^\Imc| = 2^n$.
+  
+  Jedes Element $d \in \Delta^\Imc$ kann in $A^\Imc$ sein oder nicht,
+  für jeden der $\leq n$ Konzeptnamen $A$ in $\textsf{sub}(C,\Tmc)$.
+  Also gibt es $2^{2^n \cdot n}$ Möglichkeiten für die Extensionen
+  der Konzeptnamen in $C$ und \Tmc.
+
+  Jedes Paar von Elementen $(d,e) \in \Delta^\Imc \times \Delta^\Imc$
+  kann in $r^\Imc$ sein oder nicht,
+  für jeden der $\leq n$ Rollennamen $r$ in $\textsf{sub}(C,\Tmc)$.
+  Also gibt es $2^{2^n \cdot 2^n \cdot n}$ Möglichkeiten für die Extensionen
+  der Rollenamen in $C$ und \Tmc.
+  
+  Die Gesamtzahl der möglichen Extensionen aller Konzept- und Rollennamen
+  in $C$ und \Tmc ist dann das Produkt dieser beiden Zahlen, also:
+  %
+  \begin{align*}
+    2^{2^n \cdot n} \cdot 2^{2^n \cdot 2^n \cdot n}
+    & = 2^{2^n \cdot n + 2^{2n} \cdot n}             \\
+    & \leq 2^{2^{2n} + 2^{3n}}                       \\
+    & \leq 2^{2 \cdot 2^{3n}}                        \\
+    & = 2^{2^{3n+1}}                                 \\
+    & \leq 2^{2^{4n}}
+  \end{align*}
+  %
+  Betrachtet man nun die Anzahl der Interpretationen \Imc mit $|\Delta^\Imc| \leq 2^n$,
+  dann sind dies maximal $2^n \cdot 2^{2^{4n}} = 2^{2^{4n}+n} \leq 2^{2^{5n}}$.
+  \qedhere
+\end{beweis}
+
 
 
 % ===================================================================
