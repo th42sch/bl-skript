@@ -1229,6 +1229,461 @@ Dann gibt es höchstens $2^{2^{5n}}$ Interpretationen \Imc mit $|\Delta^\Imc| \l
 \part{Tableau-Algorithmen}
 
 % ===================================================================
+\section*{T4.1~ Umwandlung in NNF}
+
+\textsfbf{Lemma 4.2.}~
+Jedes Konzept kann in Linearzeit in ein \"aquivalentes Konzept in NNF
+umgewandelt werden.
+
+\par\noindent
+\begin{beweis}
+  Dies geschieht durch erschöpfendes Anwenden folgender Regeln.
+  %
+  \begin{itemize}
+    \item
+      Auf"|lösen doppelter Negation:~
+      ersetze $\lnot\lnot C$ durch $C$
+    \item
+      de Morgan:~
+      ersetze $\lnot(C \sqcap D)$ durch $\lnot C \sqcup \lnot D$;
+      ersetze $\lnot(C \sqcup D)$ durch $\lnot C \sqcap \lnot D$
+    \item
+      Dualität von $\exists$ und $\forall$:~
+      ersetze $\lnot \exists r.C$ durch $\forall r.\lnot C$;
+      ersetze $\lnot \forall r.C$ durch $\exists r.\lnot C$
+  \end{itemize}
+  %
+  Jede Regelanwendung ist äquivalenzerhaltend und schiebt die entsprechende Negation
+  weiter nach innen (oder löst sie auf).
+  
+  Man kann zeigen, dass linear viele Regelanwendungen ausreichen.
+  \qedhere
+\end{beweis}%
+
+% ===================================================================
+\section*{T4.2~ Beispiel I-Baum}
+
+Sei $C_0 = A \sqcap \forall r.(\lnot A \sqcap \exists r.B)$.
+
+Dann ist $\textsf{sub}(C_0) = \{A,\,B,\,\lnot A,\,\exists r.B,\,\lnot A \sqcap \exists r.B,\,
+\forall r.(\lnot A \sqcap \exists r.B), C_0\}$.
+
+Der folgende Baum ist ein I-Baum für $C_0$.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    \node[state] (0)   [below left =11mm and 20mm of eps] {};
+    \node[state] (1)   [below      = 9mm          of eps] {};
+    \node[state] (2)   [below right=11mm and 24mm of eps] {};
+    \node[state] (00)  [below      = 9mm          of 0]   {};
+    
+    \node [above right=-4mm and .5mm of eps] {$\{A,B,\exists r.B\}$};
+    \node [      left =         0mm of 0]   {$\{B,\lnot A\}$};
+    \node [      right=         0mm of 1]   {$\{\exists r.B\}$};
+    \node [      right=         0mm of 2]   {$\{A,\lnot A\}$};
+    \node [      left =         0mm of 00]  {$\{\exists r.B\}$};
+
+    \path[->]
+      (eps) edge node[pos=.3,left =2mm] {$r$} (0)
+      (eps) edge node[pos=.5,right]      {$s$} (1)
+      (eps) edge node[pos=.3,right=2mm] {$s$} (2)
+      (0)   edge node[pos=.5,left]       {$s$} (00)
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Beachte, dass die Knotenbeschriftung im Allgemeinen nicht der Semantik genügen muss;
+die Tableau-Regeln werden jedoch dafür sorgen, dass sie das (größtenteils) tut.
+
+% ===================================================================
+\section*{T4.3~ Beispiel Tableau-Algorithmus}
+
+Sei $C_0 = (\exists r.A \sqcap \exists r.\lnot A) \sqcap (\forall r.A \sqcup \forall r.B)$.
+Im Folgenden ist ein möglicher%
+\footnote{%
+  Da die Reihenfolge der Regelanwendungen nicht festgelegt ist,
+  gibt es im Allgemeinen mehrere Läufe.
+  Das Ergebnis (Menge der vollständigen I-Bäume) ist jedoch
+  nicht von der Reihenfolge abhängig.%
+}
+Lauf des Tableau-Algorithmus auf $C_0$ angegeben.
+Nach den ersten drei Schritten liefert dieser folgendes Zwischenergebnis:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    
+    \node [right=1mm of eps] {%
+      \begin{tabular}{@{}ll@{}}
+        $C_0$                                  & (1)  \\
+        $\exists r.A \sqcap \exists r.\lnot A$ & (2a) \\
+        $\forall r.A \sqcup \forall r.B$       & (2b) \\
+        $\exists r.A, \exists r.\lnot A$       & (3)
+      \end{tabular}
+    };
+
+  \end{tikzpicture}%
+\end{center}
+%
+Dabei wurden folgende Regeln angewendet.
+%
+\begin{center}
+  \begin{tabular}{@{}ll@{}}
+    (1)        & initialer Baum $B_{\textsf{ini}}$  \\
+    (2a), (2b) & $\sqcap$-Regel auf (1)             \\
+    (3)        & $\sqcap$-Regel auf (2a)
+  \end{tabular}
+\end{center}
+%
+Als nächstes wenden wir die $\sqcup$-Regel auf $\forall r.A \sqcup \forall r.B$ (2b) an.
+Dadurch erhalten wir zwei I-Bäume $B_1$ und $B_2$:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    
+    \node [right=1mm of eps] {%
+      \begin{tabular}{@{}ll@{}}
+        $C_0$                                  & (1)  \\
+        $\exists r.A \sqcap \exists r.\lnot A$ & (2a) \\
+        $\forall r.A \sqcup \forall r.B$       & (2b) \\
+        $\exists r.A,~ \exists r.\lnot A$      & (3)  \\
+        $\forall r.A$                          & (4a)
+      \end{tabular}
+    };
+    
+    \node [above left=0mm and 3mm of eps] {$B_1$};
+
+  \end{tikzpicture}%
+  \hspace*{.12\linewidth}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    
+    \node [right=1mm of eps] {%
+      \begin{tabular}{@{}ll@{}}
+        $C_0$                                  & (1)  \\
+        $\exists r.A \sqcap \exists r.\lnot A$ & (2a) \\
+        $\forall r.A \sqcup \forall r.B$       & (2b) \\
+        $\exists r.A,~ \exists r.\lnot A$      & (3)  \\
+        $\forall r.B$                          & (4b)
+      \end{tabular}
+    };
+
+    \node [above left=0mm and 3mm of eps] {$B_2$};
+
+  \end{tikzpicture}%
+\end{center}
+%
+In $B_1$ lässt sich die $\exists$-Regel auf die beiden Konzepte in (3) anwenden,
+wodurch jeweils ein neuer $r$-Nachfolger des Wurzelknotens erzeugt wird:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    \node[state] (0) [below left =20mm and 15mm of eps]   {};
+    \node[state] (1) [below right=20mm and  0mm of eps]   {};
+    
+    \node [right=1mm of eps] {%
+      \begin{tabular}{@{}ll@{}}
+        $C_0$                                  & (1)  \\
+        $\exists r.A \sqcap \exists r.\lnot A$ & (2a) \\
+        $\forall r.A \sqcup \forall r.B$       & (2b) \\
+        $\exists r.A,~ \exists r.\lnot A$      & (3)  \\
+        $\forall r.A$                          & (4a)
+      \end{tabular}
+    };
+
+    \node [right=0mm of 0] {%
+      \begin{tabular}{@{}l@{~\,}l@{}}
+        $A$ & (5)
+      \end{tabular}
+    };
+
+    \node [right=0mm of 1] {%
+      \begin{tabular}{@{}l@{~\,}l@{}}
+        $\lnot A$ & (6)
+      \end{tabular}
+    };
+
+    \path[->]
+      (eps) edge node[pos=.4,left =1mm] {$r$} (0)
+      (eps) edge node[pos=.5,left]      {$r$} (1)
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Nun lässt sich die $\forall$-Regel auf (4a) und den rechten Nachfolger anwenden
+(der linke ist bereits mit $A$ beschriftet), und wir erhalten:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    \node[state] (0) [below left =20mm and 15mm of eps]   {};
+    \node[state] (1) [below right=20mm and  0mm of eps]   {};
+    
+    \node [right=1mm of eps] {%
+      \begin{tabular}{@{}ll@{}}
+        $C_0$                                  & (1)  \\
+        $\exists r.A \sqcap \exists r.\lnot A$ & (2a) \\
+        $\forall r.A \sqcup \forall r.B$       & (2b) \\
+        $\exists r.A,~ \exists r.\lnot A$      & (3)  \\
+        $\forall r.A$                          & (4a)
+      \end{tabular}
+    };
+
+    \node [right=0mm of 0] {%
+      \begin{tabular}{@{}l@{~\,}l@{}}
+        $A$ & (5)
+      \end{tabular}
+    };
+
+    \node (clash) [right=0mm of 1] {%
+      \begin{tabular}{@{}l@{~\,}l@{}}
+        $\lnot A$ & (6) \\
+        $A$       & (7)
+      \end{tabular}
+    };
+    
+    \node [right=0mm of clash] {{\Large \lightning}};
+
+    \path[->]
+      (eps) edge node[pos=.4,left =1mm] {$r$} (0)
+      (eps) edge node[pos=.5,left]      {$r$} (1)
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Dieser I-Baum ist vollständig (denn es ist keine weitere Regel anwendbar),
+und er enthält einen offensichtlichen Widerspruch
+wegen (6) und (7) -- ab jetzt immer mit dem Symbol~\lightning\ gekennzeichnet.
+
+\parI
+Schließlich wenden wir in $B_2$ dieselben Regeln an und erhalten
+folgenden I-Baum:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                    {};
+    \node[state] (0) [below left =20mm and 15mm of eps]   {};
+    \node[state] (1) [below right=20mm and  0mm of eps]   {};
+    
+    \node [right=1mm of eps] {%
+      \begin{tabular}{@{}ll@{}}
+        $C_0$                                  & (1)  \\
+        $\exists r.A \sqcap \exists r.\lnot A$ & (2a) \\
+        $\forall r.A \sqcup \forall r.B$       & (2b) \\
+        $\exists r.A,~ \exists r.\lnot A$      & (3)  \\
+        $\forall r.B$                          & (4b)
+      \end{tabular}
+    };
+
+    \node [right=0mm of 0] {%
+      \begin{tabular}{@{}l@{~\,}l@{}}
+        $A$ & (8) \\
+        $B$ & (10)
+      \end{tabular}
+    };
+
+    \node [right=0mm of 1] {%
+      \begin{tabular}{@{}l@{~\,}l@{}}
+        $\lnot A$ & (9) \\
+        $B$       & (11)
+      \end{tabular}
+    };
+    
+    \path[->]
+      (eps) edge node[pos=.4,left =1mm] {$r$} (0)
+      (eps) edge node[pos=.5,left]      {$r$} (1)
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Es wurden also folgende Regeln angewendet:
+%
+\begin{center}
+  \begin{tabular}{@{}ll@{}}
+    (8)  & $\exists$-Regel auf $\exists r.A$ (3)               \\
+    (9)  & $\exists$-Regel auf $\exists r.\lnot A$ (3)         \\
+    (10) & $\forall$-Regel auf (4b) und linken $r$-Nachfolger  \\
+    (11) & $\forall$-Regel auf (4b) und rechten $r$-Nachfolger
+  \end{tabular}
+\end{center}
+%
+Dieser Baum ist vollständig, enthält aber \emph{keinen} offensichtlichen Widerspruch.
+Somit gibt der Algorithmus auf der Eingabe $C_0$ "`erfüllbar"' zurück.
+
+% ===================================================================
+\section*{T4.4~ Verzweigungsgrad der I-Bäume}
+
+\textsfbf{Behauptung 1.}~
+Es werden nur I-Bäume mit einem
+Verzweigungsgrad von maximal $|C_0|$ generiert.
+
+\par\noindent
+\begin{beweis}
+  Nur die $\exists$-Regel generiert Nachfolgerknoten,
+  und zwar höchstens einen pro Konzept $\exists r.C$ in $\textsf{sub}(C_0)$.
+  Nach Lemma 3.13 ist aber $|\textsf{sub}(C_0)| \leq C_0$.
+  \qedhere
+\end{beweis}%
+
+% ===================================================================
+\section*{T4.5~ Tiefe der I-Bäume}
+
+\textsfbf{Behauptung 2.}~
+Es werden nur I-Bäume mit einer
+Tiefe von maximal $|C_0|$ generiert.
+
+\par\noindent
+\begin{beweis}
+  Dazu genügt es, folgende Behauptung zu beweisen:
+  
+  \parII
+  \textsfbf{Behauptung 2a.}
+  Wenn $v$ ein Knoten mit Tiefe $i$ ist,
+  dann gilt für alle $C \in \Lmc(v)$:
+  \[
+    \textsf{rd}(C) \leq \textsf{rd}(C_0) - i
+    \tag{$(*)$}
+  \]
+  
+  \parII
+  Dabei zählen wir die Tiefe eines Knotens beginnend von der Wurzel,
+  welche die Tiefe 0 hat. Behauptung~2a besagt also, dass die Rollentiefe
+  der Konzepte in den Knotenbeschriftungen mit der Tiefe eines Knotens abnimmt.
+  
+  Es ist leicht zu sehen, dass die gewünschte Behauptung~2
+  bereits aus Behauptung~2a folgt:
+  Wegen der Tableau-Regeln ist jeder Knoten mit mindestens einem Konzept
+  beschriftet (der initiale Knoten mit $C_0$ und alle weiteren Knoten mit dem
+  $C$ aus der $\exists$-Regel).
+  Wenn ein generierter I-Baum also eine Tiefe $k > |C_0|$ hätte,
+  dann gäbe es einen Knoten $v$ der Tiefe $k$ und in dessen Beschriftung $\Lmc(v)$
+  ein Konzept $C$. Wegen Behauptung~2a wäre dann aber $\textsf{rd}(C) < 0$,
+  was nicht möglich ist.
+  
+  \parII
+  \textsfbf{Beweis von Behauptung~2a.}~
+  Wir verwenden Induktion über die Anzahl der Regelanwendungen.
+  %
+  \begin{description}
+    \item[Induktionsanfang.]
+      Nach 0 Regelanwendungen gibt es nur den initialen Knoten $v_{\textsf{ini}}$
+      mit $\Lmc(v_{\textsf{ini}}) = \{C_0\}$.
+      Ungleichung~$(*)$ folgt, da $i=0$.
+    \item[Induktionsschritt.]
+      Hier unterscheiden wir vier Fälle nach der Regel, durch deren Anwendung
+      das Konzept $C$ zur Knotenbeschriftung $\Lmc(v)$ hinzugefügt wurde.
+      %
+      \begin{description}
+        \item[$\sqcap$-Regel.]
+          Vor der Anwendung der Regel gab es ein Konzept $C \sqcap D \in \Lmc(v)$,
+          und durch die Anwendung wurden $C$ und $D$ zu $\Lmc(v)$ hinzugefügt.
+          Nach Induktions\-voraussetzung ist
+          $\textsf{rd}(C \sqcap D) \leq \textsf{rd}(C_0) - i$,
+          also auch $\textsf{rd}(C) \leq \textsf{rd}(C_0) - i$
+          wegen $\textsf{C} \leq \textsf{rd}(C \sqcap D)$.
+          Analog für $\textsf{rd}(D)$.
+        \item[$\sqcup$-Regel.]
+          Analog (probiert es selbst aus).
+        \item[$\exists$-Regel.]
+          Vor der Anwendung der Regel gab es einen Vorgängerknoten $v'$ von $v$
+          mit $\exists r.C \in \Lmc(v')$,
+          und durch die Anwendung wurde $(v',r,v)$ zu $E$ hinzugefügt
+          und $\Lmc(v)=\{C\}$ gesetzt.
+          Nun gilt:
+          %
+          \begin{xalignat*}{2}
+            \textsf{rd}(C)
+            & = \textsf{rd}(\exists r.C) - 1 & & \text{(Definition \textsf{rd})} \\
+            & \leq \Big(\textsf{rd}(C_0) - (i-1)\Big) - 1 & & \text{(Induktionsvorauss.; $v'$ hat Tiefe $i-1$)} \\
+            & = \textsf{rd}(C_0) - i
+          \end{xalignat*}
+        \item[$\forall$-Regel.]
+          Ähnlich (probiert es selbst aus).
+          \qedhere
+      \end{description}
+  \end{description}
+\end{beweis}%
+
+% ===================================================================
+\section*{T4.6~ Anzahl der Regelanwendungen pro I-Baum}
+
+Es bleibt nur noch zu zeigen, dass für $k := |C_0|$ gilt:
+\[
+  k^k \cdot k \leq 2^{2k^2}
+\]
+Das kann man wie folgt sehen:
+%
+\begin{xalignat*}{2}
+  k^k \cdot k & = k^{k+1}                      & & \text{(Potenzgesetze)} \\
+              & \leq k^{2k}                    & & \text{(da $k \leq 1$)} \\
+              & = {\big(2^{\textsf{log} k}\big)}^{2k}  & & \text{(Definition Zweierlogarithmus \textsf{log})}    \\
+              & = 2^{\textsf{log} k \cdot 2k}  & & \text{(Potenzgesetze)}    \\
+              & \leq 2^{k \cdot 2k}            & & \text{(da $\textsf{log}(k) \leq k$)} \\
+              & = 2^{2k^2}                     & &
+\end{xalignat*}
+%
+\qedhere
+
+% ===================================================================
+\section*{T4.7~ Letzter Schritt im Terminierungsbeweis}
+
+Wir ordnen jeder Menge $M_i$ von I-Bäumen
+eine Multimenge $\textsf{MM}_i$ wie folgt zu:
+Für jeden Baum $B \in M_i$ enthält $\textsf{MM}_i$ die Zahl
+%
+\begin{quote}
+  $m(B) = {}$%
+  "`$n$ minus die Anzahl $j$ der Regelanwendungen,
+  mittels derer $B$ generiert wurde"'.
+\end{quote}
+%
+Somit ist $\textsf{MM}_i$ eine Multimenge über der
+Grundmenge $\mathbb{N}$.
+Da $<$ auf $\mathbb{N}$ wohlfundiert ist,
+ist mit Theorem~4.7 auch $<_{\text{mul}}$ auf $\textsf{MM}(\mathbb{N})$
+wohlfundiert.
+Außerdem gilt $\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$ für jedes $i \geq 0$,
+denn mit jeder Regelanwendung wird in $M_i$ ein I-Baum durch maximal zwei I-Bäume $B_1,B_2$ ersetzt mit $m(B_1),m(B_2) < m(B)$;
+somit erhält man $\textsf{MM}_{i+1}$ aus $\textsf{MM}_i$,
+indem man $m(B)$ durch die kleineren Zahlen $m(B_1),m(B_2)$ ersetzt.
+
+Wegen der Wohlfundiertheit von $<_{\text{mul}}$ und der Beobachtung
+$\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$
+muss die Folge der $\textsf{MM}_i$ endlich sein.
+\qedhere
+
+% ===================================================================
 % ===================================================================
 % ===================================================================
 \part{Komplexität}
