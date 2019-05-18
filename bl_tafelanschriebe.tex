@@ -1338,14 +1338,14 @@ Dabei wurden folgende Regeln angewendet.
 %
 \begin{center}
   \begin{tabular}{@{}ll@{}}
-    (1)        & initialer Baum $B_{\textsf{ini}}$  \\
+    (1)        & initialer Baum $\Bmc_{\textsf{ini}}$  \\
     (2a), (2b) & $\sqcap$-Regel auf (1)             \\
     (3)        & $\sqcap$-Regel auf (2a)
   \end{tabular}
 \end{center}
 %
 Als nächstes wenden wir die $\sqcup$-Regel auf $\forall r.A \sqcup \forall r.B$ (2b) an.
-Dadurch erhalten wir zwei I-Bäume $B_1$ und $B_2$:
+Dadurch erhalten wir zwei I-Bäume $\Bmc_1$ und $\Bmc_2$:
 %
 \begin{center}
   \begin{tikzpicture}[%
@@ -1365,7 +1365,7 @@ Dadurch erhalten wir zwei I-Bäume $B_1$ und $B_2$:
       \end{tabular}
     };
     
-    \node [above left=0mm and 3mm of eps] {$B_1$};
+    \node [above left=0mm and 3mm of eps] {$\Bmc_1$};
 
   \end{tikzpicture}%
   \hspace*{.12\linewidth}
@@ -1386,12 +1386,12 @@ Dadurch erhalten wir zwei I-Bäume $B_1$ und $B_2$:
       \end{tabular}
     };
 
-    \node [above left=0mm and 3mm of eps] {$B_2$};
+    \node [above left=0mm and 3mm of eps] {$\Bmc_2$};
 
   \end{tikzpicture}%
 \end{center}
 %
-In $B_1$ lässt sich die $\exists$-Regel auf die beiden Konzepte in (3) anwenden,
+In $\Bmc_1$ lässt sich die $\exists$-Regel auf die beiden Konzepte in (3) anwenden,
 wodurch jeweils ein neuer $r$-Nachfolger des Wurzelknotens erzeugt wird:
 %
 \begin{center}
@@ -1483,7 +1483,7 @@ und er enthält einen offensichtlichen Widerspruch
 wegen (6) und (7) -- ab jetzt immer mit dem Symbol~\lightning\ gekennzeichnet.
 
 \parI
-Schließlich wenden wir in $B_2$ dieselben Regeln an und erhalten
+Schließlich wenden wir in $\Bmc_2$ dieselben Regeln an und erhalten
 folgenden I-Baum:
 %
 \begin{center}
@@ -1660,12 +1660,12 @@ Das kann man wie folgt sehen:
 
 Wir ordnen jeder Menge $M_i$ von I-Bäumen
 eine Multimenge $\textsf{MM}_i$ wie folgt zu:
-Für jeden Baum $B \in M_i$ enthält $\textsf{MM}_i$ die Zahl
+Für jeden Baum $\Bmc \in M_i$ enthält $\textsf{MM}_i$ die Zahl
 %
 \begin{quote}
-  $m(B) = {}$%
+  $m(\Bmc) = {}$%
   "`$n$ minus die Anzahl $j$ der Regelanwendungen,
-  mittels derer $B$ generiert wurde"'.
+  mittels derer \Bmc generiert wurde"'.
 \end{quote}
 %
 Somit ist $\textsf{MM}_i$ eine Multimenge über der
@@ -1674,9 +1674,10 @@ Da $<$ auf $\mathbb{N}$ wohlfundiert ist,
 ist mit Theorem~4.7 auch $<_{\text{mul}}$ auf $\textsf{MM}(\mathbb{N})$
 wohlfundiert.
 Außerdem gilt $\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$ für jedes $i \geq 0$,
-denn mit jeder Regelanwendung wird in $M_i$ ein I-Baum durch maximal zwei I-Bäume $B_1,B_2$ ersetzt mit $m(B_1),m(B_2) < m(B)$;
+denn mit jeder Regelanwendung wird in $M_i$ ein I-Baum
+durch maximal zwei I-Bäume $\Bmc_1,\Bmc_2$ ersetzt mit $m(\Bmc_1),m(\Bmc_2) < m(\Bmc)$;
 somit erhält man $\textsf{MM}_{i+1}$ aus $\textsf{MM}_i$,
-indem man $m(B)$ durch die kleineren Zahlen $m(B_1),m(B_2)$ ersetzt.
+indem man $m(\Bmc)$ durch die kleineren Zahlen $m(\Bmc_1),m(\Bmc_2)$ ersetzt.
 
 Wegen der Wohlfundiertheit von $<_{\text{mul}}$ und der Beobachtung
 $\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$
@@ -1697,8 +1698,8 @@ $v \in C^\Imc$
 Zunächst zeigen wir, dass diese Behauptung die Aussage
 des Theorems~4.8 impliziert.
 
-Da $C_0 \in \Lmc(v_{\textsf{ini}})$ in $B_{\textsf{ini}}$,
-gilt auch $C_0 \in \Lmc(v_{\textsf{ini}})$ in $B$,
+Da $C_0 \in \Lmc(v_{\textsf{ini}})$ in $\Bmc_{\textsf{ini}}$,
+gilt auch $C_0 \in \Lmc(v_{\textsf{ini}})$ in \Bmc,
 denn Knotenbeschriftungen werden durch das Anwenden der Tableauregeln
 nicht gelöscht.
 Also ist wegen der obigen Behauptung $v_{\textsf{ini}} \in C_0^\Imc$,
@@ -1720,16 +1721,16 @@ per Induktion über die Struktur von $C$.
     \begin{description}
       \item[{\boldmath $C = \lnot A$}]
         für einen Konzeptnamen $A$.
-        Da der I-Baum $B$ keinen offensichtlichen Widerspruch enthält,
+        Da der I-Baum \Bmc keinen offensichtlichen Widerspruch enthält,
         folgt aus $\lnot A \in \Lmc(v)$,
         dass $A \notin \Lmc(v)$.
         Nach Definition von \Imc gilt dann aber $v \notin A^\Imc$,
         also $v \in (\lnot A)^\Imc$.
       \item[{\boldmath $C = D \sqcap E$.}]
-        Wenn $C \in \Lmc(v)$ in $B$,
+        Wenn $C \in \Lmc(v)$ in \Bmc,
         dann auch $D \in \Lmc(v)$
         und $E \in \Lmc(v)$,
-        da $B$ vollständig ist und somit insbesondere die
+        da \Bmc vollständig ist und somit insbesondere die
         $\sqcap$-Regel nicht anwendbar ist.
         Mit der Induktionsvoraussetzung folgt daraus nun $v \in D^\Imc$ und $v \in E^\Imc$;
         wegen der Semantik von $\sqcap$ gilt damit $v \in (D \sqcap E)^\Imc$.
@@ -1754,8 +1755,8 @@ per Induktion über die Struktur von $C$.
 % ===================================================================
 \section*{T4.9~ Beispiel für Realisierbarkeit}
 
-Das folgende Bild zeigt einen I-Baum $B$ (links)
-und eine Interpretation \Imc, die $B$ realisiert, (rechts)
+Das folgende Bild zeigt einen I-Baum \Bmc (links)
+und eine Interpretation \Imc, die \Bmc realisiert, (rechts)
 sowie die entsprechende Funktion $\pi$ (gestrichelte Pfeile).
 %
 \begin{center}
@@ -1792,7 +1793,7 @@ sowie die entsprechende Funktion $\pi$ (gestrichelte Pfeile).
     \node [right=0mm of r11]  {$B$};
     \node [right=0mm of r100] {$A$};
     
-    \node [above=5mm of leps] {I-Baum $B$};
+    \node [above=5mm of leps] {I-Baum \Bmc};
     \node [above=5mm of reps] {realisierende Interpretation \Imc};
 
     \path[->]
@@ -1820,7 +1821,7 @@ sowie die entsprechende Funktion $\pi$ (gestrichelte Pfeile).
   \end{tikzpicture}%
 \end{center}
 %
-Man beachte, dass die Knoten von $B$ (links) mit Mengen von Konzepten beschriftet sind,
+Man beachte, dass die Knoten von \Bmc (links) mit Mengen von Konzepten beschriftet sind,
 aber die Elemente von \Imc (rechts) mit Konzept\emph{namen} -- so, wie wir Interpretationen
 immer darstellen.
 
