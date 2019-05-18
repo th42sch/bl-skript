@@ -1605,7 +1605,7 @@ Tiefe von maximal $|C_0|$ generiert.
       das Konzept $C$ zur Knotenbeschriftung $\Lmc(v)$ hinzugefügt wurde.
       %
       \begin{description}
-        \item[$\sqcap$-Regel.]
+        \item[{\boldmath $\sqcap$-Regel.}]
           Vor der Anwendung der Regel gab es ein Konzept $C \sqcap D \in \Lmc(v)$,
           und durch die Anwendung wurden $C$ und $D$ zu $\Lmc(v)$ hinzugefügt.
           Nach Induktions\-voraussetzung ist
@@ -1613,9 +1613,9 @@ Tiefe von maximal $|C_0|$ generiert.
           also auch $\textsf{rd}(C) \leq \textsf{rd}(C_0) - i$
           wegen $\textsf{C} \leq \textsf{rd}(C \sqcap D)$.
           Analog für $\textsf{rd}(D)$.
-        \item[$\sqcup$-Regel.]
+        \item[{\boldmath $\sqcup$-Regel.}]
           Analog (probiert es selbst aus).
-        \item[$\exists$-Regel.]
+        \item[{\boldmath $\exists$-Regel.}]
           Vor der Anwendung der Regel gab es einen Vorgängerknoten $v'$ von $v$
           mit $\exists r.C \in \Lmc(v')$,
           und durch die Anwendung wurde $(v',r,v)$ zu $E$ hinzugefügt
@@ -1628,7 +1628,7 @@ Tiefe von maximal $|C_0|$ generiert.
             & \leq \Big(\textsf{rd}(C_0) - (i-1)\Big) - 1 & & \text{(Induktionsvorauss.; $v'$ hat Tiefe $i-1$)} \\
             & = \textsf{rd}(C_0) - i
           \end{xalignat*}
-        \item[$\forall$-Regel.]
+        \item[{\boldmath $\forall$-Regel.}]
           Ähnlich (probiert es selbst aus).
           \qedhere
       \end{description}
@@ -1682,6 +1682,150 @@ Wegen der Wohlfundiertheit von $<_{\text{mul}}$ und der Beobachtung
 $\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$
 muss die Folge der $\textsf{MM}_i$ endlich sein.
 \qedhere
+
+% ===================================================================
+\section*{T4.8~ Verbleibender Beweis der Korrektheit}
+
+\textsfbf{Behauptung.}~
+Für alle Konzepte $C$ und Knoten $v \in V$ gilt:
+~~
+$C \in \Lmc(v)$
+~impliziert~
+$v \in C^\Imc$
+
+\par\medskip
+Zunächst zeigen wir, dass diese Behauptung die Aussage
+des Theorems~4.8 impliziert.
+
+Da $C_0 \in \Lmc(v_{\textsf{ini}})$ in $B_{\textsf{ini}}$,
+gilt auch $C_0 \in \Lmc(v_{\textsf{ini}})$ in $B$,
+denn Knotenbeschriftungen werden durch das Anwenden der Tableauregeln
+nicht gelöscht.
+Also ist wegen der obigen Behauptung $v_{\textsf{ini}} \in C_0^\Imc$,
+und damit ist $C_0$ erfüllbar.
+
+\par\medskip
+\textsfbf{Beweis der Behauptung}~
+per Induktion über die Struktur von $C$.
+%
+\begin{description}
+  \item[Induktionsanfang.]
+    Für Konzeptnamen $C=A$ gilt die Behauptung wegen der Definition von \Imc.
+  \item[Induktionsschritt.]
+    Hier müssen wir für jeden der Operatoren $\lnot,\sqcap,\sqcup,\exists,\forall$
+    einen gesonderten Fall betrachten, denn wegen der NNF kann man nun
+    nicht mehr annehmen, dass $\sqcup$ durch $\sqcap$ oder $\forall$ durch $\exists$
+    ausgedrückt wird.
+    %
+    \begin{description}
+      \item[{\boldmath $C = \lnot A$}]
+        für einen Konzeptnamen $A$.
+        Da der I-Baum $B$ keinen offensichtlichen Widerspruch enthält,
+        folgt aus $\lnot A \in \Lmc(v)$,
+        dass $A \notin \Lmc(v)$.
+        Nach Definition von \Imc gilt dann aber $v \notin A^\Imc$,
+        also $v \in (\lnot A)^\Imc$.
+      \item[{\boldmath $C = D \sqcap E$.}]
+        Wenn $C \in \Lmc(v)$ in $B$,
+        dann auch $D \in \Lmc(v)$
+        und $E \in \Lmc(v)$,
+        da $B$ vollständig ist und somit insbesondere die
+        $\sqcap$-Regel nicht anwendbar ist.
+        Mit der Induktionsvoraussetzung folgt daraus nun $v \in D^\Imc$ und $v \in E^\Imc$;
+        wegen der Semantik von $\sqcap$ gilt damit $v \in (D \sqcap E)^\Imc$.
+      \item[{\boldmath $C = D \sqcup E$.}]
+        Analog.
+      \item[{\boldmath $C = \exists r.D$.}]
+        Wegen $C \in \Lmc(v)$
+        und da die $\exists$-Regel nicht anwendbar ist,
+        gibt es $v' \in V$ mit $(v,r,v') \in E$ und $D \in \Lmc(v')$.
+        Nach Induktionsvoraussetzung folgt aus dem letzteren,
+        dass $v' \in D^\Imc$.
+        Da wegen Definition von \Imc auch $(r,r') \in r^\Imc$ sein muss,
+        folgt $v \in (\exists r.D)^\Imc$ mit der Semantik von $\exists$.
+      \item[{\boldmath $C = \forall r.D$.}]
+        Ähnlich.
+        \qedhere
+    \end{description}
+\end{description}
+
+\goodbreak
+
+% ===================================================================
+\section*{T4.9~ Beispiel für Realisierbarkeit}
+
+Das folgende Bild zeigt einen I-Baum $B$ (links)
+und eine Interpretation \Imc, die $B$ realisiert, (rechts)
+sowie die entsprechende Funktion $\pi$ (gestrichelte Pfeile).
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (leps)                                   {};
+    \node[state] (l0)  [below left =12mm and 7mm of leps] {};
+    \node[state] (l1)  [below right=12mm and 7mm of leps] {};
+    \node[state] (l00) [below      =12mm         of l0]   {};
+    \node[state] (l10) [below      =12mm         of l1]   {};
+    
+    \node[state] (reps) [right=65mm of leps]                {};
+    \node[state] (r0)   [below left =12mm and 14mm of reps] {};
+    \node[state] (r1)   [below right=12mm and  5mm of reps] {};
+    \node[state] (r2)   [below right=12mm and 20mm of reps] {};
+    \node[state] (r00)  [below      =12mm          of r0]   {};
+    \node[state] (r10)  [below left =12mm and  2mm of r1]   {};
+    \node[state] (r11)  [below right=12mm and  2mm of r1]   {};
+    \node[state] (r100) [below      =12mm          of r10]  {};
+    
+    \node [left =0mm of leps] {$\{A,\,\exists t.B\}$};
+    \node [left =0mm of l0]   {$\{B,\,\forall r.B\}$};
+    \node [left =0mm of l1]   {$\emptyset$};
+    \node [left =0mm of l00]  {$\{B\}$};
+    \node [left =0mm of l10]  {$\{\exists r.A\}$};
+
+    \node [right=0mm of reps] {$A$};
+    \node [right=0mm of r0]   {$B$};
+    \node [right=0mm of r2]   {$A,B$};
+    \node [right=0mm of r00]  {$A,B$};
+    \node [right=0mm of r11]  {$B$};
+    \node [right=0mm of r100] {$A$};
+    
+    \node [above=5mm of leps] {I-Baum $B$};
+    \node [above=5mm of reps] {realisierende Interpretation \Imc};
+
+    \path[->]
+      (leps) edge node[pos=.4,left =1mm] {$r$} (l0)
+      (leps) edge node[pos=.3,right=1mm] {$s$} (l1)
+      (l0)   edge node[left]             {$r$} (l00)
+      (l1)   edge node[pos=.4,right]     {$r$} (l10)
+
+      (reps) edge node[pos=.4, left =1mm]  {$r$} (r0)
+      (reps) edge node[pos=.55,left =.5mm] {$s$} (r1)
+      (reps) edge node[pos=.4, right=2mm]  {$t$} (r2)
+      (r0)   edge node[pos=.6,left]        {$r$} (r00)
+      (r1)   edge node[pos=.4, left =.5mm] {$r$} (r10)
+      (r1)   edge node[pos=.4, right=.5mm] {$r$} (r11)
+      (r10)  edge node[left]               {$r$} (r100)
+    ;
+    
+    \path[->,densely dashed]
+      (leps) edge [bend left =20] node [below]         {$\pi$} (reps)
+      (l0)   edge [bend left =20] node [pos=.76,below] {$\pi$} (r0)
+      (l1)   edge [bend right=17] node [pos=.32,above] {$\pi$} (r1)
+      (l00)  edge [bend left =20] node [pos=.76,below] {$\pi$} (r00)
+      (l10)  edge [bend right=22] node [pos=.355,above] {$\pi$} (r10)
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Man beachte, dass die Knoten von $B$ (links) mit Mengen von Konzepten beschriftet sind,
+aber die Elemente von \Imc (rechts) mit Konzept\emph{namen} -- so, wie wir Interpretationen
+immer darstellen.
+
+\dots
+
 
 % ===================================================================
 % ===================================================================
