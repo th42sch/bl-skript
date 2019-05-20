@@ -1757,7 +1757,7 @@ per Induktion über die Struktur von $C$.
 
 Das folgende Bild zeigt einen I-Baum \Bmc (links)
 und eine Interpretation \Imc, die \Bmc realisiert, (rechts)
-sowie die entsprechende Funktion $\pi$ (gestrichelte Pfeile).
+sowie die zugehörige Abbildung $\pi$ gemäß Definition~4.9 (gestrichelte Pfeile).
 %
 \begin{center}
   \begin{tikzpicture}[%
@@ -1825,8 +1825,171 @@ Man beachte, dass die Knoten von \Bmc (links) mit Mengen von Konzepten beschrift
 aber die Elemente von \Imc (rechts) mit Konzept\emph{namen} -- so, wie wir Interpretationen
 immer darstellen.
 
-\dots
+% ===================================================================
+\section*{T4.10~ Verbleibender Beweis der Vollständigkeit}
 
+\textsfbf{Behauptung.}~
+Für alle $i \leq n$ ist $M_i$ realisierbar.
+
+\begin{beweis}
+  Per Induktion über $i$.
+  %
+  \begin{description}
+    \item[Induktionsanfang.]
+      $M_0 = \{\Bmc_{\textsf{ini}}\}$ ist realisierbar,
+      da $\Bmc_{\textsf{ini}}$ realisierbar ist,
+      und zwar durch ein beliebiges Modell von $C_0$
+      (welches existiert, da $C_0$ nach Voraussetzung von Theorem~4.10 erfüllbar ist).
+    \item[Induktionsschritt.]
+      Wir nehmen an, dass $M_i$ realisierbar sei,
+      und zeigen, dass dann auch $M_{i+1}$ realisierbar ist.
+      Dazu unterscheiden wir vier Fälle gemäß der Regel,
+      mit der $M_{i+1}$ aus $M_i$ erzeugt wird.
+      Sei also $\Bmc=(V,E,\Lmc)$ ein realisierbarer Baum aus $M_i$,
+      auf den eine Regel angewendet wird.
+      \begin{description}
+        \item[{\boldmath $\sqcup$-Regel.}]
+          Dann entsteht $M_{i+1}$ aus $M_i$,
+          indem \Bmc durch zwei Bäume $\Bmc' = (V,E,\Lmc')$ und $\Bmc'' = (V,E,\Lmc'')$
+          ersetzt wird,
+          und es gibt einen Knoten $v \in V$ mit
+          %
+          \begin{itemize}
+            \item
+              $C \sqcup D \in \Lmc(v)$;
+            \item
+              $\Lmc'(v) = \Lmc(v) \cup \{C\}$,\quad $\Lmc''(v) = \Lmc(v) \cup \{D\}$;
+            \item
+              $\Lmc'(u) = \Lmc''(u) = \Lmc(u)$ für alle $u \neq v$.
+          \end{itemize}
+          %
+          Es genügt zu zeigen: wenn \Bmc realisierbar, dann $\Bmc'$ realisierbar
+          \emph{oder} $\Bmc''$ realisierbar.
+          
+          Sei \Imc eine Interpretation, die \Bmc realisiert,
+          und $\pi : V \to \Delta^\Imc$ die zugehörige Abbildung gemäß Definition~4.9.
+          Dann gilt insbesondere $\pi(v) \in (C \sqcup D)^\Imc$.
+          Nach Semantik von $\sqcup$ ist dann $\pi(v) \in C^\Imc$ oder $\pi(v) \in D^\Imc$.
+          Im ersten Fall realisiert \Imc den Baum $\Bmc'$, im zweiten $\Bmc''$.
+        \item[{\boldmath $\sqcap$-Regel.}]
+          Analog, aber mit nur \emph{einem} Baum $\Bmc'$ (probiert es selbst aus).
+        \item[{\boldmath $\exists$-Regel.}]
+          Dann entsteht $M_{i+1}$ aus $M_i$,
+          indem \Bmc durch einen Baum $\Bmc' = (V,E,\Lmc')$ ersetzt wird,
+          und es gibt Knoten $v,v' \in V$ mit
+          %
+          \begin{itemize}
+            \item
+              $\exists r.C \in \Lmc(v)$;
+            \item
+              $V' = V \uplus \{v'\}$,\quad $E' = E \cup \{(v,r,v')\}$
+            \item
+              $\Lmc'(v) = \{C\}$;
+            \item
+              $\Lmc'(u) = \Lmc(u)$ für alle $u \neq v$.
+          \end{itemize}
+          %
+          Es genügt zu zeigen: wenn \Bmc realisierbar, dann $\Bmc'$ realisierbar.
+
+          Sei \Imc eine Interpretation, die \Bmc realisiert,
+          und $\pi : V \to \Delta^\Imc$ die zugehörige Abbildung gemäß Definition~4.9.
+          Dann gilt insbesondere $\pi(v) \in (\exists r.C)^\Imc$,
+          also gibt es ein $d \in \Delta^\Imc$ mit $(\pi(v),d) \in r^\Imc$
+          und $d \in C^\Imc$.
+          Wenn man nun $\pi$ erweitert um $\pi(v) = d$,
+          dann bezeugt die resultierende Funktion,
+          dass $\Bmc'$ durch \Imc realisiert wird.
+        \item[{\boldmath $\forall$-Regel.}]
+          Ähnlich (probiert es selbst aus).
+          \qedhere
+      \end{description}
+  \end{description}
+\end{beweis}
+
+% ===================================================================
+\section*{T4.11~ Beispiel für den Worst Case bei der Komplexitätsanalyse}
+
+Sei $n=2$. Dann ist
+$C = \forall r^0.(\exists r.B \sqcap \exists r.\lnot B) \sqcap
+     \forall r^1.(\exists r.B \sqcap \exists r.\lnot B)$.
+(Folie~4.25).
+Kürzt man nun das doppelt vorkommende Teilkonzept ab mit
+%
+%\begin{align*}
+%  D & = \exists r.B \sqcap \exists r.\lnot B,
+%  \intertext{dann ist}
+%  C & = D \sqcap \forall r.D.
+%\end{align*}
+%
+$D = \exists r.B \sqcap \exists r.\lnot B$, dann ist
+\[
+  C = D \sqcap \forall r.D.
+\]
+Der Tableau-Algorithmus erzeugt folgenden I-Baum, 
+der auf dem vollständigen Binärbaum der Tiefe 2 basiert:
+%
+\vspace*{-\baselineskip}
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (eps)                                   {};
+    \node[state] (0)  [below left =13mm and 18mm of eps] {};
+    \node[state] (1)  [below right=13mm and 18mm of eps] {};
+    \node[state] (00) [below left =11mm and  4mm of 0]   {};
+    \node[state] (01) [below right=11mm and  4mm of 0]   {};
+    \node[state] (10) [below left =11mm and  4mm of 1]   {};
+    \node[state] (11) [below right=11mm and  4mm of 1]   {};
+    
+    \node [above right=-8mm and 2mm of eps] {%
+      \begin{tabular}{@{}l@{}}
+        $C_0$                             \\
+        $D,~ \forall r.D$                 \\
+        $\exists r.B,~ \exists r.\lnot B$
+      \end{tabular}
+    };
+
+    \node [left=1mm of 0] {%
+      \begin{tabular}{@{}r@{}}
+        $B,~D$                            \\
+        $\exists r.B,~ \exists r.\lnot B$
+      \end{tabular}
+    };
+
+    \node [right=1mm of 1] {%
+      \begin{tabular}{@{}l@{}}
+        $\lnot B,~D$                      \\
+        $\exists r.B,~ \exists r.\lnot B$
+      \end{tabular}
+    };
+
+    \node [left =0mm of 00] {$B$};
+    \node [right=0mm of 01] {$\lnot B$};
+    \node [left =0mm of 10] {$B$};
+    \node [right=0mm of 11] {$\lnot B$};
+
+    \path[->]
+      (eps) edge node[pos=.45,left =1mm] {$r$} (0)
+      (eps) edge node[pos=.45,right=1mm] {$r$} (1)
+      (0)   edge node[pos=.5, left =1mm] {$r$} (00)
+      (0)   edge node[pos=.5, right=1mm] {$r$} (01)
+      (1)   edge node[pos=.5, left =1mm] {$r$} (10)
+      (1)   edge node[pos=.5, right=1mm] {$r$} (11)
+    ;
+  \end{tikzpicture}%
+\end{center}
+%
+Es sollte nun leicht zu sehen sein, dass für beliebiges $n$ der entsprechende I-Baum
+auf dem vollständigen Binärbaum der Tiefe $n$ basiert, welcher $2^n$ Knoten hat.
+
+\goodbreak
+
+% ===================================================================
+\section*{T4.12~ Beispiel für Backjumping}
+
+\dots\ folgt \dots
 
 % ===================================================================
 % ===================================================================
