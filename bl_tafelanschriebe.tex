@@ -195,9 +195,9 @@ Wir betrachten folgende TBox.
 \[
   \begin{tboxarray}
     \Tmc = \{
-      & \term{Student}   & \equiv & \term{Mensch} \sqcap \exists\term{hört}.\term{Vorlesung} & \\
+      & \term{StudentIn}   & \equiv & \term{Mensch} \sqcap \exists\term{hört}.\term{Vorlesung} & \\
       & \term{Vorlesung} & \equiv & \term{PflichtVL} \sqcup \term{WahlVL}                    & \\
-      & \term{Student} \sqcap \exists\term{hört}.\term{Vorlesung} & \sqsubseteq & \exists\term{bekanntMit}.\term{Student} & \\
+      & \term{StudentIn} \sqcap \exists\term{hört}.\term{Vorlesung} & \sqsubseteq & \exists\term{bekanntMit}.\term{StudentIn} & \\
       & \term{PflichtVL} \sqcap \term{WahlVL} & \sqsubseteq & \bot & \}
   \end{tboxarray}
 \]
@@ -205,7 +205,7 @@ Die Interpretation aus T2.2 ist Modell von \Tmc.
 Sie erfüllt z.\,B.\ auch die folgende Konzeptinklusion.
 \begin{equation}
   \label{eq:zusaetzl_KI}
-  \term{Student} \sqsubseteq \exists\term{bekanntMit}.\term{Mensch}
+  \term{StudentIn} \sqsubseteq \exists\term{bekanntMit}.\term{Mensch}
 \end{equation}
 
 Ein weiteres Modell ist z.\,B. folgende Interpretation \Jmc.
@@ -220,7 +220,7 @@ Ein weiteres Modell ist z.\,B. folgende Interpretation \Jmc.
     \node[state] (s2) [right=35mm of s1] {$s_2$};
     \node[state] (v1) [below=15mm of s1] {$v_1$};
     
-    \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+    \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{StudentIn}\\\term{Mensch}\end{tabular}};
     \node [above=.4mm of s2]  {\term{Mensch}};
     \node [below=0mm of v1] {\begin{tabular}{@{}c@{}}\term{Vorlesung}\\\term{PflichtVL}\end{tabular}};
     
@@ -244,7 +244,7 @@ Sei \Tmc die TBox aus dem vorangehenden Beispiel.
   \item[(a)]
     Das Konzept
     \[
-      C = \term{Student} \sqcap \forall\term{hört}.\term{PflichtVL}
+      C = \term{StudentIn} \sqcap \forall\term{hört}.\term{PflichtVL}
     \]
     ist erfüllbar bezüglich \Tmc, denn folgende Interpretation 
     $\Imc'$ ist ein Modell von \Tmc mit $s_1 \in C^{\Imc'}$:
@@ -258,7 +258,7 @@ Sei \Tmc die TBox aus dem vorangehenden Beispiel.
         \node[state] (s1)                    {$s_1$};
         \node[state] (v1) [below=10mm of s1] {$v_1$};
         
-        \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{Student}\\\term{Mensch}\end{tabular}};
+        \node [above=-1mm of s1] {\begin{tabular}{@{}c@{}}\term{StudentIn}\\\term{Mensch}\end{tabular}};
         \node [below=0mm of v1] {\begin{tabular}{@{}c@{}}\term{Vorlesung}\\\term{PflichtVL}\end{tabular}};
         
         \path[->] (s1) edge[loop left] node[left]  {\term{bekanntMit}} ()
@@ -272,7 +272,7 @@ Sei \Tmc die TBox aus dem vorangehenden Beispiel.
   \item[(b)]
     Das Konzept
     \[
-      C = \term{Student} \sqcap \forall\term{hört}.\term{PflichtVL} \sqcap \exists\term{hört}.\term{WahlVL}
+      C = \term{StudentIn} \sqcap \forall\term{hört}.\term{PflichtVL} \sqcap \exists\term{hört}.\term{WahlVL}
     \]
     ist \emph{un}erfüllbar bezüglich \Tmc:
     Angenommen, $C$ sei erfüllbar bzgl.\ \Tmc.
@@ -291,18 +291,18 @@ Sei \Tmc die TBox aus dem vorangehenden Beispiel.
   \item[(c)]
     Für die Konzepte
     \[
-      C = \term{Student}
+      C = \term{StudentIn}
       \qquad\text{und}\qquad
-      D = \exists\term{bekanntMit}.\term{Student}
+      D = \exists\term{bekanntMit}.\term{StudentIn}
     \]
     gilt $\Tmc \models C \sqsubseteq D$:
-    Sei \Imc ein Modell von \Tmc und $d \in C^\Imc$, d.\,h.\ $d \in \term{Student}^\Imc$.
-    Zu zeigen ist $d \in D^\Imc$, d.\,h.\ $d \in (\exists\term{bekanntMit}.\term{Student})^\Imc$.
+    Sei \Imc ein Modell von \Tmc und $d \in C^\Imc$, d.\,h.\ $d \in \term{StudentIn}^\Imc$.
+    Zu zeigen ist $d \in D^\Imc$, d.\,h.\ $d \in (\exists\term{bekanntMit}.\term{StudentIn})^\Imc$.
     
     Wegen der ersten Zeile von~\Tmc gilt
     $d \in (\exists\term{hört}.\term{Vorlesung})^\Imc$,
-    also auch $d \in (\term{Student} \sqcap \exists\term{hört}.\term{Vorlesung})^\Imc$.
-    Mit Zeile~3 von~\Tmc folgt wie gewünscht $d \in (\exists\term{bekanntMit}.\term{Student})^\Imc$.    
+    also auch $d \in (\term{StudentIn} \sqcap \exists\term{hört}.\term{Vorlesung})^\Imc$.
+    Mit Zeile~3 von~\Tmc folgt wie gewünscht $d \in (\exists\term{bekanntMit}.\term{StudentIn})^\Imc$.    
 \end{enumerate}
 %
 Dies ist bereits Schlussfolgern, denn wir haben implizites Wissen aus \Tmc abgeleitet:
