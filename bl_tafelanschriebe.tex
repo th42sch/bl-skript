@@ -540,6 +540,38 @@ Forderung, dass in jedem Semester mindestens zwei Wahlpflichtmodule angeboten we
 \]
 
 % ===================================================================
+\section*{T2.12~ Beispiele für die Übersetzung von {\boldmath \ALC} nach FO}
+
+Wir betrachten folgendes \ALC-Konzept.
+\[
+  C = \term{Mensch} \sqcap \exists \term{hört}.\term{Vorlesung}
+\]
+Wir erhalten $\pi_x(C)$ anhand der induktiven Definition auf der Folie,
+indem wir mit den Konzeptnamen beginnen und uns zu komplexeren Konzepten
+"`hocharbeiten"':
+%
+\begin{align*}
+  \pi_x(\term{Mensch}) & = \term{Mensch}(x)    \\
+  \pi_y(\term{Vorlesung}) & = \term{Vorlesung}(y) \\
+  \pi_x(\exists \term{hört}.\term{Vorlesung}) & = \exists y\big(\term{hört}(x,y) \land \term{Vorlesung}(y)\big) \\
+  \pi_x(\term{Mensch} \sqcap \exists \term{hört}.\term{Vorlesung}) & = \term{Mensch}(x) \land \exists y\big(\term{hört}(x,y) \land \term{Vorlesung}(y)\big) \\[12pt]
+  \text{also}\qquad
+  \pi_x(C) & = \term{Mensch}(x) \land \exists y\big(\term{hört}(x,y) \land \term{Vorlesung}(y)\big)
+\end{align*}
+%
+Wenn wir außerdem die TBox
+\[
+  \Tmc = \{\term{StudentIn} \equiv \term{Mensch} \sqcap \exists \term{hört}.\term{Vorlesung}\}
+\]
+gegeben haben, dann ist
+\[
+  \pi(\Tmc) = \forall x\Big(
+    \term{StudentIn}(x) \leftrightarrow 
+    \term{Mensch}(x) \land \exists y\big(\term{hört}(x,y) \land \term{Vorlesung}(y)\big)
+  \Big).
+\]
+
+% ===================================================================
 % ===================================================================
 % ===================================================================
 \part{Ausdrucksstärke und Modellkonstruktionen}
