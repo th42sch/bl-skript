@@ -847,7 +847,41 @@ In \ALC sind \emph{nicht ausdr\"uckbar:}
 
 \goodbreak
 % ===================================================================
-\section*{T3.4~ Beispiel für ein Baummodell}
+
+\section*{T3.4~ Gegenbeispiel für Rückrichtung Bisimulationstheorem}
+
+\textsfbf{Behauptung.}~
+Es gibt Interpretationen \Imc und \Jmc und $d \in \Imc$, $e \in \Jmc$, so dass
+\begin{enumerate}
+  \item[(i)]
+    $d \in C^\Imc$ gdw.\ $e \in C^\Jmc$ für alle \ALC-Konzepte $C$,
+  \item[(ii)]
+    aber $(\Imc,d) \not\sim (\Jmc,e)$.
+\end{enumerate}
+
+\par\noindent
+\begin{beweis}
+  Betrachte die folgenden Interpretationen \Imc und \Jmc.
+  %
+  \begin{center}
+    \dots\ Bild folgt \dots
+  \end{center}
+  %
+  Es gilt (ii):
+  versucht man, eine Bisimulation $\rho$ mit $d\mathbin{\rho}e$ zu konstruieren,
+  so benötigt man wegen $(e,e') \in r^\Imc$ einen $r$-Nachfolger $d'$ von $d$
+  mit $d' \mathbin{\rho} e'$.
+  Da jeder $r$-Nachfolger von $d$ aber nur endlich viele weitere Nachfolger hat,
+  kann man wegen des unendlichen $r$-Pfads unterhalb von $e'$
+  irgendwann nicht mehr Bedingung~(3) von Bisimulationen gewährleisten.
+  
+  \parII
+  Außerdem kann man mittels struktureller Induktion zeigen, dass (i) gilt.
+  \qedhere
+\end{beweis}
+
+% ===================================================================
+\section*{T3.5~ Beispiel für ein Baummodell}
 
 Sei $C = A \sqcap \exists s.B \sqcap \forall s.\exists r.A$
 und $\Tmc = \{\top \sqsubseteq \exists s.A\}$.
@@ -908,7 +942,7 @@ Ein Baummodell von $C$ und \Tmc:
 \end{center}
 
 % ===================================================================
-\section*{T3.5~ Beispiel für das Unravelling}
+\section*{T3.6~ Beispiel für das Unravelling}
 
 Wir betrachten folgende Interpretation \Imc.
 %
@@ -999,7 +1033,7 @@ folgende Interpretation \Jmc.
 
 \goodbreak
 % ===================================================================
-\section*{T3.6~ Beweis des Unravelling-Lemmas}
+\section*{T3.7~ Beweis des Unravelling-Lemmas}
 
 \textsfbf{Lemma 3.8}~
 Für alle \ALC-Konzepte $C$ und alle $p \in \Delta^\Jmc$ gilt:
@@ -1016,7 +1050,7 @@ Für alle \ALC-Konzepte $C$ und alle $p \in \Delta^\Jmc$ gilt:
 \end{beweis}
 
 % ===================================================================
-\section*{T3.7~ Beweis der Baummodelleigenschaft von {\boldmath \ALC}}
+\section*{T3.8~ Beweis der Baummodelleigenschaft von {\boldmath \ALC}}
 
 \textsfbf{Theorem 3.6}~
 Wenn ein \ALC-Konzept $C$ bezüglich einer \ALC-TBox \Tmc erfüllbar ist,
@@ -1025,39 +1059,6 @@ dann haben $C$ und \Tmc ein gemeinsames Baummodell \Imc.
 \par\noindent
 \begin{beweis}
   Siehe Theorem~3.24 in~\cite{DLintro}.
-\end{beweis}
-
-% ===================================================================
-\section*{T3.8~ Gegenbeispiel für Rückrichtung Bisimulationstheorem}
-
-\textsfbf{Behauptung.}~
-Es gibt Interpretationen \Imc und \Jmc und $d \in \Imc$, $e \in \Jmc$, so dass
-\begin{enumerate}
-  \item[(i)]
-    $d \in C^\Imc$ gdw.\ $e \in C^\Jmc$ für alle \ALC-Konzepte $C$,
-  \item[(ii)]
-    aber $(\Imc,d) \not\sim (\Jmc,e)$.
-\end{enumerate}
-
-\par\noindent
-\begin{beweis}
-  Betrachte die folgenden Interpretationen \Imc und \Jmc.
-  %
-  \begin{center}
-    \dots\ Bild folgt \dots
-  \end{center}
-  %
-  Es gilt (ii):
-  versucht man, eine Bisimulation $\rho$ mit $d\mathbin{\rho}e$ zu konstruieren,
-  so benötigt man wegen $(e,e') \in r^\Imc$ einen $r$-Nachfolger $d'$ von $d$
-  mit $d' \mathbin{\rho} e'$.
-  Da jeder $r$-Nachfolger von $d$ aber nur endlich viele weitere Nachfolger hat,
-  kann man wegen des unendlichen $r$-Pfads unterhalb von $e'$
-  irgendwann nicht mehr Bedingung~(3) von Bisimulationen gewährleisten.
-  
-  \parII
-  Außerdem kann man mittels struktureller Induktion zeigen, dass (i) gilt.
-  \qedhere
 \end{beweis}
 
 % ===================================================================
