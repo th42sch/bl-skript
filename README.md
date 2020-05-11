@@ -15,7 +15,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
 ## Versionsgeschichte
 
-**11.5.2020**&nbsp; kleine Korrekturen in T4.6 und T4.7 <br>
+**11.5.2020**&nbsp; kleine Korrekturen in T4.6--T4.8 <br>
 **30.4.2020**&nbsp; Literaturverzeichnis repariert <br>
 **29.4.2020**&nbsp; kleine Korrektur in T3.2 <br>
 **27.4.2020**&nbsp; Umordnung von T3.4–T3.8<br>

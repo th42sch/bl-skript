@@ -1759,15 +1759,15 @@ per Induktion über die Struktur von $C$.
         dass $A \notin \Lmc(v)$.
         Nach Definition von \Imc gilt dann aber $v \notin A^\Imc$,
         also $v \in (\lnot A)^\Imc$.
-      \item[{\boldmath $C = D \sqcap E$.}]
+      \item[{\boldmath $C = D_1 \sqcap D_2$.}]
         Wenn $C \in \Lmc(v)$ in \Bmc,
-        dann auch $D \in \Lmc(v)$
-        und $E \in \Lmc(v)$,
+        dann auch $D_1 \in \Lmc(v)$
+        und $D_2 \in \Lmc(v)$,
         da \Bmc vollständig ist und somit insbesondere die
         $\sqcap$-Regel nicht anwendbar ist.
-        Mit der Induktionsvoraussetzung folgt daraus nun $v \in D^\Imc$ und $v \in E^\Imc$;
-        wegen der Semantik von $\sqcap$ gilt damit $v \in (D \sqcap E)^\Imc$.
-      \item[{\boldmath $C = D \sqcup E$.}]
+        Mit der Induktionsvoraussetzung folgt daraus nun $v \in D_1^\Imc$ und $v \in D_2^\Imc$;
+        wegen der Semantik von $\sqcap$ gilt damit $v \in (D_1 \sqcap D_2)^\Imc$.
+      \item[{\boldmath $C = D_1 \sqcup D_2$.}]
         Analog.
       \item[{\boldmath $C = \exists r.D$.}]
         Wegen $C \in \Lmc(v)$
@@ -1775,7 +1775,7 @@ per Induktion über die Struktur von $C$.
         gibt es $v' \in V$ mit $(v,r,v') \in E$ und $D \in \Lmc(v')$.
         Nach Induktionsvoraussetzung folgt aus dem letzteren,
         dass $v' \in D^\Imc$.
-        Da wegen Definition von \Imc auch $(r,r') \in r^\Imc$ sein muss,
+        Da wegen Definition von \Imc auch $(v,v') \in r^\Imc$ sein muss,
         folgt $v \in (\exists r.D)^\Imc$ mit der Semantik von $\exists$.
       \item[{\boldmath $C = \forall r.D$.}]
         Ähnlich.
