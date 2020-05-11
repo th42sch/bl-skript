@@ -1943,8 +1943,8 @@ Für alle $i \leq n$ ist $M_i$ realisierbar.
 \section*{T4.11~ Beispiel für den Worst Case bei der Komplexitätsanalyse}
 
 Sei $n=2$. Dann ist
-$C = \forall r^0.(\exists r.B \sqcap \exists r.\lnot B) \sqcap
-     \forall r^1.(\exists r.B \sqcap \exists r.\lnot B)$.
+$C_0 = \forall r^0.(\exists r.B \sqcap \exists r.\lnot B) \sqcap
+       \forall r^1.(\exists r.B \sqcap \exists r.\lnot B)$.
 (Folie~4.25).
 Kürzt man nun das doppelt vorkommende Teilkonzept ab mit
 %
@@ -1956,7 +1956,7 @@ Kürzt man nun das doppelt vorkommende Teilkonzept ab mit
 %
 $D = \exists r.B \sqcap \exists r.\lnot B$, dann ist
 \[
-  C = D \sqcap \forall r.D.
+  C_0 = D \sqcap \forall r.D.
 \]
 Der Tableau-Algorithmus erzeugt folgenden I-Baum, 
 der auf dem vollständigen Binärbaum der Tiefe 2 basiert:
