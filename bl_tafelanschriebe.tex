@@ -1908,7 +1908,7 @@ Für alle $i \leq n$ ist $M_i$ realisierbar.
           Analog, aber mit nur \emph{einem} Baum $\Bmc'$ (probiert es selbst aus).
         \item[{\boldmath $\exists$-Regel.}]
           Dann entsteht $M_{i+1}$ aus $M_i$,
-          indem \Bmc durch einen Baum $\Bmc' = (V,E,\Lmc')$ ersetzt wird,
+          indem \Bmc durch einen Baum $\Bmc' = (V',E',\Lmc')$ ersetzt wird,
           und es gibt Knoten $v,v' \in V$ mit
           %
           \begin{itemize}
@@ -1917,9 +1917,9 @@ Für alle $i \leq n$ ist $M_i$ realisierbar.
             \item
               $V' = V \uplus \{v'\}$,\quad $E' = E \cup \{(v,r,v')\}$
             \item
-              $\Lmc'(v) = \{C\}$;
+              $\Lmc'(v') = \{C\}$;
             \item
-              $\Lmc'(u) = \Lmc(u)$ für alle $u \neq v$.
+              $\Lmc'(u) = \Lmc(u)$ für alle $u \neq v'$.
           \end{itemize}
           %
           Es genügt zu zeigen: wenn \Bmc realisierbar, dann $\Bmc'$ realisierbar.
@@ -1929,7 +1929,7 @@ Für alle $i \leq n$ ist $M_i$ realisierbar.
           Dann gilt insbesondere $\pi(v) \in (\exists r.C)^\Imc$,
           also gibt es ein $d \in \Delta^\Imc$ mit $(\pi(v),d) \in r^\Imc$
           und $d \in C^\Imc$.
-          Wenn man nun $\pi$ erweitert um $\pi(v) = d$,
+          Wenn man nun $\pi$ erweitert um $\pi(v') = d$,
           dann bezeugt die resultierende Funktion,
           dass $\Bmc'$ durch \Imc realisiert wird.
         \item[{\boldmath $\forall$-Regel.}]
