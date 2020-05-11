@@ -1704,16 +1704,16 @@ Für jeden Baum $\Bmc \in M_i$ enthält $\textsf{MM}_i$ die Zahl
 Somit ist $\textsf{MM}_i$ eine Multimenge über der
 Grundmenge $\mathbb{N}$.
 Da $<$ auf $\mathbb{N}$ wohlfundiert ist,
-ist mit Theorem~4.7 auch $<_{\text{mul}}$ auf $\textsf{MM}(\mathbb{N})$
+ist mit Theorem~4.7 auch $<_{\textsf{mul}}$ auf $\textsf{MM}(\mathbb{N})$
 wohlfundiert.
-Außerdem gilt $\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$ für jedes $i \geq 0$,
+Außerdem gilt $\textsf{MM}_i >_{\textsf{mul}} \textsf{MM}_{i+1}$ für jedes $i \geq 0$,
 denn mit jeder Regelanwendung wird in $M_i$ ein I-Baum
 durch maximal zwei I-Bäume $\Bmc_1,\Bmc_2$ ersetzt mit $m(\Bmc_1),m(\Bmc_2) < m(\Bmc)$;
 somit erhält man $\textsf{MM}_{i+1}$ aus $\textsf{MM}_i$,
 indem man $m(\Bmc)$ durch die kleineren Zahlen $m(\Bmc_1),m(\Bmc_2)$ ersetzt.
 
-Wegen der Wohlfundiertheit von $<_{\text{mul}}$ und der Beobachtung
-$\textsf{MM}_i <_{\textsf{mul}} \textsf{MM}_{i+1}$
+Wegen der Wohlfundiertheit von $<_{\textsf{mul}}$ und der Beobachtung
+$\textsf{MM}_i >_{\textsf{mul}} \textsf{MM}_{i+1}$
 muss die Folge der $\textsf{MM}_i$ endlich sein.
 \qedhere
 
