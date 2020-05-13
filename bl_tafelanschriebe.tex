@@ -2119,6 +2119,31 @@ Der Konflikt wurde letztlich durch das linke Disjunkt $\exists r.A$ von \nr{1}
 und Konzept $\forall r.\lnot A$ \nr{$n+2$} ausgelöst.
 Mit Backjumping hingegen wird wie im Bild angedeutet Buch über die Herkunft der Konzepte geführt; deshalb kann direkt zur Ursache des Problems zurückgesprungen werden -- hier zum 1.\ Schritt der obigen Aufzählung.
 
+\pagebreak
+% ===================================================================
+\section*{T4.13~ Beispiel für Normalform der TBoxen}
+
+Wir betrachten die TBox
+\[
+  \Tmc = \{A \sqsubseteq \exists r.B,~ A \sqcup B \sqsubseteq \forall r.B\}.
+\]
+Beim Umwandeln in Normalform werden zuerst die beiden Konzeptinklusionen
+in eine einzige Konzeptinklusion mit $\top$ auf der linken Seite umgewandelt,
+wie auf der Folie angegeben:
+\[
+  \{\top \sqsubseteq (\lnot A \sqcup \exists r.B) \sqcap (\lnot(A \sqcup B) \sqcup \forall r.B)\}
+\]
+Nun muss noch NNF hergestellt werden, indem die rechte Negation "`nach innen gezogen"' wird:
+\[
+  \Tmc' = \{\top \sqsubseteq (\lnot A \sqcup \exists r.B) \sqcap ((\lnot A \sqcap \lnot B) \sqcup \forall r.B)\}
+\]
+Es ist leicht zu zeigen, dass die bei resultierende TBox $\Tmc'$ immer äquivalent zur ursprünglichen TBox \Tmc ist, d.\,h.\ \Tmc und $\Tmc'$ haben dieselben Modelle.
+
+
+\parIII
+\parIII
+\dots\ wird fortgesetzt \dots
+
 % ===================================================================
 % ===================================================================
 % ===================================================================
