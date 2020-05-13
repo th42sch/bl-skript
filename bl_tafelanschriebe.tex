@@ -2139,6 +2139,37 @@ Nun muss noch NNF hergestellt werden, indem die rechte Negation "`nach innen gez
 \]
 Es ist leicht zu zeigen, dass die bei resultierende TBox $\Tmc'$ immer äquivalent zur ursprünglichen TBox \Tmc ist, d.\,h.\ \Tmc und $\Tmc'$ haben dieselben Modelle.
 
+% ===================================================================
+\section*{T4.14~ Beispiel für Nicht-Terminierung}
+
+Sei $C_0 = A$ und $\Tmc = \{\top \sqsubseteq \exists r.A\}$ (bereits in Normalform).
+Wenn man das bisherige Tableau\-verfahren um die TBox-Regel erweitert,
+terminiert der Algorithmus auf der Eingabe $(C_0,\Tmc)$ nicht mehr,
+denn es sind immer abwechselnd die TBox-Regel und die $\exists$-Regel anwendbar,
+wodurch folgender unendlicher I-Baum erzeugt wird:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=4mm},
+    every edge/.style={draw=black,thin}
+  ]
+  
+    \node[state] (1)                      {};
+    \node[state] (2)    [below=10mm of 1] {};
+    \node[state] (3)    [below=10mm of 2] {};
+    \node        (dots) [below=10mm of 3] {$\vdots$};
+    
+    \foreach \x in {1,2,3} \node [right=0mm of \x] {$A,\,\exists r.A$};
+    
+    \path[->]
+      (1) edge node[right] {$r$} (2)
+      (2) edge node[right] {$r$} (3)
+      (3) edge node[right] {$r$} (dots)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
 
 \parIII
 \parIII
