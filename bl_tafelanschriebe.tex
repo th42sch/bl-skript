@@ -1720,7 +1720,9 @@ muss die Folge der $\textsf{MM}_i$ endlich sein.
 \qedhere
 
 % ===================================================================
-\section*{T4.8~ Verbleibender Beweis der Korrektheit}
+%\section*{T4.8~ Verbleibender Beweis der Korrektheit}
+\newcommand{\TBewKorrTableauxOhne}{T4.8}
+\section*{\hypertarget{TBewKorrTableauxOhne}{\TBewKorrTableauxOhne}~ Beweis Resolutionssatz, Korrektheit}
 
 \textsfbf{Behauptung.}~
 Für alle Konzepte $C$ und Knoten $v \in V$ gilt:
@@ -2272,9 +2274,9 @@ folgenden I-Baum.
     \path (11)--(110) node[draw,cross out, pos=0.6] {};
     
     \path[->,dashed]
-     (0)  edge[out=290,in=350,looseness=12] (0)
-     (1)  edge[out=180,in=270]              (eps)
-     (11) edge[out=240,in=190,looseness=12] (11)
+      (0)  edge[out=290,in=350,looseness=12] (0)
+      (1)  edge[out=180,in=270]              (eps)
+      (11) edge[out=240,in=190,looseness=12] (11)
     ;
   \end{tikzpicture}
 \end{center}
@@ -2287,6 +2289,110 @@ blockiert wird.
 Sie sind genau genommen nicht Bestandteil des I-Baums, aber sie werden
 bei der Modellkonstruktion im Korrektheitsbeweis nützlich sein.
 
+% ===================================================================
+\section*{T4.17~ Verbleibender Beweis der Korrektheit (mit TBoxen)}
+
+\textsfbf{Behauptung.}~
+Für alle Konzepte $C$ und Knoten $v \in \Delta^\Imc$ gilt:
+~~
+$C \in \Lmc(v)$
+~impliziert~
+$v \in C^\Imc$
+
+\parII
+Man beachte, dass die Behauptung nur über die $v \in \Delta^\Imc$
+eine Aussage macht, also über die im vollständigen I-Baum \Bmc \emph{unblockierten} Knoten.
+
+\par\medskip
+Zunächst zeigen wir, dass diese Behauptung die Aussage
+des Theorems~4.13 impliziert.
+
+Da $C_0 \in \Lmc(v_{\textsf{ini}})$,
+gilt nach der obigen Behauptung $v_{\textsf{ini}} \in C_0^\Imc$.
+Da außerdem die TBox-Regel nicht mehr anwendbar ist (\Bmc ist vollständig),
+gilt $C_\Tmc \in \Lmc(v)$ für alle $v \in V$.
+Wegen der Behauptung ist somit \Imc auch ein Modell von \Tmc.
+
+\par\medskip
+\textsfbf{Beweis der Behauptung}~
+per Induktion über die Struktur von $C$.
+Der Induktionsanfang ($C=A$) und die Fälle $C=\lnot A$, $C = D_1 \sqcap D_2$,
+$C = D_1 \sqcup D_2$ im Induktionsschritt sind genauso wie in der Variante ohne TBoxen
+(\textsf{\hyperlink{TBewKorrTableauxOhne}{\TBewKorrTableauxOhne}}). Für die übrigen zwei Fälle argumentieren wie wie folgt:
+%
+  \begin{description}
+    \item[{\boldmath $C = \exists r.D$.}]
+      Wegen $C \in \Lmc(v)$
+      und da die $\exists'$-Regel nicht anwendbar ist,
+      gibt es $v' \in V$ mit $(v,r,v') \in E$ und $D \in \Lmc(v')$.
+      
+      Falls $v'$ unblockiert ist, folgt $(v,v') \in r^\Imc$ nach Definition von \Imc
+      und $v' \in D^\Imc$ nach Induktionsvoraussetzung.
+
+      \parbox{.78\linewidth}{%      
+        Falls $v'$ blockiert ist, argumentieren wir wie folgt:
+        da der direkte Vorgänger von $v'$ der unblockierte Knoten $v$ ist,
+        gibt es einen \emph{unblockierten} Vorgänger $u$ von $v'$,
+        durch den $v'$ \emph{direkt} blockiert ist,
+        siehe nebenstehende Skizze.
+        (Der Knoten $u$ kann, aber muss nicht mit $v$ übereinstimmen;
+        siehe das vorangehende Beispiel).
+        Nach Definition von \Imc ist $(v,u) \in r^\Imc$.
+        Da außerdem $D \in \Lmc(v') \subseteq \Lmc(u)$ gilt,
+        ist $u \in D^\Imc$ nach Induktionsvoraussetzung.%
+      }%
+      \hfill
+      \parbox{.14\linewidth}{%
+        \begin{tikzpicture}[%
+          >=Latex,baseline=.2pt,
+          every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+          every edge/.style={draw=black,thin}
+        ]
+        
+          \node[state] (u)                        {$u$};
+%          \node        (dots) [below=4mm of u]    {$\vdots$};
+          \node[circle,inner sep=0mm,minimum size=.2mm] (dots1) [below=3mm of u] {};
+          \node[circle,inner sep=0mm,minimum size=.2mm] (dots2) [below=2mm of dots1] {};
+          \node[state] (v)    [below=3mm of dots2] {$v$};
+          \node[state] (v')   [below=8mm of v]    {$v'$};
+          
+          \path[->]
+            (u)     edge (dots1)
+            (dots1) edge[-,dotted,very thick] (dots2)
+            (dots2) edge (v)
+            (v)     edge node[pos=.2,right] {$r$} (v')
+          ;
+          
+          \path (v)--(v') node[draw,cross out, pos=0.6] {};
+
+          \path[->,dashed]
+            (v) edge[out=10,in=350] (u)
+          ;
+          
+        \end{tikzpicture}
+      
+      }
+      
+      In beiden Fällen folgt $v \in (\exists r.D)^\Imc$.
+      
+    \item[{\boldmath $C = \forall r.D$.}]
+      Um zu zeigen, dass $v \in (\forall r.D)^\Imc$,
+      betrachten wir ein beliebiges Element $u$ mit $(v,u) \in r^\Imc$
+      und müssen zeigen, dass $u \in D^\Imc$.
+      
+      Nach Definition von $r^\Imc$ gibt es wegen $(v,u) \in r^\Imc$ zwei mögliche Fälle:
+      
+      (1) $(v,r,u) \in E$ für einen \emph{unblockierten} Knoten $u$.
+      Da die $\forall$-Regel nicht anwendbar ist, gilt $D \in \Lmc(u)$,
+      also nach Induktionsvoraussetzung $u \in D^\Imc$.
+      
+      (2) $(v,r,v') \in E$ für einen Knoten $v'$, der durch $u$ direkt blockiert wird;
+      siehe wieder die obige Skizze.
+      Da die $\forall$-Regel nicht anwendbar ist, gilt $D \in \Lmc(v')$.
+      Da außerdem $\Lmc(v') \subseteq \Lmc(u)$, folgt auch hier $D \in \Lmc(u)$
+      ind nach Induktionsvoraussetzung $u \in D^\Imc$.
+      \qedhere
+  \end{description}
 
 
 \parIII
