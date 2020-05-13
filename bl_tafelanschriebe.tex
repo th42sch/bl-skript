@@ -2228,9 +2228,70 @@ Es ist leicht zu zeigen, dass die bei resultierende TBox $\Tmc'$ immer äquivale
 }
 %
 
+% ===================================================================
+\section*{{\boldmath T4.16~ Beispiel für die $\exists'$-Regel}}
+
+Seien $C_0 = A \sqcap \exists r.\exists r.A$ und $\Tmc = \{\top \sqsubseteq \exists r.B\}$.
+Dann erzeugt das Tableauverfahren mit der neuen $\exists'$-Regel (und Blockierung)
+folgenden I-Baum.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=5mm},
+    every edge/.style={draw=black,thin}
+  ]
+  
+    \node[state] (eps)                                    {$v_{\textsf{ini}}$};
+    \node[state] (0)   [below left =10mm and 13mm of eps] {};
+    \node[state] (1)   [below right=10mm and 13mm of eps] {};
+    \node[state] (00)  [below left =10mm and  3mm of 0]   {};
+    \node[state] (10)  [below left =10mm and  3mm of 1]   {};
+    \node[state] (11)  [below right=10mm and  3mm of 1]   {};
+    \node[state] (110) [below=10mm of 11]                 {};
+    
+    \node [right=1mm of eps] {$C_0,~ A,~ \exists r.\exists r.A,~ \exists r.B$};
+    \node [left =1mm of 0]   {$\exists r.B,~ B$};
+    \node [right=1mm of 1]   {$\exists r.A,~ \exists r.B$};
+    \node [left =1mm of 00]  {$\exists r.B,~ B$};
+    \node [left =1mm of 10]  {$A,~ \exists r.B$};
+    \node [right=1mm of 11]  {$B,~ \exists r.B$};
+    \node [right=1mm of 110] {$B,~ \exists r.B$};
+    
+    \path[->]
+      (eps) edge node[pos=.3,left=.4mm]  {$r$} (0)
+      (eps) edge node[pos=.3,right=.7mm] {$r$} (1)
+      (0)   edge node[pos=.2,left=0mm]  {$r$} (00)
+      (1)   edge node[pos=.2,left=0mm]  {$r$} (10)
+      (1)   edge node[pos=.2,right=.3mm] {$r$} (11)
+      (11)  edge node[pos=.2,right]      {$r$} (110)
+    ;
+    
+    \path (0) --(00)  node[draw,cross out, pos=0.6] {};
+    \path (1) --(10)  node[draw,cross out, pos=0.6] {};
+    \path (11)--(110) node[draw,cross out, pos=0.6] {};
+    
+    \path[->,dashed]
+     (0)  edge[out=290,in=350,looseness=12] (0)
+     (1)  edge[out=180,in=270]              (eps)
+     (11) edge[out=240,in=190,looseness=12] (11)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
+Blockierte Knoten sind dadurch gekennzeichnet, dass die eingehende $r$-Kante durchkreuzt ist.
+Alle blockierten Knoten in diesem Beispiel sind direkt blockiert.
+
+Die gestrichelten Pfeile zeigen an, durch welches Element der blockierte Nachfolger
+blockiert wird.
+Sie sind genau genommen nicht Bestandteil des I-Baums, aber sie werden
+bei der Modellkonstruktion im Korrektheitsbeweis nützlich sein.
+
+
+
 \parIII
 \parIII
-\dots\ wird fortgesetzt \dots
+\dots\ Dokument wird fortgesetzt \dots
 
 % ===================================================================
 % ===================================================================
