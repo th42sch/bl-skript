@@ -2140,25 +2140,29 @@ Nun muss noch NNF hergestellt werden, indem die rechte Negation "`nach innen gez
 Es ist leicht zu zeigen, dass die bei resultierende TBox $\Tmc'$ immer äquivalent zur ursprünglichen TBox \Tmc ist, d.\,h.\ \Tmc und $\Tmc'$ haben dieselben Modelle.
 
 % ===================================================================
-\section*{T4.14~ Beispiel für Nicht-Terminierung}
+\parbox[t]{.78\linewidth}{%
+  \section*{T4.14~ Beispiel für Nicht-Terminierung}
 
-Sei $C_0 = A$ und $\Tmc = \{\top \sqsubseteq \exists r.A\}$ (bereits in Normalform).
-Wenn man das bisherige Tableau\-verfahren um die TBox-Regel erweitert,
-terminiert der Algorithmus auf der Eingabe $(C_0,\Tmc)$ nicht mehr,
-denn es sind immer abwechselnd die TBox-Regel und die $\exists$-Regel anwendbar,
-wodurch folgender unendlicher I-Baum erzeugt wird:
-%
-\begin{center}
+  Sei $C_0 = A$ und $\Tmc = \{\top \sqsubseteq \exists r.A\}$ (bereits in Normalform).
+  Wenn man das bisherige Tableau\-verfahren um die TBox-Regel erweitert,
+  terminiert der Algorithmus auf der Eingabe $(C_0,\Tmc)$ nicht mehr,
+  denn es sind immer abwechselnd die TBox-Regel und die $\exists$-Regel anwendbar,
+  wodurch der nebenstehende unendliche I-Baum erzeugt wird.
+}%
+\hfill
+\parbox[t]{.14\linewidth}{%
+%%
+%\begin{center}
   \begin{tikzpicture}[%
-    >=Latex,baseline=.2pt,
+    >=Latex,baseline=24pt,
     every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=4mm},
     every edge/.style={draw=black,thin}
   ]
   
     \node[state] (1)                      {};
-    \node[state] (2)    [below=10mm of 1] {};
-    \node[state] (3)    [below=10mm of 2] {};
-    \node        (dots) [below=10mm of 3] {$\vdots$};
+    \node[state] (2)    [below=8mm of 1] {};
+    \node[state] (3)    [below=8mm of 2] {};
+    \node        (dots) [below=8mm of 3] {$\vdots$};
     
     \foreach \x in {1,2,3} \node [right=0mm of \x] {$A,\,\exists r.A$};
     
@@ -2168,15 +2172,30 @@ wodurch folgender unendlicher I-Baum erzeugt wird:
       (3) edge node[right] {$r$} (dots)
     ;
   \end{tikzpicture}
-\end{center}
+%\end{center}
+}
 
-\pagebreak
 % ===================================================================
 \section*{T4.15~ Beispiel für Blockierung}
 
-Wir betrachten folgenden I-Baum.
-%
-\begin{center}
+\par\vspace*{-\baselineskip}
+\parbox[t]{.4\linewidth}{%
+  Im nebenstehenden I-Baum ist/sind
+  %
+  \begin{itemize}
+    \item
+      $v_1$ direkt blockiert durch $v_0$;
+    \item
+      $v_3$ direkt blockiert durch $v_0$;
+    \item
+      $v_1,v_3,v_4$ blockiert;
+    \item
+      $v_0,v_2$ \emph{nicht} blockiert.
+  \end{itemize}
+}%
+\hfill
+\parbox[t]{.48\linewidth}{%
+%\begin{center}
   \begin{tikzpicture}[%
     >=Latex,baseline=.2pt,
     every state/.style={draw=black,thin,fill=black!10,inner sep=.2mm,minimum size=6mm},
@@ -2189,7 +2208,8 @@ Wir betrachten folgenden I-Baum.
     \node[state] (v3) [below=10mm of v2]               {\strut $v_3$};
     \node[state] (v4) [below=10mm of v3]               {\strut $v_4$};    
     
-    \node [right=1mm of v0] {$A \sqcap \exists r.A,~ A,~ \exists r.A,~ \exists r.\exists r.(A \sqcap \exists r.A)$};
+%    \node [right=1mm of v0] {$A \sqcap \exists r.A,~ A,~ \exists r.A,~ \exists r.\exists r.(A \sqcap \exists r.A)$};
+    \node [above right=-7mm and 1.5mm of v0] {\begin{tabular}{@{}l@{}}$A \sqcap \exists r.A$,\\$A,~ \exists r.A,~ \exists r.\exists r.(A \sqcap \exists r.A)$\end{tabular}};
     \node [left =1mm of v1] {$A$};
     \node [right=1mm of v2] {$\exists r.(A \sqcap \exists r.A)$};
     \node [right=1mm of v3] {$A \sqcap \exists r.A,~ A,~ \exists r.A$};
@@ -2202,20 +2222,9 @@ Wir betrachten folgenden I-Baum.
       (v3) edge node[right]     {$r$} (v4)
     ;
   \end{tikzpicture}
-\end{center}
+%\end{center}
+}
 %
-In diesem Baum ist/sind
-%
-\begin{itemize}
-  \item
-    $v_1$ direkt blockiert durch $v_0$;
-  \item
-    $v_3$ direkt blockiert durch $v_0$;
-  \item
-    $v_1,v_3,v_4$ blockiert;
-  \item
-    $v_0,v_2$ \emph{nicht} blockiert.
-\end{itemize}
 
 \parIII
 \parIII
