@@ -2019,10 +2019,105 @@ auf dem vollständigen Binärbaum der Tiefe $n$ basiert, welcher $2^n$ Knoten ha
 
 \goodbreak
 
+\newcommand{\nr}[1]{%
+  \tikz[%
+    baseline=-3pt,
+    every state/.style={rectangle,rounded corners,draw=black,thin,fill=none,inner sep=.8mm,minimum size=4mm},
+  ]{%
+    \node[state] {{\footnotesize #1}};
+  }
+}
 % ===================================================================
 \section*{T4.12~ Beispiel für Backjumping}
 
-\dots\ folgt \dots
+Nehmen wir an, ein Knoten $v$ in einem I-Baum sei markiert wie folgt,
+wobei die Konzepte in $\Lmc(v)$ durchnummeriert werden.
+%
+\begin{center}
+  $\Lmc(v) = \{$%
+  \begin{tikzpicture}[%
+    >=Latex,baseline=-3pt,
+    every state/.style={rectangle,rounded corners,draw=black,thin,fill=none,inner sep=.8mm,minimum size=4mm},
+    every edge/.style={draw=black,thin}
+  ]
+  
+    \node (1)                        {\strut $(\exists r.A) \sqcup B,$};
+    \node (2)    [right=0mm of 1]    {\strut $A_1 \sqcup A_1',$};
+    \node (dots) [right=0mm of 2]    {\strut $\dots,$};
+    \node (n+1)  [right=0mm of dots] {\strut $A_n \sqcup A_n',$};
+    \node (n+2)  [right=0mm of n+1]  {\strut $\forall r.\lnot A$};
+    
+    \node[state] (1')    [below=-1mm of 1]    {{\footnotesize 1}};
+    \node[state] (2')    [below=-1mm of 2]    {{\footnotesize 2}};
+    \node[state] (n+1')  [below=-1mm of n+1]  {{\footnotesize $n\!\!\:+\!\!\:1$}};
+    \node[state] (n+2')  [below=-1mm of n+2]  {{\footnotesize $n\!\!\:+\!\!\:2$}};
+  
+  \end{tikzpicture}%
+  $\}$
+\end{center}
+%
+Nehmen wir weiterhin an, der Tableau-Algorithmus verarbeite die Konzepte aus $\Lmc(v)$ in der angegebenen Reihenfolge und wählt bei den Disjunktionen immer zuerst das linke Disjunkt.
+Dann wird 
+%
+\begin{itemize}
+  \item 
+    im 1.\ Schritt das Konzept $\exists r.A$ zu $\Lmc(v)$ hinzugefügt \\
+    ($\sqcup$-Regel auf \nr{1} angewendet);
+  \item 
+    im 2.\ Schritt ein $r$-Nachfolger $v'$ zu $v$ hinzugefügt und mit $\{A\}$ markiert \\
+    ($\exists$-Regel auf $\exists r.A \in \Lmc(v)$ angewendet);
+  \item
+    im den nächsten $n$ Schritten die linken Disjunkte von \nr{2}--\nr{$n+1$}
+    zu $\Lmc(v)$ hinzugefügt \\
+    ($\sqcup$-Regel);
+  \item
+    im folgenden Schritt das Konzept $\lnot A$ zu $\Lmc(v')$ hinzugefügt \\ 
+    ($\forall$-Regel auf $\forall r.\lnot A \in \Lmc(v)$ angewendet).
+\end{itemize}
+%
+Danach sieht die "`Umgebung"' von $v$ im I-Baum wie folgt aus,
+wobei die Einträge der Knotenlabels mit der Nummer des Konzeptes aus $\Lmc(v)$
+versehen sind, von dem sie stammen (dies repräsentiert die "`Dependenzmenge"').
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+  
+    \node[state] (v)                    {$v$};
+    \node[state] (v') [below=14mm of v] {$v'$};
+    
+    \node (Lv)  [right=2mm of v]  {$\Lmc(v) \cup \{\exists r.A,\,A_1,\,\dots,\,A_n\}$};
+    \node (Lv') [right=2mm of v'] {$\{A,~\lnot A\}$};
+
+    \node (lightning) [below right=-6mm and -1mm of Lv']{{\Large \lightning}};
+    
+    \path[->] (v) edge node[right] (r) {$r$} (v');
+
+    \begin{scope}[
+      every node/.style={rectangle,rounded corners,draw=black,thin,fill=none,inner sep=.8mm,minimum size=4mm},
+    ]
+      
+      \node (Lv1)    [below left=-1mm and -21mm of Lv] {{\footnotesize 1}};
+      \node (Lv2)    [right=4mm of Lv1]                {{\footnotesize 2}};
+      \node (Lvn+1)  [right=8mm of Lv2]               {{\footnotesize $n+1$}};
+      \node (r1)     [right=-.5mm of r]                  {{\footnotesize 1}};
+      \node (Lv'1)   [below left=-1mm and -6mm of Lv'] {{\footnotesize 1}};
+      \node (Lv'n+2) [right=.5mm of Lv'1]               {{\footnotesize $n+2$}};
+    \end{scope}
+  \end{tikzpicture}
+\end{center}
+%
+Wegen des offensichtlichen Widerspruchs in $v'$ (angezeigt durch \lightning)
+muss Backtracking durchgeführt werden.
+Einfaches Backtracking probiert hier aber $2^n$ sinnlose Alternativen aus,
+nämlich sämtliche Kombination der jeweils zwei Disjunkte von \nr{2}--\nr{$n+1$},
+und findet erst dann die Ursache des Problems:
+Der Konflikt wurde letztlich durch das linke Disjunkt $\exists r.A$ von \nr{1}
+und Konzept $\forall r.\lnot A$ \nr{$n+2$} ausgelöst.
+Mit Backjumping hingegen wird wie im Bild angedeutet Buch über die Herkunft der Konzepte geführt; deshalb kann direkt zur Ursache des Problems zurückgesprungen werden -- hier zum 1.\ Schritt der obigen Aufzählung.
 
 % ===================================================================
 % ===================================================================
