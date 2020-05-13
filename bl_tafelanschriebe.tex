@@ -2169,7 +2169,53 @@ wodurch folgender unendlicher I-Baum erzeugt wird:
     ;
   \end{tikzpicture}
 \end{center}
+
+\pagebreak
+% ===================================================================
+\section*{T4.15~ Beispiel für Blockierung}
+
+Wir betrachten folgenden I-Baum.
 %
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.2mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+  
+    \node[state] (v0)                                  {\strut $v_0$};
+    \node[state] (v1) [below left =10mm and 5mm of v0] {\strut $v_1$};
+    \node[state] (v2) [below right=10mm and 5mm of v0] {\strut $v_2$};
+    \node[state] (v3) [below=10mm of v2]               {\strut $v_3$};
+    \node[state] (v4) [below=10mm of v3]               {\strut $v_4$};    
+    
+    \node [right=1mm of v0] {$A \sqcap \exists r.A,~ A,~ \exists r.A,~ \exists r.\exists r.(A \sqcap \exists r.A)$};
+    \node [left =1mm of v1] {$A$};
+    \node [right=1mm of v2] {$\exists r.(A \sqcap \exists r.A)$};
+    \node [right=1mm of v3] {$A \sqcap \exists r.A,~ A,~ \exists r.A$};
+    \node [right=1mm of v4] {$A,~B$};
+    
+    \path[->]
+      (v0) edge node[left=.4mm]  {$r$} (v1)
+      (v0) edge node[right=.7mm] {$r$} (v2)
+      (v2) edge node[right]     {$r$} (v3)
+      (v3) edge node[right]     {$r$} (v4)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
+In diesem Baum ist/sind
+%
+\begin{itemize}
+  \item
+    $v_1$ direkt blockiert durch $v_0$;
+  \item
+    $v_3$ direkt blockiert durch $v_0$;
+  \item
+    $v_1,v_3,v_4$ blockiert;
+  \item
+    $v_0,v_2$ \emph{nicht} blockiert.
+\end{itemize}
 
 \parIII
 \parIII
