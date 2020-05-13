@@ -2394,6 +2394,28 @@ $C = D_1 \sqcup D_2$ im Induktionsschritt sind genauso wie in der Variante ohne 
       \qedhere
   \end{description}
 
+% ===================================================================
+\section*{T4.18~ Tiefe der I-Bäume (mit TBoxen)}
+
+\textsfbf{Behauptung.}~
+Es werden nur I-Bäume mit einer Tiefe von maximal $2^k$ generiert,
+wobei $k = |C_0| + |\Tmc|$.
+
+\par\medskip
+\textsfbf{Beweis.}~
+Angenommen, es werde ein I-Baum der Tiefe $>2^k$ erzeugt.
+Dazu muss irgendwann die $\exists'$-Regel auf einen Knoten $v$ der Tiefe $2^k$
+angewendet werden.
+Es gibt also einen Pfad $v_0,\dots,v_{2^k}$ von der Wurzel $v_0 = v_{\textsf{ini}}$
+zum Knoten $v_{2^k} = v$ (zeichnet den Baum und den Pfad selbst auf).
+Auf diesem Pfad gibt es $2^k+1$ Knoten.
+Da es aber nur $2^{\textsf{sub}(C_0,\Tmc)} \leq 2^k$ mögliche Knotenbeschriftungen gibt,
+muss es nach dem Schubfachprinzip zwei verschiedene Knoten $v_i,v_j$ auf dem Pfad geben
+mit derselben Beschriftung $\Lmc(v_i) = \Lmc(v_j)$.
+Also ist $v_j$ blockiert und damit auch $v$,
+was ein Widerspruch zur oben gefolgerten Anwendung der $\exists'$-Regel ist.
+Damit ist die Annahme widerlegt und die Behauptung bewiesen.
+\qedhere
 
 \parIII
 \parIII
