@@ -2390,7 +2390,7 @@ $C = D_1 \sqcup D_2$ im Induktionsschritt sind genauso wie in der Variante ohne 
       siehe wieder die obige Skizze.
       Da die $\forall$-Regel nicht anwendbar ist, gilt $D \in \Lmc(v')$.
       Da außerdem $\Lmc(v') \subseteq \Lmc(u)$, folgt auch hier $D \in \Lmc(u)$
-      ind nach Induktionsvoraussetzung $u \in D^\Imc$.
+      und nach IV $u \in D^\Imc$.
       \qedhere
   \end{description}
 
@@ -2417,15 +2417,49 @@ was ein Widerspruch zur oben gefolgerten Anwendung der $\exists'$-Regel ist.
 Damit ist die Annahme widerlegt und die Behauptung bewiesen.
 \qedhere
 
-\parIII
-\parIII
-\dots\ Dokument wird fortgesetzt \dots
+% ===================================================================
+\section*{T4.19~ Beispiel für Absorption}
+
+Wir betrachten die TBox, die aus folgenden zwei Konzeptinklusionen besteht.
+%
+%\begin{align*}
+%  A           & \sqsubseteq C  \tag{1} \\
+%  A \sqcap C' & \sqsubseteq D' \tag{2}
+%\end{align*}
+\[
+  (1)~~ A \sqsubseteq C
+  \qquad
+  (2)~~ A \sqcap C' \sqsubseteq D'
+\]
+Die zweite kann man umformen in die äquivalente Konzeptinklusion
+\[
+  (2')~~ A \sqsubseteq \lnot C' \sqcup D'
+\]
+und dann in (1) "`absorbieren"', d.\,h.\ die folgende Konzeptinklusion ist äquivalent
+zur ursprünglichen TBox:
+\[
+  A \sqsubseteq C \sqcap (\lnot C' \sqcup D')
+\]
+Bringt man diese Konzeptinklusion in Normalform $\top \sqsubseteq C_\Tmc$,
+dann sind zwei Disjunktionen ineinander geschachtelt;
+also erzeugt das Tableauverfahren 3 I-Bäume (probiert es aus).
+Im Gegensatz dazu treten bei der Normalisierung von (1) und (2)
+zwei Disjunktionen getrennt voneinander auf;
+also erzeugt das Tableauverfahren 4 I-Bäume.
+Durch Absorption hat man somit in diesem einfachen Beispiel
+eine nichtdeterministische Auswahl gespart.
+
+\goodbreak
 
 % ===================================================================
 % ===================================================================
 % ===================================================================
 \part{Komplexität}
 
+%\parIII
+%\parIII
+%\dots\ Dokument wird fortgesetzt \dots
+%
 % ===================================================================
 % ===================================================================
 % ===================================================================
