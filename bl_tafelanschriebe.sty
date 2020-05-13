@@ -1,4 +1,4 @@
-\RequirePackage{scrpage2}
+%\RequirePackage{scrpage2} %% obsolete --> use scrlayer-scrpage instead if needed
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[ngerman]{babel}
@@ -22,6 +22,14 @@
 \counterwithout{figure}{section}
 \renewcommand\thefigure{\arabic{figure}}
 \counterwithout{equation}{section}
+
+%\DeclareFontShape{U}{wasy}{b}{n}{%
+%<->wasyb10%
+%}{}
+
+\wasyfamily
+\DeclareFontShape{U}{wasy}{b}{n}{ <-10> ssub * wasy/m/n
+ <10> <10.95> <12> <14.4> <17.28> <20.74> <24.88>wasyb10 }{}
 
 \renewcommand\thepart{\arabic{part}}
 \renewcommand\partname{Kapitel}

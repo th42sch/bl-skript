@@ -41,7 +41,7 @@ Mit den Konzeptnamen
 \parI
 \begin{quote}
   \term{Student}, \term{Naturwissenschaft}, \term{Professor}, \term{Emeritus},
-  \term{PflichtVL}, \term{VL}, \term{Einfach}, \mbox{\term{Interessant}},\\
+  \term{PflichtVL}, \term{VL}, \term{Einfach}, \\ \mbox{\term{Interessant}},
   $A,B$
 \end{quote}
 %
@@ -302,7 +302,7 @@ Sei \Tmc die TBox aus dem vorangehenden Beispiel.
     Wegen der ersten Zeile von~\Tmc gilt
     $d \in (\exists\term{hört}.\term{Vorlesung})^\Imc$,
     also auch $d \in (\term{StudentIn} \sqcap \exists\term{hört}.\term{Vorlesung})^\Imc$.
-    Mit Zeile~3 von~\Tmc folgt wie gewünscht $d \in (\exists\term{bekanntMit}.\term{StudentIn})^\Imc$.    
+    Mit Zeile~3 von~\Tmc folgt dann $d \in (\exists\term{bekanntMit}.\term{StudentIn})^\Imc$.    
 \end{enumerate}
 %
 Dies ist bereits Schlussfolgern, denn wir haben implizites Wissen aus \Tmc abgeleitet:
@@ -365,6 +365,7 @@ z.\,B.\ ist mit $\Tmc_1=\emptyset$ und $\Tmc_2=\{A \sqsubseteq B\}$
 die Umkehrung von~(2) widerlegt, denn $\Tmc_2 \models A \sqsubseteq B$,
 aber $\Tmc_1 \not\models A \sqsubseteq B$.
 
+\enlargethispage{10mm}
 % ===================================================================
 \section*{T2.8~ Beispiel für Subsumtion als Ordnungsrelation}
 
@@ -481,7 +482,7 @@ und $\Tmc \models \term{MobilerPC} \sqsubseteq \term{Laptop}$ gelten.
 \end{beweis}
 
 \vspace*{-.5\baselineskip}
-\enlargethispage*{15mm}
+\enlargethispage{5mm}
 % ===================================================================
 \section*{T2.10~ Beispiel für inverse Rollen}
 
@@ -516,7 +517,7 @@ eine Instanz hat:
     ;
   \end{tikzpicture}
 \end{center}
-\goodbreak
+%
 In \ALCI kann man die zweite Konzeptinklusion in \Tmc durch
 \[
   \term{Vorlesung} \,\sqsubseteq\, \forall\term{gibt}^-.\lnot\term{Verrückt}
@@ -524,6 +525,7 @@ In \ALCI kann man die zweite Konzeptinklusion in \Tmc durch
 ersetzen. Dann wird \term{Professor} unerfüllbar bezüglich \Tmc
 (aber \Tmc hat immer noch Modelle).
 
+\goodbreak
 % ===================================================================
 \section*{T2.11~ Beispiele für Zahlenrestriktionen}
 
@@ -585,7 +587,7 @@ gegeben haben, dann ist
     %
     \parI
     \begin{center}
-      \parbox[t]{.4\linewidth}{%
+      \parbox[t]{.3\linewidth}{%
         \begin{tikzpicture}[%
           >=Latex,baseline=.2pt,
           every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
@@ -602,7 +604,7 @@ gegeben haben, dann ist
         \end{tikzpicture}%
       }%
       \hspace*{.1\linewidth}
-      \parbox[t]{.4\linewidth}{%
+      \parbox[t]{.5\linewidth}{%
         \begin{tikzpicture}[%
           >=Latex,baseline=.2pt,
           every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
@@ -634,7 +636,7 @@ gegeben haben, dann ist
     %
     \parI
     \begin{center}
-      \parbox[t]{.4\linewidth}{%
+      \parbox[t]{.3\linewidth}{%
         \begin{tikzpicture}[%
           >=Latex,baseline=.2pt,
           every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
@@ -653,7 +655,7 @@ gegeben haben, dann ist
         \end{tikzpicture}%
       }%
       \hspace*{.1\linewidth}
-      \parbox[t]{.4\linewidth}{%
+      \parbox[t]{.5\linewidth}{%
         \begin{tikzpicture}[%
           >=Latex,baseline=.2pt,
           every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
@@ -684,7 +686,7 @@ gegeben haben, dann ist
     %
     \parI
     \begin{center}
-      \parbox[t]{.4\linewidth}{%
+      \parbox[t]{.3\linewidth}{%
         \begin{tikzpicture}[%
           >=Latex,baseline=.2pt,
           every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
@@ -706,7 +708,7 @@ gegeben haben, dann ist
         \end{tikzpicture}%
       }%
       \hspace*{.1\linewidth}
-      \parbox[t]{.4\linewidth}{%
+      \parbox[t]{.5\linewidth}{%
         \begin{tikzpicture}[%
           >=Latex,baseline=.2pt,
           every state/.style={draw=black,thin,fill=black!10,inner sep=1mm,minimum size=8mm},
