@@ -1946,8 +1946,7 @@ Für alle $i \leq n$ ist $M_i$ realisierbar.
 % ===================================================================
 \section*{T4.11~ Beispiel für den Worst Case bei der Komplexitätsanalyse}
 
-Sei $n=2$. Dann ist
-$C_0 = \forall r^0.(\exists r.B \sqcap \exists r.\lnot B) \sqcap
+Wir betrachten $n=2$, also das Konzept $C_2 = \forall r^0.(\exists r.B \sqcap \exists r.\lnot B) \sqcap
        \forall r^1.(\exists r.B \sqcap \exists r.\lnot B)$.
 (Folie~4.25).
 Kürzt man nun das doppelt vorkommende Teilkonzept ab mit
@@ -1960,9 +1959,9 @@ Kürzt man nun das doppelt vorkommende Teilkonzept ab mit
 %
 $D = \exists r.B \sqcap \exists r.\lnot B$, dann ist
 \[
-  C_0 = D \sqcap \forall r.D.
+  C_2 = D \sqcap \forall r.D.
 \]
-Der Tableau-Algorithmus erzeugt folgenden I-Baum, 
+Der Tableau-Algorithmus erzeugt mit der Eingabe $C_2$ folgenden I-Baum, 
 der auf dem vollständigen Binärbaum der Tiefe 2 basiert:
 %
 \vspace*{-\baselineskip}
@@ -1973,16 +1972,16 @@ der auf dem vollständigen Binärbaum der Tiefe 2 basiert:
     every edge/.style={draw=black,thin}
   ]
     \node[state] (eps)                                   {};
-    \node[state] (0)  [below left =13mm and 18mm of eps] {};
-    \node[state] (1)  [below right=13mm and 18mm of eps] {};
-    \node[state] (00) [below left =11mm and  4mm of 0]   {};
-    \node[state] (01) [below right=11mm and  4mm of 0]   {};
-    \node[state] (10) [below left =11mm and  4mm of 1]   {};
-    \node[state] (11) [below right=11mm and  4mm of 1]   {};
+    \node[state] (0)  [below left =12mm and 18mm of eps] {};
+    \node[state] (1)  [below right=12mm and 18mm of eps] {};
+    \node[state] (00) [below left =10mm and  4mm of 0]   {};
+    \node[state] (01) [below right=10mm and  4mm of 0]   {};
+    \node[state] (10) [below left =10mm and  4mm of 1]   {};
+    \node[state] (11) [below right=10mm and  4mm of 1]   {};
     
     \node [above right=-8mm and 2mm of eps] {%
       \begin{tabular}{@{}l@{}}
-        $C_0$                             \\
+        $C_2$                             \\
         $D,~ \forall r.D$                 \\
         $\exists r.B,~ \exists r.\lnot B$
       \end{tabular}
