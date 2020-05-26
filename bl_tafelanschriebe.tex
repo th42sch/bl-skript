@@ -2455,6 +2455,239 @@ eine nichtdeterministische Auswahl gespart.
 % ===================================================================
 \part{Komplexität}
 
+
+\section*{5.1~ Beispiel für Typen}
+
+Wir betrachten die Eingabe $C_0=A$ und $\Tmc=\{\top\sqsubseteq
+C_\Tmc\}$ mit
+%
+\begin{align*}
+  %
+  C_\Tmc & = \exists r.\exists r.A\sqcap \forall
+    r.A'\sqcap (\neg A\sqcup \neg A')
+  %
+\end{align*}
+%
+Dann ist die Menge der Sub-Konzepte also: 
+%
+\[\text{sub}(C_0,\Tmc) = \{A,C_\Tmc,\exists r.\exists r.A,\exists r.A,
+\forall r.A',A',\neg A\sqcup \neg A',\neg A,\neg A'\}\]
+%
+Wegen $C_\Tmc\in t$ für jeden Typen für $C_0$ und \Tmc und der
+Typ-Bedingung für $\sqcap$, muss jeder Typ die Menge
+$M=\{C_\Tmc,\exists r\exists r.A,\forall r.A',\neg A\sqcup \neg
+A'\}$ enthalten. 
+Man kann sich leicht überzeugen, dass es insgesamt sechs Typen  
+für $C_0$ und \Tmc gibt, nämlich: 
+%
+\begin{align*}
+  %
+  t_0 & = M\cup \{\neg A,\neg A'\} & t_0' & = M\cup\{ \neg A,\neg
+  A',\exists r.A\} \\
+  %
+  t_1 & = M\cup \{\neg A, A'\} & t_2' & = M\cup\{ \neg A, A',\exists r.A\} \\
+  %
+  t_2 & = M\cup \{A,\neg A'\} & t_3' & = M\cup\{ A,\neg A',\exists r.A\}
+  %
+\end{align*}
+
+\bigskip
+Der Typ $t_0'$ ist schlecht in der Menge aller Typen: für $\exists
+r.A\in t_0'$ ist die Menge aus Definition 5.3 $\{A,A'\}$, aber kein Typ
+enthält $A$ und $A'$. Analog kann man sich überlegen, dass $t_1'$ und
+$t_2'$ ebenfalls schlecht sind. 
+
+Intuitiv ist $t_0'$ schlecht aus folgendem Grund. Angenommen, es gäbe
+ein Modell \Imc von $C_0$ und $\Tmc$ in dem $t_0'$ realisiert wird,
+das heißt $t_0'=\text{tp}_\Imc(d)$, für ein $d$. Da $\exists r.A\in
+t_0'$ und $\forall r.A'\in t_0'$ muss es ein $e$ geben mit $e\in
+A^\Imc$ und $e\in {A'}^\Imc$. Dann enthält aber der (semantische) Typ
+$\text{tp}_\Imc(e)$ sowohl
+$A$ als auch $A'$.  Da in Modellen von \Tmc jeder semantische Typ die Bedingungen für einen
+syntaktischen Typen erfüllt, müsste es einen solchen Typen in der
+Liste oben geben. Das ist jedoch nicht der Fall, also kann $t_0'$
+nicht in einem Modell von $C_0,\Tmc$ realisiert werden. 
+
+\bigskip
+Das Typeliminationsverfahren berechnet folgende Mengen: 
+%
+\begin{align*}
+  %
+  \Gamma_0 & = \{t_0,t_1,t_2,t_0',t_1',t_2'\} \\
+  %
+  \Gamma_1 & = \{t_0,t_1,t_2\} \\
+  %
+  \Gamma_2 & = \emptyset
+  %
+\end{align*}
+%
+da man sich überlegen kann, dass $t_0,t_1,t_2$ schlecht in $\Gamma_1$
+sind. 
+
+\section*{5.2~ Korrektheitsbeweis}
+
+Wir beginnen mit einem Beispiel für die Modellkonstruktion aus dem
+Korrektheitsbeweis. Sei $C_0=A$ und $\Tmc=\{\top\sqsubseteq C_\Tmc\}$
+mit 
+%
+\[C_\Tmc = \forall r.\exists r.A\sqcap (\neg A\sqcup \exists r.A).\]
+%
+Damit ist die Menge der Teilkonzepte 
+%
+\[\text{sub}(C_0,\Tmc)=\{A,C_\Tmc,\forall r.\exists r.A,\exists
+r.A,\neg A\sqcup\exists r.A,\neg A\}.\]
+%
+Ähnlich wie in T5.1 muss jeder Typ für $C_0$ und \Tmc die Menge
+$M=\{C_\Tmc,\forall r.\exists r.A,\neg A\sqcup \exists r.A\}$
+enthalten. Es gibt also die folgenden Typen: 
+%
+\begin{align*}
+  %
+  t_0 & = M\cup \{\neg A\} \\
+  %
+  t_1 & = M\cup \{A,\exists r.A\} \\
+  %
+  t_2 & = M\cup \{\neg A,\exists r.A\} 
+  %
+\end{align*}
+%
+Beachte, dass die Menge $M\cup\{A\}$ kein Typ ist wegen $\neg
+A\sqcup \exists r.A\in M$ und der $\sqcup$-Bedingung von Typen. Man
+kann sich leicht überzeugen, dass keiner von $t_0,t_1,t_2$ schlecht
+ist.
+
+Das konstruierte Modell ist nun wie folgt: 
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=5mm},
+    every edge/.style={draw=black,thin}
+  ]
+  
+    \node[state] (eps)                                    {$t_0$};
+    \node[state] (0)   [below left =10mm and 13mm of eps] {$t_1$};
+    \node[state] (1)   [below right=10mm and 13mm of eps] {$t_2$};
+     
+    \node [left =1mm of 0]   {$A$};
+    
+    \path[->]
+      (eps) edge node[pos=.3,left=.4mm]  {$r$} (0)
+      (eps) edge node[pos=.3,right=.7mm] {$r$} (1)
+%       (0)   edge node[pos=.2,left=0mm]  {$r$} (00)
+%       (1)   edge node[pos=.2,left=0mm]  {$r$} (10)
+%       (1)   edge node[pos=.2,right=.3mm] {$r$} (11)
+%       (11)  edge node[pos=.2,right]      {$r$} (110)
+    ;
+    
+%     \path (0) --(00)  node[draw,cross out, pos=0.6] {};
+%     \path (1) --(10)  node[draw,cross out, pos=0.6] {};
+%     \path (11)--(110) node[draw,cross out, pos=0.6] {};
+    
+    \path[->]
+    (0)  edge[out=240,in=300,looseness=12] node[pos=.3,left=.4mm] {$r$} (0)
+    (1)  edge[out=240,in=300,looseness=12] node[pos=.7,right=.4mm] {$r$} (1)
+    (0)  edge[out=20,in=160] node[pos=.5,above=.3mm] {$r$} (1)
+    (1)  edge[out=200,in=340] node[pos=.5,below=.3mm] {$r$} (0)
+%       (1)  edge[out=180,in=270]              (eps)
+%       (11) edge[out=240,in=190,looseness=12] (11)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
+
+Beweis der \textbf{Behauptung}: Für alle $C\in \text{sub}(C_0,\Tmc)$
+und alle $t\in \Gamma_i$ gilt: 
+%
+\[C\in t\quad\quad\text{impliziert}\quad\quad t\in C^\Imc.\]
+
+Wir beweisen die Behauptung durch strukturelle Induktion über den
+Aufbau der Konzepte. Für den Induktionsanfang unterscheiden wir die
+beiden Fälle $C=A$ und $C=\neg A$, für einen Konzeptnamen $A$.
+%
+\begin{itemize}
+
+  \item Für $C=A$, gilt die Behauptung per Definition von $\Imc$.
+
+  \item Für $C=\neg A\in t$ gilt wegen Bedingung 1 von Typen, dass
+    $A\notin t$, also $t\notin A^\Imc$, wegen der Definition von
+    $\Imc$. Daher auch $t\in (\neg A)^\Imc$.
+
+\end{itemize}
+
+Für den Induktionsschritt müssen wir vier Fälle unterscheiden.
+%
+\begin{itemize}
+
+  \item Falls $C=D\sqcap D'\in t$, dann auch $D,D'\in t$ wegen
+    Bedingung 2 von Typen. Mit der Induktionsvoraussetzung bekommen
+    wir $t\in D^\Imc$ und $t\in{D'}^\Imc$. Aus der Semantik folgt nun
+    $t\in (D\sqcap D')^\Imc$.
+
+  \item Falls $C=D\sqcup D'\in t$, dann auch $D\in t$ oder $D'\in t$ wegen
+    Bedingung 3 von Typen. Mit der Induktionsvoraussetzung bekommen
+    wir $t\in D^\Imc$ oder $t\in {D'}^\Imc$. Aus der Semantik folgt nun
+    $t\in (D\sqcup D')^\Imc$.
+
+  \item Falls $C=\exists r.D\in t$, dann gibt es einen Typen
+    $t'\in\Gamma_i$ sodass $\{D\}\cup\{E\mid \forall r.E\in
+    t\}\subseteq t'$, da $t$ nicht schlecht in $\Gamma_i$.
+    Wegen der Definition von $r^\Imc$ gilt $(t,t')\in r^\Imc$.
+    Außerdem bekommen wir $t'\in D^\Imc$ aus der
+    Induktionsvoraussetzung. Daher auch $t\in (\exists r.D)^\Imc$.
+
+  \item Falls $C=\forall r.D\in t$, dann sei $t'\in \Gamma_i$ ein
+    beliebiger Typ mit $(t,t')\in r^\Imc$. Aus der Definition von
+    $r^\Imc$ folgt dass $D\in t'$. Aus der Induktionsvoraussetzung
+    bekommen wir $t'\in D^\Imc$. Daher auch $t\in (\forall r.D)^\Imc$.
+
+\end{itemize}
+
+Das beendet den Beweis der Behauptung und müssen nur noch
+argumentieren, dass das konstruierte \Imc ein Modell von $C_0$ und
+\Tmc ist. 
+%
+\begin{itemize}
+
+  \item Wir haben angenommen, dass $C_0\in t_0$ für ein
+    $t_0\in\Gamma_i$. Wegen der Behauptung gilt also $t_0\in
+    C_0^\Imc$, also insbesondere $C_0^\Imc\neq \emptyset$.
+
+  \item Aus Bedingung 4 für Typen folgt dass $C_\Tmc\in t$, für jedes
+    $t\in \Gamma_i$. Wegen der Behauptung gilt also $t\in C_\Tmc^\Imc$
+    für alle $t\in \Gamma_i=\Delta^\Imc$, und daher insbesondere
+    $\Imc\models\Tmc$.
+
+\end{itemize}
+
+\section*{5.3~ Vollständigkeitsbeweis}
+
+Wir beweisen die \textbf{Behauptung}, dass $\Gamma\subseteq \Gamma_i$,
+für alle $i\leq k$ durch Induktion. 
+
+\medskip
+\textbf{Induktionsanfang} $i=0$. Alle
+(semantischen) Typen in $\Gamma$ erfüllen die Bedingungen~1-4 von
+syntaktischen Typen, daher ist $\Gamma\subseteq \Gamma_0$.
+
+\smallskip
+\textbf{Induktionsschritt} Sei $i>0$ und $t\in \Gamma\subseteq
+\Gamma_{i-1}$.  Zu zeigen: $t$ ist nicht schlecht in $\Gamma_{i-1}$. 
+
+\smallskip
+
+Sei $\exists r.C\in t$ und $S=\{C\}\cup\{D\mid \forall r.D\in t\}$. 
+
+Da $t\in\Gamma$ gibt es $d\in\Delta^\Imc$ mit $t_\Imc(d)=t$. 
+
+$\Rightarrow$\quad es gibt $e\in\Delta^\Imc$ mit $(d,e)\in r^\Imc$ und $e\in D^\Imc$, für alle $D\in S$. 
+
+$\Rightarrow$\quad $S\subseteq \text{tp}_\Imc(e)$ und
+$t'=\text{tp}_\Imc(e)\in \Gamma\subseteq\Gamma_{i-1}$. 
+
+$\Rightarrow$\quad $t$ ist nicht schlecht in $\Gamma_{i-1}$.
+
+
 %\parIII
 %\parIII
 %\dots\ Dokument wird fortgesetzt \dots
