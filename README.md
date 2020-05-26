@@ -11,12 +11,14 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
   * Kapitel 2 vollständig
   * Kapitel 3 vollständig bis auf Bild in T3.8 
-  * Kapitel 4 vollständig <!--**(bis einschl. Vorlesung 20.5., außer T4.12)**-->
+  * Kapitel 4 vollständig
+  * T5.1–T5.3
 
 ## Versionsgeschichte
 
 ###SoSe 2020
 
+**26.5.2020**&nbsp; T5.1–T5.3 hinzugefügt<br>
 **18.5.2020**&nbsp; kleine Korrektur in T4.11<br>
 **13.5.2020**&nbsp; T4.12–T4.19 hinzugefügt<br>
 **11./13.5.2020**&nbsp; kleine Korrekturen in T4.6–T4.8, T4.10–T4.11 <br>
