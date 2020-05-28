@@ -2951,6 +2951,48 @@ Dazu muss man allerdings auch alle Spielverläufe betrachten,
 die sich ergeben, wenn Spielerin~2 anstelle des mit $(*)$ markierten Zuges
 die verbleibenden zwei möglichen Züge macht (vervollständige selbst!).
 
+\pagebreak
+% ===================================================================
+\section*{T5.6~ Verbleibender Beweis der Korrektheit, {\boldmath "`$\Rightarrow$"'}}
+
+\textsfbf{Behauptung.}~ $\Imc$ ist ein Modell von $W$ und $\Tmc_S$\,.
+
+\parII
+\textsfbf{Beweis.}~
+Wegen $W^\Imc = \{w\}$ ist $W^\Imc \neq \emptyset$, und es bleibt zu zeigen,
+dass \Imc jede der Konzeptinklusionen (1)--(8) erfüllt.
+Wir zeigen hier, dass (2) erfüllt wird; die Argumentation für die übrigen Fälle
+kann man leicht selbst ergänzen (probiere es aus!).
+
+Um zu zeigen, dass
+\[
+  S_1 ~\sqsubseteq~ \exists r . (\neg V_0 \sqcap \cdots \sqcap \neg V_{n-1}) ~\sqcap~ \bigsqcap_{i < k} \exists r . V_i
+  \tag{2}
+\]
+von \Imc erfüllt wird, betrachten wir eine beliebige Instanz von $S_1$,
+d.\,h.\ ein Element $v \in S_1^\Imc$. Wir müssen zeigen, dass $v$ auch
+eine Instanz der rechten Seite von (2) ist.
+
+Da $\Delta^\Imc = V$ nach Definition von \Imc,
+muss $v$ ein Knoten des Baums $B := (V,E,\ell)$ sein,
+der die Gewinnstrategie repräsentiert.
+Sei $\ell(v) = (i,\pi)$.
+Nach Definition von $S_1^\Imc$ (Folie~5.29) ist $i=1$.
+Da $B$ die Eigenschaft (c) von Gewinnstrategien erfüllt (Folie~5.23),
+gibt es Knoten $v_0,\dots,v_k \in V$ mit $(v,v_i) \in E$ und $\ell(v_i) = (2,\pi_i)$
+für alle $i \leq k$, so dass $\pi_0,\dots,\pi_k$ alle 1-Variationen von $\pi$ sind.
+Nach Definition von $r^\Imc$ (Folie~5.29) folgt nun $(v,v_i) \in r^\Imc$ für alle  $i \leq k$,
+und nach Definition von $V_j^\Imc$ gibt es
+%
+\begin{itemize}
+  \item
+    $u_i \in \{v_0,\dots,v_k\}$ mit $u_i \in V_i^\Imc$, für alle $i \leq k$,\quad und ein
+  \item
+    $u \in \{v_0,\dots,v_k\}$ mit $u \notin V_0^\Imc \cup \dots \cup V_{n-1}^\Imc$.
+\end{itemize}
+%
+Also ist $v$ eine Instanz der rechten Seite von (2).
+\qedhere
 
 
 %\parIII
