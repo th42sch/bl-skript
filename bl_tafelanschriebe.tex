@@ -2456,7 +2456,8 @@ eine nichtdeterministische Auswahl gespart.
 \part{Komplexität}
 
 
-\section*{5.1~ Beispiel für Typen}
+% ===================================================================
+\section*{T5.1~ Beispiel für Typen}
 
 Wir betrachten die Eingabe $C_0=A$ und $\Tmc=\{\top\sqsubseteq
 C_\Tmc\}$ mit
@@ -2470,7 +2471,7 @@ C_\Tmc\}$ mit
 %
 Dann ist die Menge der Sub-Konzepte also: 
 %
-\[\text{sub}(C_0,\Tmc) = \{A,C_\Tmc,\exists r.\exists r.A,\exists r.A,
+\[\textsf{sub}(C_0,\Tmc) = \{A,C_\Tmc,\exists r.\exists r.A,\exists r.A,
 \forall r.A',A',\neg A\sqcup \neg A',\neg A,\neg A'\}\]
 %
 Wegen $C_\Tmc\in t$ für jeden Typen für $C_0$ und \Tmc und der
@@ -2524,8 +2525,11 @@ Das Typeliminationsverfahren berechnet folgende Mengen:
 da man sich überlegen kann, dass $t_0,t_1,t_2$ schlecht in $\Gamma_1$
 sind. 
 
-\section*{5.2~ Korrektheitsbeweis}
+\pagebreak
+% ===================================================================
+\section*{T5.2~ Korrektheitsbeweis}
 
+\textsfbf{Beispiel.}
 Wir beginnen mit einem Beispiel für die Modellkonstruktion aus dem
 Korrektheitsbeweis. Sei $C_0=A$ und $\Tmc=\{\top\sqsubseteq C_\Tmc\}$
 mit 
@@ -2534,7 +2538,7 @@ mit
 %
 Damit ist die Menge der Teilkonzepte 
 %
-\[\text{sub}(C_0,\Tmc)=\{A,C_\Tmc,\forall r.\exists r.A,\exists
+\[\textsf{sub}(C_0,\Tmc)=\{A,C_\Tmc,\forall r.\exists r.A,\exists
 r.A,\neg A\sqcup\exists r.A,\neg A\}.\]
 %
 Ähnlich wie in T5.1 muss jeder Typ für $C_0$ und \Tmc die Menge
@@ -2596,11 +2600,12 @@ Das konstruierte Modell ist nun wie folgt:
 \end{center}
 %
 
-Beweis der \textbf{Behauptung}: Für alle $C\in \text{sub}(C_0,\Tmc)$
+\textsfbf{Behauptung.}~ Für alle $C\in \textsf{sub}(C_0,\Tmc)$
 und alle $t\in \Gamma_i$ gilt: 
 %
 \[C\in t\quad\quad\text{impliziert}\quad\quad t\in C^\Imc.\]
 
+\textsfbf{Beweis.}~
 Wir beweisen die Behauptung durch strukturelle Induktion über den
 Aufbau der Konzepte. Für den Induktionsanfang unterscheiden wir die
 beiden Fälle $C=A$ und $C=\neg A$, für einen Konzeptnamen $A$.
@@ -2657,21 +2662,28 @@ argumentieren, dass das konstruierte \Imc ein Modell von $C_0$ und
     $t\in \Gamma_i$. Wegen der Behauptung gilt also $t\in C_\Tmc^\Imc$
     für alle $t\in \Gamma_i=\Delta^\Imc$, und daher insbesondere
     $\Imc\models\Tmc$.
+    \qedhere
 
 \end{itemize}
 
+% ===================================================================
 \section*{5.3~ Vollständigkeitsbeweis}
 
-Wir beweisen die \textbf{Behauptung}, dass $\Gamma\subseteq \Gamma_i$,
-für alle $i\leq k$ durch Induktion. 
+\textsfbf{Behauptung.}~
+$\Gamma\subseteq \Gamma_i$,
+für alle $i\leq k$.
 
-\medskip
-\textbf{Induktionsanfang} $i=0$. Alle
+\parII
+\textsfbf{Beweis}~
+per Induktion über $i$.
+
+\parI
+\textsfbf{Induktionsanfang} $i=0$. Alle
 (semantischen) Typen in $\Gamma$ erfüllen die Bedingungen~1-4 von
 syntaktischen Typen, daher ist $\Gamma\subseteq \Gamma_0$.
 
 \smallskip
-\textbf{Induktionsschritt} Sei $i>0$ und $t\in \Gamma\subseteq
+\textsfbf{Induktionsschritt} Sei $i>0$ und $t\in \Gamma\subseteq
 \Gamma_{i-1}$.  Zu zeigen: $t$ ist nicht schlecht in $\Gamma_{i-1}$. 
 
 \smallskip
@@ -2682,10 +2694,11 @@ Da $t\in\Gamma$ gibt es $d\in\Delta^\Imc$ mit $t_\Imc(d)=t$.
 
 $\Rightarrow$\quad es gibt $e\in\Delta^\Imc$ mit $(d,e)\in r^\Imc$ und $e\in D^\Imc$, für alle $D\in S$. 
 
-$\Rightarrow$\quad $S\subseteq \text{tp}_\Imc(e)$ und
-$t'=\text{tp}_\Imc(e)\in \Gamma\subseteq\Gamma_{i-1}$. 
+$\Rightarrow$\quad $S\subseteq t_\Imc(e)$ und
+$t'=t_\Imc(e)\in \Gamma\subseteq\Gamma_{i-1}$. 
 
 $\Rightarrow$\quad $t$ ist nicht schlecht in $\Gamma_{i-1}$.
+\qedhere
 
 
 %\parIII
