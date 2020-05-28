@@ -2667,7 +2667,7 @@ argumentieren, dass das konstruierte \Imc ein Modell von $C_0$ und
 \end{itemize}
 
 % ===================================================================
-\section*{5.3~ Vollständigkeitsbeweis}
+\section*{T5.3~ Vollständigkeitsbeweis}
 
 \textsfbf{Behauptung.}~
 $\Gamma\subseteq \Gamma_i$,
@@ -2700,6 +2700,256 @@ $t'=t_\Imc(e)\in \Gamma\subseteq\Gamma_{i-1}$.
 $\Rightarrow$\quad $t$ ist nicht schlecht in $\Gamma_{i-1}$.
 \qedhere
 
+\pagebreak
+% ===================================================================
+\section*{T5.4~ Beispiel für \textsf{ExpTime}-Spiele}
+
+Wir betrachten folgende zwei Beispiele.
+
+\parII
+\textsfbf{Spiel (a)} ist wie folgt definiert.
+%
+\begin{itemize}
+  \item
+    $\varphi = \lnot(p_1 \leftrightarrow p_2) \land \lnot(q_1 \leftrightarrow q_2)$
+  \item
+    Spielerin 1 kontrolliert Variablen $p_1,q_1$;
+    Spielerin 2 kontrolliert Variablen $p_2,q_2$.
+  \item
+    $\pi_0$ belegt alle Variablen mit 0.
+\end{itemize}
+Das heißt, dass Spielerin~1 nur gewinnen kann, wenn die Variablen $p_1,p_2$
+unterschiedlich belegt sind und ebenso die Variablen $q_1,q_2$.
+
+Folgendes ist ein möglicher Verlauf des Spiels.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every node/.style={draw=none,fill=none,inner sep=.4mm,minimum size=1mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node (p1)                     {$p_1$};
+    \node (p2)  [right=1mm of p1]  {$p_2$};
+    \node (q1)  [right=1mm of p2]  {$q_1$};
+    \node (q2)  [right=1mm of q1]  {$q_2$};
+    
+    \node (1p1) [below=3mm of p1]  {0};
+    \node (1p2) [below=3mm of p2]  {0};
+    \node (1q1) [below=3mm of q1]  {0};
+    \node (1q2) [below=3mm of q2]  {0};
+  
+    \node (2p1) [below=2mm of 1p1] {1};
+    \node (2p2) [below=2mm of 1p2] {0};
+    \node (2q1) [below=2mm of 1q1] {0};
+    \node (2q2) [below=2mm of 1q2] {0};
+  
+    \node (3p1) [below=2mm of 2p1] {1};
+    \node (3p2) [below=2mm of 2p2] {1};
+    \node (3q1) [below=2mm of 2q1] {0};
+    \node (3q2) [below=2mm of 2q2] {0};
+  
+    \node (4p1) [below=2mm of 3p1] {1};
+    \node (4p2) [below=2mm of 3p2] {1};
+    \node (4q1) [below=2mm of 3q1] {1};
+    \node (4q2) [below=2mm of 3q2] {0};
+  
+    \node (5p1) [below=2mm of 4p1] {1};
+    \node (5p2) [below=2mm of 4p2] {1};
+    \node (5q1) [below=2mm of 4q1] {1};
+    \node (5q2) [below=2mm of 4q2] {1};
+    
+    \node (AB) [above left=1mm and 3mm of 1p1] {};
+    \node      [left=0mm of AB] {{\footnotesize Anfangsbelegung $\pi_0$}};
+  
+    \path[->]
+      (1p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize Zug von Spielerin 1}} (2p1)
+      (2p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize Zug von Spielerin 2}} (3p1)
+      (3p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize Zug von Spielerin 1}} (4p1)
+      (4p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize Zug von Spielerin 2}} (5p1)
+      (AB) edge[-] (1p1)
+    ;
+    
+  \end{tikzpicture}
+\end{center}
+%
+Ab diesem Spielstand kann Spielerin~2 gewinnen, wenn sie immer den letzten Zug von
+Spielerin~1 "`rückgängig macht"' (bzw.\ passt, wenn Spielerin~1 das tut).
+
+\parII
+\textsfbf{Spiel (b)} ist definiert wie Spiel (a), außer dass die Formel geändert wird in
+\[
+    \varphi' = \varphi \lor (p_1 \land p_2 \land q_1 \land q_2).
+\]
+Durch das zusätzliche Disjunkt $(p_1 \land p_2 \land q_1 \land q_2)$ hat also
+Spielerin~1 eine weitere Möglichkeit zu gewinnen, nämlich wenn alle Variablen
+mit 1 belegt sind.
+
+Drei mögliche Spielverläufe sind wie folgt dargestellt.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every node/.style={draw=none,fill=none,inner sep=.4mm,minimum size=1mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node (p1)                     {$p_1$};
+    \node (p2)  [right=1mm of p1]  {$p_2$};
+    \node (q1)  [right=1mm of p2]  {$q_1$};
+    \node (q2)  [right=1mm of q1]  {$q_2$};
+    
+    \node (1p1) [below=3mm of p1]  {0};
+    \node (1p2) [below=3mm of p2]  {0};
+    \node (1q1) [below=3mm of q1]  {0};
+    \node (1q2) [below=3mm of q2]  {0};
+  
+    \node (2p1) [below=2mm of 1p1] {1};
+    \node (2p2) [below=2mm of 1p2] {0};
+    \node (2q1) [below=2mm of 1q1] {0};
+    \node (2q2) [below=2mm of 1q2] {0};
+  
+    \node (3p1) [below=2mm of 2p1] {1};
+    \node (3p2) [below=2mm of 2p2] {1};
+    \node (3q1) [below=2mm of 2q1] {0};
+    \node (3q2) [below=2mm of 2q2] {0};
+  
+    \node (4p1) [below=2mm of 3p1] {1};
+    \node (4p2) [below=2mm of 3p2] {1};
+    \node (4q1) [below=2mm of 3q1] {1};
+    \node (4q2) [below=2mm of 3q2] {0};
+    
+    \node (4all) [fit=(4p1) (4p2) (4q1) (4q2)] {};
+    
+    \node (52)  [below=6mm of 4all] {1~0~1~0};
+    \node (51)  [left =7mm of 52]   {1~1~1~1};
+    \node (53)  [right=7mm of 52]   {1~1~1~0};
+    
+    \node (63)  [below=2mm of 53]   {0~1~1~0};
+  
+%    \node (AB) [above left=1mm and 3mm of 1p1] {};
+%    \node      [left=0mm of AB] {{\footnotesize $\pi_0$}};
+  
+    \path[->]
+      (1p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize 1}} (2p1)
+      (2p1) edge[out=200,in=160,looseness=2.7] node (s1) [pos=.55,left=1mm] {{\footnotesize 2}} (3p1)
+      (3p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize 1}} (4p1)
+      (53) edge[out=350,in=10,looseness=2.7] node (s2) [pos=.55,right=1mm] {{\footnotesize 1}} (63)
+      
+      (4all) edge node [pos=.4,left=2mm]  {{\footnotesize 2}} (51)
+      (4all) edge node [pos=.4,left=0mm]  {{\footnotesize 2}} (52)
+      (4all) edge node [pos=.4,right=2mm] {{\footnotesize 2}} (53)
+      
+%      (AB) edge[-] (1p1)
+    ;
+    
+    \node [left =0mm of s1] {{\footnotesize $(*)$}};
+    \node [right=0mm of s2] {{\footnotesize $(**)$}};
+    
+  \end{tikzpicture}
+\end{center}
+%
+Dabei bedeutet die Verzweigung, dass hier drei mögliche Züge von Spielerin~2 in Betracht
+gezogen wurden. In den ersten beiden Fällen gewinnt Spielerin~1; im dritten Fall kann sie
+durch den mit $(**)$ dargestellten Zug gewinnen. Also gewinnt Spielerin~1 in allen drei dargestellten Spielverläufen.
+
+Allerdings kann es sein, dass Spielerin~2 statt des mit $(*)$ dargestellten Zuges einen anderen Zug macht. Darauf kommen wir im folgenden Beispiel zurück.
+
+\goodbreak
+% ===================================================================
+\section*{T5.5~ Beispiel für Gewinnstrategien}
+
+\textsfbf{In Spiel (a)}
+aus dem vorigen Beispiel hat Spielerin~2 folgende Gewinnstrategie.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    every node/.style = {draw=none, fill=none, inner sep=1mm, minimum size=1mm},
+    level 1/.style = {sibling distance = 50mm},
+    level 2/.style = {sibling distance = 18mm},
+    level 3/.style = {sibling distance = 18mm},
+    level 4/.style = {sibling distance = 4mm},
+    level 5/.style = {sibling distance = 4mm},
+    edge from parent/.style = {draw=black, thin, -}%
+  ]
+    \node {(1,\, \begin{tabular}[b]{@{}c@{\,}c@{\,}c@{\,}c@{}}$p_1$&$p_2$&$q_1$&$q_2$\\0&0&0&0\end{tabular})}
+      child {
+        node {(2, 1000)}
+        child {
+          node {(1, 1100)}
+          child {
+            node {(2, 0100)}
+            child {
+              node {(1, 0000)}
+              child {node {$\vdots$}}
+              child {node {$\vdots$}}
+              child {node {$\vdots$}}
+            }
+          }
+          child {
+            node {(2, 1110)}
+            child {
+              node {(1, 1111)}
+              child {node {$\vdots$}}
+              child {node {$\vdots$}}
+              child {node {$\vdots$}}
+            }
+          }
+          child {
+            node {(2, 1100)}
+            child {
+              node {(1, 1100)}
+              child {node {$\vdots$}}
+              child {node {$\vdots$}}
+              child {node {$\vdots$}}
+            }
+          }
+        }
+        edge from parent node[above left, draw=none, fill=none] {{\footnotesize "`$p_1$ umdrehen"'}}
+      }
+      child {
+        node {(2, 0010)}
+        child {
+          node {(1, 0011)}
+          child {node {$\vdots$}}
+          child {node {$\vdots$}}
+          child {node {$\vdots$}}
+        }
+%        edge from parent node[left=-1mm, draw=none, fill=none] {{\footnotesize \begin{tabular}{@{}rr@{}}"`$q_1$\\umdrehen"'\end{tabular}}}
+        edge from parent node[right=0mm, draw=none, fill=none] {{\footnotesize \begin{tabular}{@{}ll@{}}"`$q_1$\\umdrehen"'\end{tabular}}}
+      }
+      child {
+        node {(2, 0000)}
+        child {
+          node {(1, 0000)}
+          child {node {$\vdots$}}
+          child {node {$\vdots$}}
+          child {node {$\vdots$}}
+        }
+        edge from parent node[above right, draw=none, fill=none] {{\footnotesize "`passen"'}}
+      }
+    ;
+      
+  \end{tikzpicture}%
+\end{center}
+%
+Dabei zeigen die Kantenbeschriftungen in der 1.\ Ebene die Art des Zuges von Spielerin~2 an; die übrigen Beschriftungen kann man bei Bedarf leicht selbst ergänzen.
+
+\par\vspace*{-.2\baselineskip}
+Die Einträge \,$\vdots$\, bedeuten, dass der Baum ab dem entsprechenden Knoten
+unendlich fortgesetzt wird.
+Die Konfigurationen dieser Knoten kommen bis auf eine Ausnahme im bereits gezeichneten Baum vor; also ist deren Fortsetzung eindeutig bestimmt.
+Die Ausnahme ist die Konfiguration $(1,1111)$;
+dort kann man aber leicht selbst den Baum fortsetzen,
+bis man in wenigen Schritten in allen Pfaden Positionen erreicht,
+die bereits im gezeichneten Baum vorkommen.
+
+\parII
+\textsfbf{In Spiel (b)} hat Spielerin~2 \emph{keine} Gewinnstrategie,
+denn wir haben im vorigen Beispiel bereits gesehen,
+dass Spielerin~1 gewinnen kann.
+Dazu muss man allerdings auch alle Spielverläufe betrachten,
+die sich ergeben, wenn Spielerin~2 anstelle des mit $(*)$ markierten Zuges
+die verbleibenden zwei möglichen Züge macht (vervollständige selbst!).
 
 %\parIII
 %\parIII
