@@ -2994,6 +2994,46 @@ und nach Definition von $V_j^\Imc$ gibt es
 Also ist $v$ eine Instanz der rechten Seite von (2).
 \qedhere
 
+% ===================================================================
+\section*{T5.7~ Verbleibender Beweis der Korrektheit, {\boldmath "`$\Leftarrow$"'}}
+
+\textsfbf{Behauptung.}~ $(V,E,\ell)$ ist eine Gewinnstrategie für Spielerin~2.
+
+\parII
+\textsfbf{Beweis.}~
+Wir zeigen, dass $(V,E,\ell)$ die vier Eigenschaften einer Gewinnstrategie (Folie~5.23) 
+erfüllt. Dazu verwenden wir die Definition von $(V,E,\ell)$ von Folie~5.30
+sowie die Tatsache, dass das zugrunde liegende Modell \Imc
+die Konzeptinklusionen (1)--(8) erfüllt (Folien 5.27--5.28).
+%
+\begin{enumerate}
+  \item[\textsfbf{(a)}]
+    wird wegen (1) und der Definition von $(V,E,\ell)$ erfüllt.
+  \item[\textsfbf{(b)}]
+    Sei $\ell(v) = (2,\pi)$.
+    Dann ist $v \in S_2^\Imc$.
+    Wegen~(3) gibt es ein Element $v' \in \Delta^\Imc$
+    mit $(v,v') \in r^\Imc$
+    sowie 
+    %
+    \begin{enumerate}
+      \item[(i)] 
+        $v' \in (\lnot V_0 \sqcap \dots \sqcap \lnot V_{n-1})^\Imc$\quad oder
+      \item[(ii)] 
+        $v' \in V_i^\Imc$ für ein $i \in \{k,\dots,n-1\}$.
+    \end{enumerate}
+    %
+    Im Fall~(ii) garantiert (4), dass $v' \notin V_j^\Imc$ für alle $j \neq i$.
+    
+    Sei nun $\ell(v') = (i',\pi')$.
+    Wegen~(5) und~(6) ist somit in beiden Fällen $\pi'$ eine 2-Variation von $\pi$.
+    Außerdem liefert~(7), dass $v' \in S_1^\Imc$, also $i'=1$.
+  \item[\textsfbf{(c)}]
+    lässt sich ähnlich wie (b) zeigen, indem man (2) statt (3) nutzt.
+  \item[\textsfbf{(d)}]
+    gilt wegen (8).
+\qedhere
+\end{enumerate}
 
 %\parIII
 %\parIII
