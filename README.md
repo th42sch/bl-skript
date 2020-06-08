@@ -12,7 +12,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
   * Kapitel 2 vollständig
   * Kapitel 3 vollständig bis auf Bild in T3.8 
   * Kapitel 4 vollständig
-  * T5.1–T5.7
+  * T5.1–T5.8
 
 ## Versionsgeschichte
 
