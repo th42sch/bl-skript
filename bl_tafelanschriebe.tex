@@ -3036,6 +3036,120 @@ die Konzeptinklusionen (1)--(8) erfüllt (Folien 5.27--5.28).
 \qedhere
 \end{enumerate}
 
+\section*{T5.8~ Beispiel $i$-Typen und \ALC-Worlds}
+
+Sei $C_0=A\sqcap \exists r.B\sqcap\exists r.\neg B\sqcap\forall
+r.\exists r.\neg A$. Dann ist $\textsf{rd}(C_0)=2$ und die Menge der Subkonzepte: 
+%
+\[\textsf{sub}(C_0)=\{C_0,A,\exists r.B,B,\exists r.\neg B,\neg B,\forall
+r.\exists r.\neg A,\exists r.\neg A,\neg A\}.\]
+%
+Beispiele für $i$-Typen, $i\leq 2$: 
+%
+\begin{align*}
+  %
+  \text{$0$-Typ:} \quad & \{A,\neg B\} \\
+  %
+  \text{$1$-Typ:} \quad & \{A, B,\exists r.B,\exists r.\neg B\} \\
+  %
+  \text{$2$-Typ:} \quad & \{\neg A,\neg B,\exists r.B,\forall r.\exists
+  r.\neg A\}
+  %
+\end{align*}
+
+\ALC-Worlds$(C_0)$ hat einen erfolgreichen Lauf: 
+
+Zunächst wird der initiale Typ $t_0=\{C_0,A,\exists r.B,\exists r.\neg
+B,\forall r.\exists r.\neg A,\neg B\}$ geraten und folgender Aufruf zu
+$\texttt{recurse}$ getätigt: 
+%
+\[\texttt{recurse}(t_0,2,C_0)\]
+%
+Der Lauf kann nun als \emph{Aufrufbaum} dargestellt werden, wobei die Kanten
+immer mit der ``verursachenden'' Existenzrestriktion und dem
+entsprechenden $S$ beschriftet sind: 
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    every node/.style = {draw=none, fill=none, inner sep=1mm, minimum size=1mm},
+    level 1/.style = {sibling distance = 80mm},
+    level 2/.style = {sibling distance = 18mm},
+    level 3/.style = {sibling distance = 18mm},
+    level 4/.style = {sibling distance = 4mm},
+    level 5/.style = {sibling distance = 4mm},
+    edge from parent/.style = {draw=black, thin, ->}%
+  ]
+  \node {$\texttt{recurse}(t_0,2,C_0)$}
+      child {
+	node {$\texttt{recurse}(\{B,\exists r.\neg A,A\},1,C_0)$}
+        child {
+	  node {$\texttt{recurse}(\{\neg A,\neg B\},0,C_0\})$}
+	  edge from parent node[right, draw=none, fill=none]
+	{{\footnotesize\begin{tabular}{@{}ll@{}}$\exists r.\neg
+	  A$\\$S=\{\neg A\}$\end{tabular}}}
+        }
+        edge from parent node[above left, draw=none, fill=none]
+	{\footnotesize\begin{tabular}{@{}ll@{}}$\exists r.B$\\$S=\{B,\exists r.\neg
+	  A\}$\end{tabular}}
+      }
+      child {
+	node {$\texttt{recurse}(\{\neg B,\exists r.\neg A,A\},1,C_0)$}
+        child {
+          node {$\texttt{recurse}(\{\neg A,B\},0,C_0)$}
+	  edge from parent node[right, draw=none, fill=none]
+	{{\footnotesize\begin{tabular}{@{}ll@{}}$\exists
+	  r.\neg A$\\$S=\{\neg A\}$\end{tabular}}}
+        }
+        edge from parent node[above right, draw=none, fill=none]
+	{{\footnotesize\begin{tabular}{@{}ll@{}}$\exists r.\neg
+	  B$\\$S=\{\neg B,\exists r.\neg
+	  A\}$\end{tabular}}}
+      }
+    ;
+      
+  \end{tikzpicture}%
+\end{center}
+
+Aus dem Aufrufbaum von \texttt{recurse} können wir nun das folgende
+Modell ablesen:
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    every node/.style = {draw, fill, circle, inner sep=1mm, minimum
+    size=1mm},
+    level 1/.style = {sibling distance = 80mm},
+    level 2/.style = {sibling distance = 18mm},
+    level 3/.style = {sibling distance = 18mm},
+    level 4/.style = {sibling distance = 4mm},
+    level 5/.style = {sibling distance = 4mm},
+    edge from parent/.style = {draw=black, thin, ->}%
+  ]
+  \node[label=above right:{$A$}] {}
+      child {
+	node[label=left:{$A,B$} ] {}
+        child {
+	  node {}
+	  edge from parent node[right, draw=none, fill=none]
+	{$r$}
+        }
+        edge from parent node[above left, draw=none, fill=none]
+	{$r$}
+      }
+      child {
+	node[label=right:{$A$}] {}
+        child {
+          node [label=right:{$B$}]{}
+	  edge from parent node[right, draw=none, fill=none]
+	{$r$}
+        }
+        edge from parent node[above right, draw=none, fill=none]
+	{$r$}
+      }
+    ;
+      
+  \end{tikzpicture}%
+\end{center}
+
 %\parIII
 %\parIII
 %\dots\ Dokument wird fortgesetzt \dots
