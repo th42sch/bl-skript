@@ -3165,25 +3165,29 @@ Wir betrachten folgendes Beispiel.
     $\varphi = (\lnot p_1 \to p_2) \land (\lnot p_2 \to (p_4 \to \lnot p_3))$
   \item
     Spielerin 1 kontrolliert Variablen $p_1,p_3$;
-    Spielerin 2 kontrolliert Variablen $p_2,q_4$;
+    Spielerin 2 kontrolliert Variablen $p_2,p_4$;
     die Variablen werden genau in der Reihenfolge $p_1,\dots,p_4$ gespielt.
   \item
     (Eine Anfangsbelegung gibt es nicht.)
 \end{itemize}
 %
 Jeder Spielverlauf besteht somit aus genau 4 Zügen.
-Ein möglicher Spielverlauf, bei dem beide Spielerinnen ``optimal'' spielen,
+Ein möglicher Spielverlauf, bei dem beide Spielerinnen "`optimal"' spielen,
 ist folgender:
 %
 \begin{itemize}
   \item
-    Spielerin~1 belegt $p_1$ mit 1. \\
-    Sonst würde Spielerin~2 gewinnen, indem sie $p_2$ mit 0 belegt.
+    Spielerin~1 belegt $p_1$ mit 1.
+    \par
+    Sonst würde Spielerin~2 gewinnen, indem sie $p_2$ mit 0 belegt,
+    wodurch die erste Implikation und damit die gesamte Formel nicht erfüllt ist.
   \item
-    Spielerin~2 belegt $p_2$ mit 0. \\
+    Spielerin~2 belegt $p_2$ mit 0.
+    \par
     Sonst wäre die zweite Implikation immer wahr, und Spielerin~1 würde gewinnen.
   \item
-    Spielerin~1 belegt $p_3$ mit 0. \\
+    Spielerin~1 belegt $p_3$ mit 0.
+    \par
     Damit wird die dritte Implikation wahr und somit auch die zweite, egal wie $p_4$ belegt wird.
   \item
     Spielerin~2 belegt $p_4$ mit 0.
@@ -3201,8 +3205,8 @@ für Spielerin~1.
   \begin{tikzpicture}[%
     >=Latex,baseline=.2pt,
     every edge/.style={draw=black,thin},
-    level 1/.style = {sibling distance = 40mm, level distance = 12mm},
-    level 2/.style = {sibling distance = 40mm, level distance = 12mm},
+    level 1/.style = {sibling distance = 40mm, level distance = 10mm},
+    level 2/.style = {sibling distance = 40mm, level distance = 11mm},
     level 3/.style = {sibling distance = 16mm, level distance = 12mm},
     level 4/.style = {sibling distance = 16mm, level distance = 12mm},
     edge from parent/.style = {draw=black, thin, -}%

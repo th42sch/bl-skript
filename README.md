@@ -1,5 +1,5 @@
 # BL-Skript
-Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“. Das Dokument ist **in Bearbeitung.** Wer Fehler findet oder Verbesserungsvorschläge hat, legt bitte ein neues Issue an oder schreibt mir eine E-Mail.
+Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“. Das Dokument ist **in Bearbeitung.** Wer Fehler findet oder Verbesserungsvorschläge hat, legt bitte ein neues Issue an oder schreibt uns eine E-Mail.
 
 ## PDF-Datei
 
