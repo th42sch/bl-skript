@@ -3036,7 +3036,7 @@ die Konzeptinklusionen (1)--(8) erfüllt (Folien 5.27--5.28).
 \qedhere
 \end{enumerate}
 
-\section*{T5.8~ Beispiel $i$-Typen und \ALC-Worlds}
+\section*{{\boldmath T5.8~ Beispiel $i$-Typen und \ALC-Worlds}}
 
 Sei $C_0=A\sqcap \exists r.B\sqcap\exists r.\neg B\sqcap\forall
 r.\exists r.\neg A$. Dann ist $\textsf{rd}(C_0)=2$ und die Menge der Subkonzepte: 
@@ -3150,9 +3150,120 @@ Modell ablesen:
   \end{tikzpicture}%
 \end{center}
 
-%\parIII
-%\parIII
-%\dots\ Dokument wird fortgesetzt \dots
+\goodbreak
+% ===================================================================
+\section*{T5.9~ Beispiel eines \textsf{PSpace}-Spiels}
+
+Wir betrachten folgendes Beispiel.
+
+\begin{itemize}
+  \item
+    $\varphi = (\lnot p_1 \to p_2) \land (\lnot p_2 \to (p_4 \to \lnot p_3))$
+  \item
+    Spielerin 1 kontrolliert Variablen $p_1,p_3$;
+    Spielerin 2 kontrolliert Variablen $p_2,q_4$;
+    die Variablen werden genau in der Reihenfolge $p_1,\dots,p_4$ gespielt.
+  \item
+    (Eine Anfangsbelegung gibt es nicht.)
+\end{itemize}
+%
+Jeder Spielverlauf besteht somit aus genau 4 Zügen.
+Ein möglicher Spielverlauf, bei dem beide Spielerinnen ``optimal'' spielen,
+ist folgender:
+%
+\begin{itemize}
+  \item
+    Spielerin~1 belegt $p_1$ mit 1. \\
+    Sonst würde Spielerin~2 gewinnen, indem sie $p_2$ mit 0 belegt.
+  \item
+    Spielerin~2 belegt $p_2$ mit 0. \\
+    Sonst wäre die zweite Implikation immer wahr, und Spielerin~1 würde gewinnen.
+  \item
+    Spielerin~1 belegt $p_3$ mit 0. \\
+    Damit wird die dritte Implikation wahr und somit auch die zweite, egal wie $p_4$ belegt wird.
+  \item
+    Spielerin~2 belegt $p_4$ mit 0.
+\end{itemize}
+%
+Die gespielte Belegung 1000 erfüllt $\varphi$; somit gewinnt Spielerin~1.
+
+% ===================================================================
+\section*{T5.10~ Beispiel für eine Gewinnstrategie}
+
+Aus den Überlegungen im vorangegangenen Beispiel ergibt sich folgende Gewinnstrategie
+für Spielerin~1.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every edge/.style={draw=black,thin},
+    level 1/.style = {sibling distance = 40mm, level distance = 12mm},
+    level 2/.style = {sibling distance = 40mm, level distance = 12mm},
+    level 3/.style = {sibling distance = 16mm, level distance = 12mm},
+    level 4/.style = {sibling distance = 16mm, level distance = 12mm},
+    edge from parent/.style = {draw=black, thin, -}%
+  ]
+    \node {$\varepsilon$}
+      child {
+        node {1}
+        child {
+          node (10) {10}
+          child {
+            node (100) {100}
+            child {
+              node {1000}
+            }
+            child {
+              node {1001}
+            }
+          }
+        }
+        child {
+          node (11) {11}
+          child {
+            node (111) {111}
+            child {
+              node {1110}
+            }
+            child {
+              node {1111}
+            }
+          }
+        }
+      }
+    ;
+    
+    \node[above left =0mm and 8mm of 10]  (10l)  {};
+    \node[above left =0mm and 8mm of 100] (100l) {};
+    \node[above right=0mm and 8mm of 11]  (11l)  {};
+    \node[above right=0mm and 8mm of 111] (111l) {};
+    
+    \path[->]
+      (10l)  edge (10)
+      (100l) edge (100)
+      (11l)  edge (11)
+      (111l) edge (111)
+    ;
+    
+    \node [left =-2mm of 10l]  {\footnotesize 2.\ Implikation "`aktiviert"'};
+    \node [left =-2mm of 100l] {\footnotesize 2.\ Implikation wahr};
+    \node [right=-2mm of 11l]  {\footnotesize 2.\ Implikation "`deaktiviert"'};
+    \node [right=-2mm of 111l] {\footnotesize \begin{tabular}{@{}l@{}}Hier ist es egal,\\was Spielerin 1 tut.\end{tabular}};
+      
+  \end{tikzpicture}%
+\end{center}
+%
+Dabei sind die (partiellen) Belegungen als Wörter notiert;
+in der Wurzel (leeres Wort~$\varepsilon$) ist also noch keine Variable gesetzt,
+im Kind 1 wurde $p_1$ auf 1 gesetzt usw.
+In jedem Blatt steht eine Belegung, die $\varphi$ erfüllt.
+
+
+
+
+\parIII
+\parIII
+\textsfbf{\dots\ Dokument wird fortgesetzt \dots}
 %
 % ===================================================================
 % ===================================================================
