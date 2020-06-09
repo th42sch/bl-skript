@@ -16,7 +16,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
 ## Versionsgeschichte
 
-###SoSe 2020
+### SoSe 2020
 
 **8./9.6.2020**&nbsp; kleine Korrektur in T5.1; T5.8–T5.10 hinzugefügt<br>
 **2.6.2020**&nbsp; kleine Korrektur in T5.2<br>
@@ -30,7 +30,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 **27.4.2020**&nbsp; Umordnung von T3.4–T3.8<br>
 **23.4.2020**&nbsp; Korrektur T2.5–T2.6 und T2.12 hinzugefügt<br>
 
-###SoSe 2019
+### SoSe 2019
 
 **20.5.2019**&nbsp; T4.8–T4.11<br>
 **12.5.2019**&nbsp; T4.1–T4.7<br>
