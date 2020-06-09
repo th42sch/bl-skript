@@ -3071,12 +3071,14 @@ entsprechenden $S$ beschriftet sind:
 %
 \begin{center}
   \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every edge/.style={draw=black,thin},
     every node/.style = {draw=none, fill=none, inner sep=1mm, minimum size=1mm},
-    level 1/.style = {sibling distance = 80mm},
-    level 2/.style = {sibling distance = 18mm},
+    level 1/.style = {sibling distance = 80mm, level distance=18mm},
+    level 2/.style = {sibling distance = 18mm, level distance=20mm},
     level 3/.style = {sibling distance = 18mm},
-    level 4/.style = {sibling distance = 4mm},
-    level 5/.style = {sibling distance = 4mm},
+    level 4/.style = {sibling distance =  4mm},
+    level 5/.style = {sibling distance =  4mm},
     edge from parent/.style = {draw=black, thin, ->}%
   ]
   \node {$\texttt{recurse}(t_0,2,C_0)$}
@@ -3088,7 +3090,7 @@ entsprechenden $S$ beschriftet sind:
 	{{\footnotesize\begin{tabular}{@{}ll@{}}$\exists r.\neg
 	  A$\\$S=\{\neg A\}$\end{tabular}}}
         }
-        edge from parent node[above left, draw=none, fill=none]
+        edge from parent node[above left=-1mm and -1mm, draw=none, fill=none]
 	{\footnotesize\begin{tabular}{@{}ll@{}}$\exists r.B$\\$S=\{B,\exists r.\neg
 	  A\}$\end{tabular}}
       }
@@ -3100,7 +3102,7 @@ entsprechenden $S$ beschriftet sind:
 	{{\footnotesize\begin{tabular}{@{}ll@{}}$\exists
 	  r.\neg A$\\$S=\{\neg A\}$\end{tabular}}}
         }
-        edge from parent node[above right, draw=none, fill=none]
+        edge from parent node[above right=-1mm and -1mm, draw=none, fill=none]
 	{{\footnotesize\begin{tabular}{@{}ll@{}}$\exists r.\neg
 	  B$\\$S=\{\neg B,\exists r.\neg
 	  A\}$\end{tabular}}}
@@ -3115,8 +3117,10 @@ Modell ablesen:
 %
 \begin{center}
   \begin{tikzpicture}[%
-    every node/.style = {draw, fill, circle, inner sep=1mm, minimum
-    size=1mm},
+    >=Latex,baseline=.2pt,
+    every node/.style={circle,draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=5mm},
+%    every node/.style = {draw, fill, circle, inner sep=1mm, minimum size=1mm},
+    every edge/.style={draw=black,thin},
     level 1/.style = {sibling distance = 80mm},
     level 2/.style = {sibling distance = 18mm},
     level 3/.style = {sibling distance = 18mm},
