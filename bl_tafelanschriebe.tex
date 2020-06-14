@@ -3281,12 +3281,12 @@ In jedem Blatt steht eine Belegung, die $\varphi$ erfüllt.
 
   \item \emph{lokaler Rollenwertvergleich:}
     %
-    \[\text{KorrekterStudent}\equiv \text{Student}\sqcup
+    \[\text{KorrekterStudent}\equiv \text{Student}\sqcap
     (\text{hört}\circ\text{angebotenVon}\sqsubseteq
   \text{eingeschriebenAn})\]
     %
     Umgangssprachlich: ``korrekte Studierende sind Studierende, die an
-    allen Einrichtungen, an denen sie einen Kurs sind, auch
+    allen Einrichtungen, an denen sie einen Kurs hören, auch
     eingeschrieben sind''
     
 \end{enumerate}
@@ -3338,13 +3338,13 @@ Dann gilt:
 
 \begin{align*}
   %
-  (\text{hört}\circ\text{angebotenVon})^\Imc(\text{hanna}) &=
+  (\text{hört}\ \text{angebotenVon})^\Imc(\text{hanna}) &=
   \{\text{uni$\_$hb}\} \\
   %
-  (\text{hört}\circ\text{angebotenVon})^\Imc(\text{klaus}) &=
+  (\text{hört}\ \text{angebotenVon})^\Imc(\text{klaus}) &=
   \{\text{uni$\_$hb},\text{hs$\_$hb}\} \\
   %
-  (\text{hört}\circ\text{angebotenVon})^\Imc(\text{BL}) &= \emptyset \\
+  (\text{hört}\ \text{angebotenVon})^\Imc(\text{BL}) &= \emptyset \\
   %
   & ~\vdots \\
   %
