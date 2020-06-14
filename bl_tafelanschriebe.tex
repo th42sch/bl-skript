@@ -3267,11 +3267,284 @@ im Kind 1 wurde $p_1$ auf 1 gesetzt usw.
 In jedem Blatt steht eine Belegung, die $\varphi$ erfüllt.
 
 
+\section*{T5.11~ Beispiele für Rollenwertvergleiche}
 
+\begin{enumerate}
+
+  \item \emph{globaler Rollenwertvergleich:} wie auf Folie 5.64 unten
+    %
+    \[\text{hört}\circ\text{angebotenVon}\sqsubseteq
+    \text{eingeschriebenAn}\]
+    %
+    Umgangssprachlich: ``wer einen Kurs hört, der irgendwo angeboten
+    wird, ist ebenda eingeschrieben''
+
+  \item \emph{lokaler Rollenwertvergleich:}
+    %
+    \[\text{KorrekterStudent}\equiv \text{Student}\sqcup
+    (\text{hört}\circ\text{angebotenVon}\sqsubseteq
+  \text{eingeschriebenAn})\]
+    %
+    Umgangssprachlich: ``korrekte Studierende sind Studierende, die an
+    allen Einrichtungen, an denen sie einen Kurs sind, auch
+    eingeschrieben sind''
+    
+\end{enumerate}
+
+Betrachten wir die folgende Interpretation $\mathcal{I}$:
+
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every node/.style={ellipse,draw,fill=none,inner sep=.4mm,minimum size=1mm},
+    every edge/.style={draw=black,thin}
+  ]
+  \node (p1)  [label=above:{$\text{Student}$}] {$\text{hanna}$}; 
+  \node (p2)  [below=2cm of p1]  {$\text{uni$\_$hb}$};
+  \node (p3)  [below right=1cm of p1]  {$\text{BL}$};
+    
+  \node (q1)  [right=4cm of p1, label=above:{$\text{Student}$}] {$\text{klaus}$};
+  \node (q2)  [below=2cm of q1]  {$\text{hs$\_$hb}$};
+  \node (q3)  [below right=1cm of q1]  {$\text{fahrzeugbau}$};
+   
+  \draw[->] (p1) edge node[draw=none,left=-6mm] {$\text{eingeschriebenAn}$} (p2);
+  \draw[->] (p1) edge node[draw=none,pos=.2, right=1mm] {$\text{hört}$} (p3);
+  \draw[->] (p3) edge node[draw=none,pos=.6,right=-3mm]
+  {$\text{angebotenVon}$} (p2);
+
+  \draw[->] (q1) edge node[draw=none,left=-6mm] {$\text{eingeschriebenAn}$} (q2);
+  \draw[->] (q1) edge node[draw=none,pos=.2,right=2mm] {$\text{hört}$} (q3);
+  \draw[->] (q3) edge node[draw=none,pos=.6,right=-3mm]
+  {$\text{angebotenVon}$} (q2);
+
+  \draw[->] (q1) edge node[draw=none,above=1mm] {$\text{hört}$} (p3);
+
+%     \path[->]
+%       (1p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize 1}} (2p1)
+%       (2p1) edge[out=200,in=160,looseness=2.7] node (s1) [pos=.55,left=1mm] {{\footnotesize 2}} (3p1)
+%       (3p1) edge[out=200,in=160,looseness=2.7] node [pos=.55,left=1mm] {{\footnotesize 1}} (4p1)
+%       (53) edge[out=350,in=10,looseness=2.7] node (s2) [pos=.55,right=1mm] {{\footnotesize 1}} (63)
+%       
+%       (4all) edge node [pos=.4,left=2mm]  {{\footnotesize 2}} (51)
+%       (4all) edge node [pos=.4,left=0mm]  {{\footnotesize 2}} (52)
+%       (4all) edge node [pos=.4,right=2mm] {{\footnotesize 2}} (53)
+%       
+%     ;
+    
+  \end{tikzpicture}
+\end{center}
+
+Dann gilt: 
+
+\begin{align*}
+  %
+  (\text{hört}\circ\text{angebotenVon})^\Imc(\text{hanna}) &=
+  \{\text{uni$\_$hb}\} \\
+  %
+  (\text{hört}\circ\text{angebotenVon})^\Imc(\text{klaus}) &=
+  \{\text{uni$\_$hb},\text{hs$\_$hb}\} \\
+  %
+  (\text{hört}\circ\text{angebotenVon})^\Imc(\text{BL}) &= \emptyset \\
+  %
+  & ~\vdots \\
+  %
+  (\text{eingeschriebenAn})^\Imc(\text{hanna}) &=
+  \{\text{uni$\_$hb}\} \\
+  %
+  (\text{eingeschriebenAn})^\Imc(\text{klaus}) &=
+  \{\text{hs$\_$hb}\} \\
+  %
+  (\text{eingeschriebenAn})^\Imc(\text{BL}) &= \emptyset
+  \\
+  %
+  & ~\vdots
+  %
+\end{align*}
+%
+Und damit:
+%
+\[{\underbrace{(\text{hört}\circ\text{angebotenVon}\sqsubseteq
+  \text{eingeschriebenAn})}_{\rho}}^\Imc =
+\{\text{hanna},\text{BL},\text{fahrzeugbau},\text{uni$\_$hb},\text{hs$\_$hb}\}\]
+Deshalb gilt:
+%
+\begin{itemize}
+
+  \item $\text{hanna}\in \text{KorrekterStudent}^\Imc$, aber
+    $\text{klaus}\notin \text{KorrekterStudent}^\Imc$;
+
+  \item $\Imc$ erfüllt $\rho$ \emph{nicht};
+
+
+\end{itemize}
+
+
+\section*{T5.12~ Formalisierung von Dominoproblemen}
+
+Die Instanz des Dominoproblems ist $\mathcal{D} = (T,H,V)$: 
+%
+\begin{align*}
+  %
+  T & =\{t_1,t_2,t_3\} \\
+  %
+  H & = \{(t_1,t_2), (t_2,t_1), (t_3,t_3) \} \\
+  %
+  V & = \{(t_1,t_3), (t_2,t_3), (t_3,t_1), (t_3,t_2) \}
+  %
+\end{align*}
+%
+Beachtet: die Quadrate dürfen \emph{nicht gedreht} werden. 
+
+Die angegebene Lösung (Folie 5.69) ist dann: 
+%
+\begin{align*}
+  %
+  &\tau(0,0) = t_1, \quad\tau(1,0)=t_2, \quad\tau(2,0)=t_1,\ldots, \\
+  %
+  &\tau(0,1) = t_1, \quad\tau(1,1)=t_3, \quad\ldots, \\
+  %
+  &\tau(0,2) = t_1, \quad\ldots, \\
+  %
+  & \vdots
+  %
+\end{align*}
+
+
+\section*{T5.13~ $\Rightarrow$-Richtung von Lemma~5.33}
+
+Die konstruierte Interpretation sieht wie folgt aus (die Konzeptnamen
+$A_{t_i}$ sind zufällig gewählt):
+
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every node/.style={circle,draw,fill=none,inner sep=.4mm,minimum size=1mm},
+    every edge/.style={draw=black,thin}
+  ]
+  \node (p1)  [label=below right:{$A_{t_1}$}] {$(0,0)$}; 
+  \node (p2)  [label=below right:{$A_{t_2}$},right=2cm of p1]  {$(1,0)$};
+  \node (p3)  [label=below right:{$A_{t_3}$},right=2cm of p2]  {$(2,0)$};
+  \node (p4)  [draw=none,right=2cm of p3]  {$\ldots$};
+    
+  \node (q1)  [label=below right:{$A_{t_3}$},above=2cm of p1] {$(0,1)$}; 
+  \node (q2)  [label=below right:{$A_{t_1}$},right=2cm of q1]  {$(1,1)$};
+  \node (q3)  [label=below right:{$A_{t_2}$},right=2cm of q2]  {$(2,1)$};
+  \node (q4)  [draw=none,right=2cm of q3]  {$\ldots$};
+
+  \node (r1)  [draw=none, above=2cm of q1] {$\vdots$}; 
+  \node (r2)  [draw=none, above=2cm of q2]  {$\vdots$};
+  \node (r3)  [draw=none, above=2cm of q3]  {$\vdots$};
+    
+%   \path[->] (p1) edge (p2) edge (p3) edge (p4);
+  \draw[->] (p1) edge node[above,draw=none] {$r_x$} (p2);
+  \draw[->] (p2) edge node[above,draw=none] {$r_x$} (p3);
+  \draw[->] (p3) edge node[above,draw=none] {$r_x$} (p4);
+
+  \draw[->] (q1) edge node[above,draw=none] {$r_x$} (q2);
+  \draw[->] (q2) edge node[above,draw=none] {$r_x$} (q3);
+  \draw[->] (q3) edge node[above,draw=none] {$r_x$} (q4);
+
+  \draw[->] (p1) edge node[right,draw=none] {$r_y$} (q1);
+  \draw[->] (q1) edge node[right,draw=none] {$r_y$} (r1);
+
+  \draw[->] (p2) edge node[right,draw=none] {$r_y$} (q2);
+  \draw[->] (q2) edge node[right,draw=none] {$r_y$} (r2);
+
+  \draw[->] (p3) edge node[right,draw=none] {$r_y$} (q3);
+  \draw[->] (q3) edge node[right,draw=none] {$r_y$} (r3);
+
+  \end{tikzpicture}
+  %
+\end{center}
+
+Man kann relativ leicht zeigen, dass die konstruierte Interpretation
+alle Konzeptinklusionen der TBox $\Tmc_{\mathcal{D}}$ erfüllt
+(siehe Fragebogen).
+
+
+
+\section*{T5.14~ $\Leftarrow$-Richtung von Lemma~5.33 -- Vorbereitung}
+
+Sei $\Imc$ ein Modell von $\top$ bzgl. \Tmc.
+Wir konstruieren in zwei Schritten die Abbildung
+$f:\mathbb{N}\times\mathbb{N}\to \Delta^\Imc$.
+
+\smallskip
+\textbf{Schritt 1:}
+
+\begin{itemize}
+
+  \item Setze $f(0,0)=d$ für ein beliebiges $d\in \Delta^\Imc$.
+
+  \item Für alle $i=0,1,2,\ldots$:
+
+    \begin{itemize}
+
+      \item wähle $d\in \Delta^\Imc$ mit $(f(i,i),d)\in r_x^\Imc$ und
+	setze $f(i+1,i)=d$
+
+      \item wähle $e\in \Delta^\Imc$ mit $(f(i+1,i),e)\in r_y^\Imc$ und
+	setze $f(i+1,i+1)=e$
+
+    \end{itemize}
+
+    Beachte: Alle diese Elemente $d,e$ existieren, da \Imc die
+    Konzeptinklusion~(1)
+    %
+    \[\top\sqsubseteq \exists r_x.\top\sqcap \exists
+    r_y.\top\] 
+    %
+    erfüllt.
+
+\end{itemize}
+
+\smallskip
+\textbf{Schritt 2:} Wir ``vervollständigen'' $f$ indem wir die
+folgenden Schritte erschöpfend anwenden: 
+%
+\begin{itemize}
+
+  \item Wenn $f(i,j)$, $f(i+1,j)$ und $f(i+1,j+1)$ definiert sind und
+    $f(i,j+1)$ noch nicht, dann wähle $d\in \Delta^\Imc$ mit
+    $(f(i,j),d)\in r_y^\Imc$ und $(d,f(i+1,j+1))\in r_x^\Imc$ und
+    setze $f(i,j+1)=d$.
+
+  \item Wenn $f(i,j)$, $f(i,j+1)$ und $f(i+1,j+1)$ definiert sind und
+    $f(i+1,j)$ noch nicht, dann wähle $d\in \Delta^\Imc$ mit
+    $(f(i,j),d)\in r_x^\Imc$ und $(d,f(i+1,j+1))\in r_y^\Imc$ und
+    setze $f(i+1,j)=d$.
+
+\end{itemize}
+%
+Alle diese Elemente $d$ existieren da $\Imc$ die
+Rollenwertvergleiche~(4) und die Konzeptinklusion~(1) erfüllt. 
+
+
+
+\section*{T5.15~ $\Leftarrow$-Richtung von Lemma~5.33}
+
+Wir zeigen, dass $\tau$ eine Lösung ist: 
+%
+\begin{itemize}
+
+  \item \emph{$\tau$ ist wohldefiniert}: Wegen
+    Konzeptinklusion~(2) gibt es für jedes $d\in \Delta^\Imc$ genau
+    ein $t$ sodass $d\in A_t^\Imc$. Damit gibt 
+    es für jedes $(i,j)\in \mathbb{N}\times\mathbb{N}$ genau ein $t$
+    mit $\tau(i,j)=t$.
+
+  \item \emph{$\tau$ ist eine Lösung}: Wegen
+    Konzeptinklusionen~(3) sind die horizontalen bzw.\ vertikalen
+    Passbedingungen erfüllt. 
+
+\end{itemize}
+
+
+\bigskip\bigskip
+\textbf{Dokument wird fortgesetzt.}
 
 \parIII
 \parIII
-\textsfbf{\dots\ Dokument wird fortgesetzt \dots}
 %
 % ===================================================================
 % ===================================================================
