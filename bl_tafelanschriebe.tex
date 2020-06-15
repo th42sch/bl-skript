@@ -3401,7 +3401,7 @@ Die angegebene Lösung (Folie 5.69) ist dann:
   %
   &\tau(0,0) = t_1, \quad\tau(1,0)=t_2, \quad\tau(2,0)=t_1,\ldots, \\
   %
-  &\tau(0,1) = t_1, \quad\tau(1,1)=t_3, \quad\ldots, \\
+  &\tau(0,1) = t_3, \quad\tau(1,1)=t_3, \quad\ldots, \\
   %
   &\tau(0,2) = t_1, \quad\ldots, \\
   %
@@ -3421,14 +3421,19 @@ $A_{t_i}$ sind zufällig gewählt):
     every node/.style={circle,draw,fill=none,inner sep=.4mm,minimum size=1mm},
     every edge/.style={draw=black,thin}
   ]
-  \node (p1)  [label=below right:{$A_{t_1}$}] {$(0,0)$}; 
-  \node (p2)  [label=below right:{$A_{t_2}$},right=2cm of p1]  {$(1,0)$};
-  \node (p3)  [label=below right:{$A_{t_3}$},right=2cm of p2]  {$(2,0)$};
+  \node (p1)  [label=below right:{$A_{t_1}$}] {$\langle 0,0\rangle$}; 
+  \node (p2)  [label=below right:{$A_{t_2}$},right=2cm of p1]
+  {$\langle 1,0\rangle$};
+  \node (p3)  [label=below right:{$A_{t_3}$},right=2cm of p2]
+  {$\langle 2,0\rangle$};
   \node (p4)  [draw=none,right=2cm of p3]  {$\ldots$};
     
-  \node (q1)  [label=below right:{$A_{t_3}$},above=2cm of p1] {$(0,1)$}; 
-  \node (q2)  [label=below right:{$A_{t_1}$},right=2cm of q1]  {$(1,1)$};
-  \node (q3)  [label=below right:{$A_{t_2}$},right=2cm of q2]  {$(2,1)$};
+  \node (q1)  [label=below right:{$A_{t_3}$},above=2cm of p1]
+  {$\langle 0,1\rangle$}; 
+  \node (q2)  [label=below right:{$A_{t_1}$},right=2cm of q1]
+  {$\langle 1,1\rangle$};
+  \node (q3)  [label=below right:{$A_{t_2}$},right=2cm of q2]
+  {$\langle 2,1\rangle$};
   \node (q4)  [draw=none,right=2cm of q3]  {$\ldots$};
 
   \node (r1)  [draw=none, above=2cm of q1] {$\vdots$}; 
