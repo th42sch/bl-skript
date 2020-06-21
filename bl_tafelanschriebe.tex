@@ -3559,6 +3559,190 @@ Wir zeigen, dass $\tau$ eine Lösung ist:
 % ===================================================================
 % ===================================================================
 % ===================================================================
+
+\section*{T6.9~ Beispiel Normalisierung}
+
+Betrachten wir eine TBox mit den folgenden Konzeptinklusionen: 
+%
+\begin{align*}
+  %
+  A\sqcap \exists r.B & \sqsubseteq A \\
+  %
+  A\sqcap B & \sqsubseteq \exists r.A 
+  %
+\end{align*}
+%
+Um komplexe Konzepte links und rechts von $\sqsubseteq$ soweit
+wie möglich vermeiden, führen wir zwei neue Konzeptnamen $A_{\exists
+r.B}$ und $A_{\exists r.A}$ ein und erhalten die folgenden Inklusionen: 
+%
+\begin{align*}
+  %
+  A\sqcap A_{\exists r.B} & \sqsubseteq A  & \exists r.B &
+  \sqsubseteq A_{\exists r.B} \\
+  %
+  A\sqcap B & \sqsubseteq A_{\exists r.A} & A_{\exists r.A} &\sqsubseteq
+  \exists r.A
+  %
+\end{align*}
+%
+In den beiden linken Konzeptinklusionen kommen nun nur Konzeptnamen
+und Konjunktion vor; in den beiden rechten kommen zwar
+Existenzrestriktionen vor, dafür aber keine Konjunktionen.
+
+\section*{T6.10~ Beispiel Subsumtion mit TBox}
+
+Wir betrachten folgende TBox (in Normalform): 
+%
+\begin{align}
+  %
+  \Tmc = \{\ & A_2\sqsubseteq A_1 \label{eq:el1}\\
+  %
+  & A_1\sqsubseteq \exists r.A_3  \label{eq:el2}\\
+  %
+  & A_1\sqsubseteq \exists s.A_1 \label{eq:el3}\\
+  %
+  & A_1\sqcap A_2\sqsubseteq A_3  \label{eq:el4}\\
+  %
+  & \exists r.A_3 \sqsubseteq A_2 \  \label{eq:el5}\}
+  %
+\end{align}
+%
+Durch erschöpfende Anwendung von \textbf{\textsf{R1}} erhalten wir die
+folgenden Konzeptinklusionen: 
+%
+\begin{equation}
+  %
+  A_1\sqsubseteq A_1 \qquad A_2\sqsubseteq A_2\qquad A_3\sqsubseteq
+  A_3 \label{eq:el6}
+  %
+\end{equation}
+%
+Durch erschöpfende Anwendung von \textbf{\textsf{R2}} erhalten wir die
+folgenden Konzeptinklusionen: 
+%
+\begin{equation}
+  %
+  A_1\sqsubseteq \top \qquad A_2\sqsubseteq \top\qquad A_3\sqsubseteq
+  \top \label{eq:el7}
+  %
+\end{equation}
+%
+Nun bekommt man durch Anwendung von \textbf{\textsf{R3}}
+auf~\eqref{eq:el1},~\eqref{eq:el6} und~\eqref{eq:el4}: 
+%
+\begin{equation}
+  %
+  A_2\sqsubseteq A_3 \label{eq:el8} \end{equation}
+%
+Durch Anwendung von \textbf{\textsf{R4}}
+auf~\eqref{eq:el2},~\eqref{eq:el6} und~\eqref{eq:el5} erhält man
+außerdem:
+%
+\begin{equation}
+  %
+  A_1\sqsubseteq A_2 \label{eq:el9}
+  %
+\end{equation}
+%
+Jetzt können wir nochmal \textbf{\textsf{R3}} auf~\eqref{eq:el8}
+und~\eqref{eq:el9} anwenden und erhalten:
+%
+\begin{equation}
+  %
+  A_1\sqsubseteq A_3 \label{eq:el10}
+  %
+\end{equation}
+%
+Weitere Regeln sind nicht anwendbar.  Die TBox $\Tmc^*$ ist nun die
+Menge aller Konzeptinklusionen aus $\Tmc$ und allen abgeleiteten
+Konzeptinklusionen~\eqref{eq:el6}--\eqref{eq:el10}.
+
+\section*{T6.11~ Korrektheit Subsumtionsalgorithmus}
+
+Sei $\Tmc_{i+1}=\Tmc_i\cup \{A\sqsubseteq B\}$. Dann gibt es eine
+Regel, so dass alle Vorbedingungen in $\Tmc_i$ enthalten sind und
+$A\sqsubseteq B$ die Nachbedingung ist. Durch Analyse der Regeln und
+semantisches Argumentieren zeigt man leicht, dass $\Tmc_{i}\models
+A\sqsubseteq B$.
+
+Wir machen das hier nur am Beispiel von \textbf{\textsf{R4}} mit der
+Nachbedingung $A\sqsubseteq B$. Da die Regel anwendbar war, muss es
+Konzeptinklusionen (1) $A\sqsubseteq r.A_1$, (2) $A_1\sqsubseteq B_1$
+und (3) $\exists r.B_1\sqsubseteq B$ in $\Tmc_i$ geben. 
+
+Um $\Tmc_i\models A\sqsubseteq B$ zu zeigen, nehmen wir ein beliebiges
+Modell \Imc von $\Tmc_i$, ein Element $d\in A^\Imc$ und zeigen, dass
+$d\in B^\Imc$. Wegen $d\in A^\Imc$ und Konzeptinklusion (1) gibt es
+ein $e\in A_1^\Imc$ mit $(d,e)\in r^\Imc$. Wegen Konzeptinklusion~(2)
+gilt auch $e\in B_1^\Imc$. Wegen Konzeptinklusion~(3) bekommen wir
+$d\in B^\Imc$, wie gefordert. 
+
+
+\section*{T6.12~ Beispiel Kanonische Interpretation}
+
+Wir geben die kanonische Interpretation $\Imc_{\Tmc^*}$ für die
+(vervollständigte) TBox $\Tmc^*$ aus T6.10 an: 
+% 
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=.2pt,
+    every node/.style={ellipse,draw,fill=none,inner sep=.4mm,minimum size=1mm},
+    every edge/.style={draw=black,thin}
+  ]
+  \node (da1)  [label=above:{$A_1,A_2,A_3$}] {$d_{A_1}$}; 
+  \node (da3)  [below right=2cm of da1,label=below:{$A_3$}]  {$d_{A_3}$};
+  \node (da2)  [right=4cm of da1, label=above:{$A_1,A_2,A_3$}] {$d_{A_2}$};
+   
+  \draw[->] (da1) edge node[draw=none,above]
+  {$s$} (da2);
+  \draw[->] (da1) edge node[draw=none,pos=.5, left=1mm]
+  {$r$} (da3);
+  \draw[->] (da2) edge node[draw=none,pos=.5,right=1mm]
+  {$r$} (da3);
+  \draw[->] (da1) edge[in=150,out=210,looseness=8]
+  node[draw=none,pos=.5,left=1mm] {$s$} (da1);
+   %
+\end{tikzpicture}
+\end{center}
+
+\section*{T6.13~ Beweis von Lemma 6.20}
+
+Wir zeigen, dass alle Konzeptinklusionen in $\Tmc^*$ erfüllt sind. Wir
+unterscheiden drei Fälle entsprechend der Normalform: 
+
+\smallskip\noindent
+$\mathbf{A_1\sqcap\ldots\sqcap A_n\sqsubseteq A}$: Angenommen
+$d_B\in A_i^\Imc$ für alle $i=1,\ldots,n$. Nach Definition von
+$\Imc$ ist $B\sqsubseteq A_i\in \Tmc^*$ für $i=1,\ldots,n$. (Wenn
+$A_i=\top$, dann folgt das nicht aus der Definition von \Imc, sondern
+aus \textbf{\textsf{R2}}.) Da $\Tmc^*$ abgeschlossen unter Anwendung
+von \textbf{\textsf{R3}} ist, gilt auch $B\sqsubseteq A\in \Tmc^*$,
+also $d_B\in A^\Imc$ nach Definition von $\Imc$.
+
+\smallskip\noindent
+$\mathbf{A_1\sqsubseteq \exists r.A_2}$: Angenommen $d_B\in A_1^\Imc$.
+Nach Definition von \Imc gilt $B\sqsubseteq A_1\in \Tmc^*$. (Falls
+$A_1=\top$, folgt das wieder aus~\textbf{\textsf{R2}}.) Nach
+Definition von \Imc, also $(d_B,d_{A_2})\in r^\Imc$. 
+Da $\Tmc^*$ abgeschlossen unter Anwendung
+von \textbf{\textsf{R1}} ist, gilt auch $A_2\sqsubseteq A_2\in
+\Tmc^*$ und damit $d_{A_2}\in A_2^\Imc$. Per Semantik folgt also $d_B\in (\exists r.A_2)^\Imc$.
+
+\smallskip\noindent $\mathbf{\exists r.A_1\sqsubseteq A_2}$:
+Angenommen $d_{B_1}\in (\exists r.A_1)^\Imc$. Dann gibt es $d_{B_2}$
+mit $(d_{B_1},d_{B_2})\in r^\Imc$ und $d_{B_2}\in A_1^\Imc$. Die
+Definition von $\Imc$ liefert Konzeptinklusionen $B_1\sqsubseteq B_3,
+B_3\sqsubseteq \exists r.B_2, B_2\sqsubseteq A_1\in \Tmc^*$ (für
+irgendein $B_3$). Da $\Tmc^*$ abgeschlossen unter Anwendung
+von \textbf{\textsf{R4}} (angewendet auf $\exists r.A_1\sqsubseteq
+A_2$, $B_3\sqsubseteq \exists r.B_2$ und $B_2\sqsubseteq A_1$) ist,
+gilt $B_3\sqsubseteq A_2\in \Tmc^*$. Regel~\textbf{\textsf{R3}}
+angwendet auf $B_1\sqsubseteq B_3$ und $B_3\sqsubseteq A_2$ liefert
+$B_1\sqsubseteq A_2\in \Tmc^*$ und damit $d_{B_1}\in A_2^\Imc$, nach
+Definition von \Imc.
+
+
 \part{ABoxen und Anfragebeantwortung}
 
 
