@@ -4308,14 +4308,14 @@ Wir geben die kanonische Interpretation $\Imc_{\Tmc^*}$ für die
     every edge/.style={draw=black,thin}
   ]
   \node (da1)  [label=above:{$A_1,A_2,A_3$}] {$d_{A_1}$}; 
-  \node (da3)  [below right=2cm of da1,label=below:{$A_3$}]  {$d_{A_3}$};
+  \node (da3)  [below right=1cm and 1.7cm of da1,label=right:{$A_3$}]  {$d_{A_3}$};
   \node (da2)  [right=4cm of da1, label=above:{$A_1,A_2,A_3$}] {$d_{A_2}$};
    
   \draw[->] (da1) edge node[draw=none,above]
   {$s$} (da2);
-  \draw[->] (da1) edge node[draw=none,pos=.5, left=1mm]
+  \draw[->] (da1) edge node[draw=none,pos=.6, left=2.5mm]
   {$r$} (da3);
-  \draw[->] (da2) edge node[draw=none,pos=.5,right=1mm]
+  \draw[->] (da2) edge node[draw=none,pos=.6,right=2.5mm]
   {$r$} (da3);
   \draw[->] (da1) edge[in=150,out=210,looseness=8]
   node[draw=none,pos=.5,left=1mm] {$s$} (da1);
@@ -4328,37 +4328,37 @@ Wir geben die kanonische Interpretation $\Imc_{\Tmc^*}$ für die
 Wir zeigen, dass alle Konzeptinklusionen in $\Tmc^*$ erfüllt sind. Wir
 unterscheiden drei Fälle entsprechend der Normalform: 
 
-\smallskip\noindent
-$\mathbf{A_1\sqcap\ldots\sqcap A_n\sqsubseteq A}$: Angenommen
-$d_B\in A_i^\Imc$ für alle $i=1,\ldots,n$. Nach Definition von
-$\Imc$ ist $B\sqsubseteq A_i\in \Tmc^*$ für $i=1,\ldots,n$. (Wenn
-$A_i=\top$, dann folgt das nicht aus der Definition von \Imc, sondern
-aus \textbf{\textsf{R2}}.) Da $\Tmc^*$ abgeschlossen unter Anwendung
-von \textbf{\textsf{R3}} ist, gilt auch $B\sqsubseteq A\in \Tmc^*$,
-also $d_B\in A^\Imc$ nach Definition von $\Imc$.
-
-\smallskip\noindent
-$\mathbf{A_1\sqsubseteq \exists r.A_2}$: Angenommen $d_B\in A_1^\Imc$.
-Nach Definition von \Imc gilt $B\sqsubseteq A_1\in \Tmc^*$. (Falls
-$A_1=\top$, folgt das wieder aus~\textbf{\textsf{R2}}.) Nach
-Definition von \Imc, also $(d_B,d_{A_2})\in r^\Imc$. 
-Da $\Tmc^*$ abgeschlossen unter Anwendung
-von \textbf{\textsf{R1}} ist, gilt auch $A_2\sqsubseteq A_2\in
-\Tmc^*$ und damit $d_{A_2}\in A_2^\Imc$. Per Semantik folgt also $d_B\in (\exists r.A_2)^\Imc$.
-
-\smallskip\noindent $\mathbf{\exists r.A_1\sqsubseteq A_2}$:
-Angenommen $d_{B_1}\in (\exists r.A_1)^\Imc$. Dann gibt es $d_{B_2}$
-mit $(d_{B_1},d_{B_2})\in r^\Imc$ und $d_{B_2}\in A_1^\Imc$. Die
-Definition von $\Imc$ liefert Konzeptinklusionen $B_1\sqsubseteq B_3,
-B_3\sqsubseteq \exists r.B_2, B_2\sqsubseteq A_1\in \Tmc^*$ (für
-irgendein $B_3$). Da $\Tmc^*$ abgeschlossen unter Anwendung
-von \textbf{\textsf{R4}} (angewendet auf $\exists r.A_1\sqsubseteq
-A_2$, $B_3\sqsubseteq \exists r.B_2$ und $B_2\sqsubseteq A_1$) ist,
-gilt $B_3\sqsubseteq A_2\in \Tmc^*$. Regel~\textbf{\textsf{R3}}
-angwendet auf $B_1\sqsubseteq B_3$ und $B_3\sqsubseteq A_2$ liefert
-$B_1\sqsubseteq A_2\in \Tmc^*$ und damit $d_{B_1}\in A_2^\Imc$, nach
-Definition von \Imc.
-
+\begin{description}
+  \item[{\boldmath $A_1\sqcap\ldots\sqcap A_n\sqsubseteq A$}:] 
+    Angenommen
+    $d_B\in A_i^\Imc$ für alle $i=1,\ldots,n$. Nach Definition von
+    $\Imc$ ist $B\sqsubseteq A_i\in \Tmc^*$ für $i=1,\ldots,n$. (Wenn
+    $A_i=\top$, dann folgt das nicht aus der Definition von \Imc, sondern
+    aus \textbf{\textsf{R2}}.) Da $\Tmc^*$ abgeschlossen unter Anwendung
+    von \textbf{\textsf{R3}} ist, gilt auch $B\sqsubseteq A\in \Tmc^*$,
+    also $d_B\in A^\Imc$ nach Definition von $\Imc$.
+  \item[{\boldmath $A_1\sqsubseteq \exists r.A_2$}:] 
+    Angenommen $d_B\in A_1^\Imc$.
+    Nach Definition von \Imc gilt $B\sqsubseteq A_1\in \Tmc^*$. (Falls
+    $A_1=\top$, folgt das wieder aus~\textbf{\textsf{R2}}.) Nach
+    Definition von \Imc, also $(d_B,d_{A_2})\in r^\Imc$. 
+    Da $\Tmc^*$ abgeschlossen unter Anwendung
+    von \textbf{\textsf{R1}} ist, gilt auch $A_2\sqsubseteq A_2\in
+    \Tmc^*$ und damit $d_{A_2}\in A_2^\Imc$. Per Semantik folgt also $d_B\in (\exists r.A_2)^\Imc$.
+  \item[{\boldmath $\exists r.A_1\sqsubseteq A_2$}:] 
+    Angenommen $d_{B_1}\in (\exists r.A_1)^\Imc$. Dann gibt es $d_{B_2}$
+    mit $(d_{B_1},d_{B_2})\in r^\Imc$ und $d_{B_2}\in A_1^\Imc$. Die
+    Definition von $\Imc$ liefert Konzeptinklusionen $B_1\sqsubseteq B_3,
+    B_3\sqsubseteq \exists r.B_2, B_2\sqsubseteq A_1\in \Tmc^*$ (für
+    irgendein $B_3$). Da $\Tmc^*$ abgeschlossen unter Anwendung
+    von \textbf{\textsf{R4}} (angewendet auf $\exists r.A_1\sqsubseteq
+    A_2$, $B_3\sqsubseteq \exists r.B_2$ und $B_2\sqsubseteq A_1$) ist,
+    gilt $B_3\sqsubseteq A_2\in \Tmc^*$. Regel~\textbf{\textsf{R3}}
+    angwendet auf $B_1\sqsubseteq B_3$ und $B_3\sqsubseteq A_2$ liefert
+    $B_1\sqsubseteq A_2\in \Tmc^*$ und damit $d_{B_1}\in A_2^\Imc$, nach
+    Definition von \Imc.
+    \qedhere
+\end{description}
 
 % ===================================================================
 % ===================================================================
