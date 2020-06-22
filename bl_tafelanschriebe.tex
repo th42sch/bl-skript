@@ -3557,9 +3557,434 @@ Wir zeigen, dass $\tau$ eine Lösung ist:
 \part{Effiziente Beschreibungslogiken}
 
 % ===================================================================
-% ===================================================================
-% ===================================================================
+\section*{T6.1~ Beispiele Simulation}
 
+\textsf{\textbf{Beispiel 1}}\qquad
+%
+\begin{tikzpicture}[%
+  >=Latex,baseline=11pt,
+  every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=6mm},
+  every edge/.style={draw=black,thin}
+]
+  \node[state] (leps)                                    {};
+  \node[state] (l0)   [below      =8mm          of leps] {};
+  \node[state] (l00)  [below left =8mm and  7mm of l0]   {};
+  \node[state] (l01)  [below right=8mm and  7mm of l0]   {};
+  
+  \node[state] (reps) [right=50mm of leps]             {};
+  \node[state] (r0)  [below left =8mm and 7mm of reps] {};
+  \node[state] (r1)  [below right=8mm and 7mm of reps] {};
+  \node[state] (r00) [below      =8mm         of r0]   {};
+  
+  \node [left=0mm of leps] {$A$};
+  \node [left=0mm of l00]  {$A$};
+  \node [left=0mm of l01]  {$B$};
+  
+  \node [right=0mm of reps] {$A$};
+  \node [right=0mm of r1]   {$A,B$};
+  \node [right=0mm of r00]  {$A,B,C$};
+
+  \node [above left=0mm and 10mm of leps] {$\Imc_1$};
+  \node [above left=0mm and 10mm of reps] {$\Imc_2$};
+
+  \path[->]
+    (leps) edge node[pos=.6, left]       {$r$} (l0)
+    (l0)   edge node[pos=.4, left =.5mm] {$r$} (l00)
+    (l0)   edge node[pos=.4, right=.5mm] {$r$} (l01)
+
+    (reps) edge node[pos=.4,left =1mm] {$r$} (r0)
+    (reps) edge node[pos=.3,right=1mm] {$s$} (r1)
+    (r0)   edge node[left]             {$r$} (r00)
+  ;
+  
+  \path[->,densely dashed]
+    (leps) edge [bend right=10] node [pos=.45,above] {$\rho$} (reps)
+    (l0)   edge [bend right=10] node [pos=.60,above] {$\rho$} (r0)
+    (l01)  edge [bend right=10] node [pos=.42,above] {$\rho$} (r00)
+    (l00)  edge [bend right=20] node [pos=.70,below] {$\rho$} (r00)
+  ;
+\end{tikzpicture}
+%
+\parIII\parI
+\textsf{\textbf{Beispiel 2}}\qquad
+%
+\begin{tikzpicture}[%
+  >=Latex,baseline=11pt,
+  every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=6mm},
+  every edge/.style={draw=black,thin}
+]
+  \node[state] (d2)                                  {};
+  \node[state] (d3) [below left =7mm and  8mm of d2] {};
+  \node[state] (d5) [below right=7mm and  8mm of d2] {};
+  \node[state] (d4) [below right=7mm and  8mm of d3] {};
+  
+  \node[state] (d1) [right=45mm of d2] {$e$};
+  
+  \node [left=0mm of d2] {$A$};
+  \node [left=0mm of d3] {$A,B$};
+  \node [left=0mm of d4] {$B$};
+  
+  \node [right=0mm of d1] {$A,B$};
+
+  \node [above left=0mm and 10mm of d2] {$\Imc_1$};
+  \node [above left=0mm and 10mm of d1] {$\Imc_2$};
+
+  \path[->]
+    (d2) edge             node[pos=.4,left =1mm] {$r$} (d3)
+    (d3) edge             node[pos=.6,left =1mm] {$s$} (d4)
+    (d4) edge             node[pos=.3,right=1mm] {$r$} (d5)
+    (d5) edge             node[pos=.6,right=1mm] {$s$} (d2)
+    
+    (d1) edge[loop below] node[below]            {$r,s$} ()
+  ;
+  
+  \path[->,densely dashed]
+    (d2) edge [bend left = 3]   node [pos=.47,above] {$\rho$} (d1)
+    (d3) edge [bend right= 1.5] node [pos=.60,above] {$\rho$} (d1)
+    (d5) edge [bend right= 9]   node [pos=.25,below] {$\rho$} (d1)
+    (d4) edge [bend right=18]   node [pos=.42,below] {$\rho$} (d1)
+  ;
+\end{tikzpicture}%
+%
+\parIII
+Wenn nur die Konzept- und Rollennamen $A,B,r,s$ verwendet werden,
+gilt mit $\Imc_2$ aus Beispiel 2 sogar für \emph{jede} Interpretation \Imc
+und \emph{jedes} Element $d \in \Delta^\Imc$:
+\[
+  (\Imc,d) \precsim (\Imc_2,e)
+\]
+
+% ===================================================================
+\section*{T6.2~ Beweis des Simulationstheorems}
+
+\textsfbf{Theorem 6.3}~
+Seien $\Imc_1,\Imc_2$ Interpretationen, $d_1 \in \Delta^{\Imc_1}$ und $d_2 \in \Delta^{\Imc_2}$.
+
+\par\smallskip
+Wenn $(\Imc_1,d_1) \precsim (\Imc_2,d_2)$,~ dann gilt f\"ur alle \EL-Konzepte $C$:
+\[
+  d_1 \in C^{\Imc_1}\qquad\text{impliziert}\qquad d_2 \in C^{\Imc_2}
+\]      
+
+\par\noindent
+\begin{beweis}
+  Sei $\rho$ eine Simulation von $\Imc_1$ nach $\Imc_2$ mit $d_1\mathrel{\rho} d_2$.
+  Wir beweisen die Behauptung per Induktion über die Struktur von $C$.
+  Der Beweis ist letztlich derselbe wie für die entsprechenden Fälle
+  des Bisimulationstheorems (Theorem~3.2).
+  %
+  \begin{description}
+    \item[Induktionsanfang.]
+      Wenn $C=A$ für einen Konzeptnamen $A$,
+      dann gilt 
+      nach Bedingung (1) für Simulationen (Definition~6.2) wie gewünscht:
+      $d_1 \in A^{\Imc_1}$ impliziert $d_2 \in A^{\Imc_2}$.
+      
+      Wenn $C=\top$, dann gilt die Implikation, weil die rechte Seite trivialerweise wahr ist.
+    \item[Induktionsschritt.]
+      Wir müssen nur noch zwei Fälle gemäß des äußersten Konstruktors
+      von $C$ unterscheiden $(\sqcap,\exists)$:
+      %
+      \begin{description}
+        \item[{\boldmath $C=D \sqcap E$.}]
+          Wir können genauso wie im entsprechenden Fall des Beweises des Bisimulationstheorems
+          mittels Semantik von "`$\sqcap$"' und Induktionsvoraussetzung argumentieren:
+          ~ %Dann gilt:
+          %
+          \parI
+          \begin{center}
+            \begin{tabular}{@{}llp{40mm}l@{}}
+              $d_1 \in C^{\Imc_1}$
+              & $\Rightarrow$ & $d_1 \in D^{\Imc_1}$ und $d_1 \in E^{\Imc_1}$ & (Semantik "`$\sqcap$"') \\
+              & $\Rightarrow$ & $d_2 \in D^{\Imc_2}$ und $d_2 \in E^{\Imc_2}$ & (Induktionsvoraussetzung)\\
+              & $\Rightarrow$ & $d_2 \in C^{\Imc_2}$                          & (Semantik "`$\sqcap$"')
+            \end{tabular}
+          \end{center}
+          \parI
+        \item[{\boldmath $C=\exists r.D$.}]
+          Hier können wir genauso wie im $\exists$-Fall des Beweises des Bisimulationstheorems
+          (Richtung "`$\Rightarrow$"') mittels Semantik von "`$\exists$"', Bedingung (2) von Simulationen und Induktionsvoraussetzung argumentieren:
+          %
+          \parIII
+          $d_1 \in C^{\Imc_1}$ \\
+          %
+          \begin{tabular}{@{}l@{}l@{~\,}l@{~~}l@{}}
+            & $\Rightarrow$ & es gibt $e_1 \in \Delta^{\Imc_1}$ mit $(d_1,e_1) \in r^{\Imc_1}$ und $e_1 \in D^{\Imc_1}$ & (Semantik "`$\exists$"') \\
+            & $\Rightarrow$ & es gibt $e_2 \in \Delta^{\Imc_2}$ mit $(d_2,e_2) \in r^{\Imc_2}$ und $e_1\rho e_2$ & (Bedingung~(2) Simul.) \\
+            & $\Rightarrow$ & $e_2 \in D^{\Imc_2}$ & (Induktionsvorauss.) \\
+            & $\Rightarrow$ & $d_2 \in (\exists r.D)^{\Imc_2}$ & (Semantik "`$\exists$"')
+          \end{tabular}
+          %
+          \par\vspace*{-1.1\baselineskip}
+          \qedhere
+      \end{description}
+  \end{description}
+\end{beweis}
+
+% ===================================================================
+\section*{T6.3~ Simulation versus Bisimulation; Ausdrucksstärke.}
+
+\newenvironment{tikzpicturetwointerp}{%
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (leps)                                   {$d_1$};
+    \node[state] (l0)   [below      =8mm         of leps] {};
+    
+    \node[state] (reps) [right=20mm of leps]              {$d_2$};
+    \node[state] (r0)   [below left =9.5mm and 4mm of reps] {};
+    \node[state] (r1)   [below right=9.5mm and 4mm of reps] {};
+    
+    \node [left=0mm of l0]  {$A$};
+    
+    \node [right=0mm of r0]   {$A$};
+  
+    \node [above left=0mm and 1mm of leps] {$\Imc_1$};
+    \node [above left=0mm and 1mm of reps] {$\Imc_2$};
+  
+    \path[->]
+      (leps) edge node[pos=.6, left]       {$r$} (l0)
+  
+      (reps) edge node[pos=.4,left =1mm] {$r$} (r0)
+      (reps) edge node[pos=.4,right=1mm] {$r$} (r1)
+    ;
+}{%
+  \end{tikzpicture}
+}%
+
+\textsfbf{Lemma 6.4.}
+Es gibt $(\Imc_1,d_1)$ und $(\Imc_2,d_2)$, so dass:
+%
+\begin{enumerate}
+  \item[(1)]
+    $(\Imc_1,d_1) \precsim (\Imc_2,d_2)$ ~und~ $(\Imc_2,d_2) \precsim (\Imc_1,d_1)$
+  \item[(2)]
+    $(\Imc_1,d_1) \not\sim (\Imc_2,d_2)$
+\end{enumerate}
+%
+\parII
+\textsfbf{Beweis.}~
+Wir wählen $(\Imc_1,d_1)$ und $(\Imc_2,d_2)$ wie folgt.
+%
+\begin{center}
+  \begin{tikzpicturetwointerp}
+  \end{tikzpicturetwointerp}    
+\end{center}
+%
+Punkt~(1) aus dem Lemma wird durch folgende Simulationen $\rho_1,\rho_2$ bezeugt:
+\begin{center}
+%  \begin{tabular}{c@{\qquad}|@{\qquad}c}
+    \begin{tikzpicturetwointerp}
+      \path[->,densely dashed]
+        (leps) edge [bend right= 5] node [pos=.30,above] {$\rho_1$} (reps)
+        (l0)   edge [bend right=10] node [pos=.50,above] {$\rho_1$} (r0)
+      ;
+    \end{tikzpicturetwointerp}
+%    &
+    \hspace*{20mm}
+    \begin{tikzpicturetwointerp}
+      \path[<-,densely dashed]
+        (leps) edge [bend right= 5] node [pos=.30,above] {$\rho_2$} (reps)
+        (l0)   edge [bend right=10] node [pos=.50,above] {$\rho_2$} (r0)
+        (l0)   edge [bend right=25] node [pos=.20,below] {$\rho_2$} (r1)
+      ;
+    \end{tikzpicturetwointerp}
+%  \end{tabular}
+\end{center}
+%
+Punkt~(2) gilt, denn wenn es eine Bisimulation gäbe,
+dann müsste diese mindestens $\rho_1$ und $\rho_2$ enthalten,
+aber die "`unterste Kante"' von $\rho_2$ verbindet zwei Elemente,
+die nicht Instanzen derselben Konzeptnamen sind
+(und verstößt damit gegen Bedingung 1 von Bisimulationen).
+\qedhere
+
+\goodbreak
+\parIII
+\textsfbf{Lemma 6.5.}
+Das \ALC-Konzept $\forall r.A$ ist nicht in $\EL$ ausdrückbar.
+%
+\parII
+\textsfbf{Beweis.}~
+Aogenommen es gebe ein \EL-Konzept $C$, das äquivalent zu $\forall r.A$ ist.
+Da für die obige Interpretation $\Imc_1$ gilt $d_1 \in (\forall r.A)^{\Imc_1}$,
+ist also $d_1 \in C^{\Imc_1}$.
+Da $(\Imc_1,d_1) \precsim (\Imc_2,d_2)$, folgt mit dem Simulationstheorem
+(Theorem~6.3) $d_2 \in C^{\Imc_2}$,
+was im Widerspruch zu $d_2 \notin (\forall r.A)^{\Imc_2}$ steht.
+\qedhere
+
+Zwei Anmerkungen zu Lemma~6.5 und dessen Beweis:
+%
+\begin{itemize}
+  \item 
+    In \ELI{} -- der Erweiterung von \EL mit inversen Rollen --
+    sind dagegen manche Werterestriktionen ausdrückbar;
+    nämlich ist $A \sqsubseteq \forall r.B$ äquivalent zu $\exists r^-.A \sqsubseteq B$.
+  \item
+    Man kann aus dem Beweis des Lemmas wieder die Methodologie
+    zum Beweisen der Nicht-Ausdrückbarkeit als ein separates Theorem
+    herausarbeiten, analog zu Theorem~3.5.
+\end{itemize}
+
+
+% ===================================================================
+\section*{T6.4~ {\boldmath Erfüllbarkeit in \EL}}
+
+\textsfbf{Lemma 6.6.}
+Jedes \EL-Konzept ist erfüllbar bzgl.\ jeder TBox.
+%
+\parII
+\textsfbf{Beweis.}~
+Betrachte die folgende Interpretation \Imc.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (d) {$d$};
+    
+    \node [left=0mm of d] {$A_1,A_2,\dots$};
+  
+    \node [above left=1mm and 2mm of d] {$\Imc$};
+  
+    \path[->]
+      (d) edge[loop right] node[right]            {$r_1,r_2,\dots$} ()
+    ;    
+  \end{tikzpicture}%
+\end{center}
+%
+Dabei bedeutet die Schreibweise "`$\dots$"', dass $d$ eine Instanz \emph{jedes} Konzeptnamens
+und $(d,d)$ eine Instanz \emph{jedes} Rollennamens ist.
+Nun ist leicht zu sehen, das für jedes \EL-Konzept $C$ gilt: $C^\Imc = \{d\}$
+(was man bequem per Induktion über die Struktur von $C$ zeigen kann).
+Also ist \Imc ein Modell jedes \EL-Konzeptes
+und damit auch jeder \EL-TBox.
+\qedhere
+
+% ===================================================================
+\section*{T6.5~ Kanonisches Modell ist ein Modell}
+
+\textsfbf{Lemma 6.8.}
+F\"ur alle \EL-Konzepte $C$ gilt:~
+Die Interpretation $\Imc_C$ ist Modell von $C$ mit 
+$d_W \in C^{\Imc_C}$.
+%
+\parII
+\textsfbf{Beweis.}~
+Wir gehen wieder per Induktion über die Struktur von $C$ vor.
+%
+  \begin{description}
+    \item[Induktionsanfang.]
+      Wenn $C=A$ für einen Konzeptnamen $A$,
+      dann ist $\Imc_C = \bullet^{\text{{\normalsize $A$}}}$,
+      also wie gewünscht $d_W \in A^{\Imc_C}$.
+      
+      Wenn $C=\top$, dann gilt die Aussage trivialerweise, weil $\top^{\Imc_C} = \Delta^{\Imc_C}$.
+    \item[Induktionsschritt.]
+      Wir müssen wieder zwei Fälle gemäß des äußersten Konstruktors
+      von $C$ unterscheiden $(\lnot,\exists)$:
+      %
+      \goodbreak
+      \begin{description}
+        \item[{\boldmath $C=D \sqcap E$.}]
+          Dann ist $\Imc_C$ wie folgt aufgebaut.
+          %
+          \begin{center}
+            \begin{tikzpicture}[%
+              >=Latex,baseline=.2pt,
+              every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=8mm},
+              every edge/.style={draw=black,thin}
+            ]
+%              \node[state] (d) [right=45mm of d2] {$d_W$};
+              \draw
+                (0,0) node[state,anchor=center] (dW) {$d_W$} --
+                (-.6,-2) -- (-2,-1) -- cycle
+                (0,0) -- (.6,-2) -- (2,-1) -- cycle
+              ;
+              
+              \node [below left =5mm and 3mm of dW] {$\Imc_D$};
+              \node [below right=5mm and 3mm of dW] {$\Imc_E$};
+              \node [above left=-3mm and 2mm of dW] {$\Imc_C$};
+            \end{tikzpicture}%
+          \end{center}
+          %
+          \parI
+          Nach Induktionsvoraussetzung ist $d_W \in D^{\Imc_D}$ und $d_W \in E^{\Imc_E}$.
+          Daraus folgt $d_W \in D^{\Imc_C}$ und $d_W \in E^{\Imc_C}$,
+          weil die Identität eine Simulation von $\Imc_D$ (bzw.\ $\Imc_E$) nach $\Imc_C$ ist.
+          Mit der Semantik der Konjunktion folgt nun $d_W \in C^{\Imc_C}$.
+          \parI
+        \item[{\boldmath $C=\exists r.D$.}]
+          Dann ist $\Imc_C$ wie folgt aufgebaut.
+          %
+          \begin{center}
+            \begin{tikzpicture}[%
+              >=Latex,baseline=.2pt,
+              every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=8mm},
+              every edge/.style={draw=black,thin}
+            ]
+%              \node[state] (d) [right=45mm of d2] {$d_W$};
+              \draw
+                (0,0) node[state,anchor=center] (d) {$d$} --
+                (-1,-2) -- (1,-2) -- cycle
+              ;
+              \node [state,above=7mm of d] (dW) {$d_W$};
+              
+              \node [below=8mm of d] {$\Imc_D$};
+              \node [above left=-3mm and 2mm of dW] {$\Imc_C$};
+              
+              \path[->] (dW) edge node[right] {$r$} (d);
+            \end{tikzpicture}%
+          \end{center}
+          %
+          \parI
+          Die Induktionsvoraussetzung liefert $d \in D^{\Imc_D}$;
+          wie oben folgt daraus wieder $d \in D^{\Imc_C}$.
+          Mit der Semantik der Existenzrestriktion folgt nun $d_W \in C^{\Imc_C}$.
+          \qedhere
+      \end{description}
+  \end{description}
+
+% ===================================================================
+\section*{T6.6~ Kanonisches Modell ist kanonisch}
+
+\textsfbf{Lemma~6.9.}~
+Für alle \EL-Konzepte $C$, Interpretationen $\Imc$ und $e \in \Delta^\Imc$ gilt:
+%
+\begin{center}
+  $e \in C^\Imc$ \quad gdw.\quad $(\Imc_C,d_W) \precsim (\Imc,e)$
+\end{center}
+
+\parII
+\textsfbf{Beispiel.}~
+Wir betrachten das \EL-Konzept
+\[
+  C = A \,\sqcap\, \exists r.(\exists r.\top \sqcap \exists s.B) \,\sqcap\, \exists s.A
+\]
+sowie folgende Simulation $\rho$ von $\Imc_C$ in eine Interpretation \Imc.
+\dots
+
+\parII
+\textsfbf{Beweis des Lemmas.}~
+\dots
+\qedhere
+
+% ===================================================================
+\section*{T6.7~ \dots}
+
+\dots
+
+% ===================================================================
+\section*{T6.8~ \dots}
+
+\dots
+
+% ===================================================================
 \section*{T6.9~ Beispiel Normalisierung}
 
 Betrachten wir eine TBox mit den folgenden Konzeptinklusionen: 
@@ -3742,6 +4167,10 @@ angwendet auf $B_1\sqsubseteq B_3$ und $B_3\sqsubseteq A_2$ liefert
 $B_1\sqsubseteq A_2\in \Tmc^*$ und damit $d_{B_1}\in A_2^\Imc$, nach
 Definition von \Imc.
 
+
+% ===================================================================
+% ===================================================================
+% ===================================================================
 
 \part{ABoxen und Anfragebeantwortung}
 
