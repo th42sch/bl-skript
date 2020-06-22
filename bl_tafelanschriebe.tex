@@ -3967,20 +3967,163 @@ Wir betrachten das \EL-Konzept
   C = A \,\sqcap\, \exists r.(\exists r.\top \sqcap \exists s.B) \,\sqcap\, \exists s.A
 \]
 sowie folgende Simulation $\rho$ von $\Imc_C$ in eine Interpretation \Imc.
-\dots
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.2mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (leps)                                    {$d_W$};
+    \node[state] (l0)   [below left =8mm and  7mm of leps] {};
+    \node[state] (l1)   [below right=8mm and  7mm of leps] {};
+    \node[state] (l00)  [below left =8mm and  4mm of l0]   {};
+    \node[state] (l01)  [below right=8mm and  4mm of l0]   {};
+    
+    \node[state] (reps) [right=50mm of leps] {$e$};
+    \node[state] (r0)   [below=16mm of reps] {};
+    \node[state] (r1)   [right=16mm of reps] {};
+    
+    \node [left=0mm of leps] {$A$};
+    \node [left=0mm of l1]   {$A$};
+    \node [left=0mm of l01]  {$B$};
+    
+    \node [above right=0mm and -1mm of reps] {$A$};
+    \node [right=0mm of r1]   {$A,B$};
+  
+    \node [above left=0mm and 1mm of leps] {$\Imc_1$};
+    \node [above left=0mm and 1mm of reps] {$\Imc_2$};
+  
+    \path[->]
+      (leps) edge node[pos=.4, left]       {$r$} (l0)
+      (leps) edge node[pos=.4, right]      {$s$} (l1)
+      (l0)   edge node[pos=.4, left]       {$r$} (l00)
+      (l0)   edge node[pos=.4, right]      {$s$} (l01)
+  
+      (reps) edge                node[pos=.70,left]     {$r$} (r0)
+      (reps) edge                node[pos=.55,above]    {$s$} (r1)
+      (r0)   edge [bend left=10] node[pos=.4,above=1mm] {$s$} (r1)
+      (r1)   edge [bend left=10] node[pos=.4,below=1mm] {$r$} (r0)
+      (r0)   edge [loop below]   node[below]            {$r$} ()
+    ;
+    
+    \path[->,densely dashed]
+      (leps) edge [bend right= 3] node [pos=.50,above] {$\rho$} (reps)
+%      (l1)   edge [bend right= 3] node [pos=.50,above] {$\rho$} (r1)
+%      (l0)   edge [bend right= 5] node [pos=.50,above] {$\rho$} (r0)
+%      (l00)  edge [bend right=25] node [pos=.50,above] {$\rho$} (r0)
+%      (l01)  edge [bend right= 5] node [pos=.50,above] {$\rho$} (r1)
+      (l1)   edge [bend right= 3] node [pos=.50,above] {} (r1)
+      (l0)   edge [bend right= 5] node [pos=.50,above] {} (r0)
+      (l00)  edge [bend right=20] node [pos=.50,above] {} (r0)
+      (l01)  edge [bend right= 5] node [pos=.50,above] {} (r1)
+    ;
+  \end{tikzpicture}
+\end{center}
+%
+Es gilt also sowohl $e \in C^\Imc$ als auch $(\Imc_C,d_W) \precsim (\Imc,e)$.
 
+\goodbreak
 \parII
 \textsfbf{Beweis des Lemmas.}~
-\dots
-\qedhere
+%
+\begin{description}
+  \item[{\boldmath "`$\Leftarrow$"'}] 
+    Angenommen, es gelte $(\Imc_C,d_W) \precsim (\Imc,e)$.
+    Dann liefert Lemma~6.8, dass $d_W \in C^{\Imc_C}$,
+    und mit Theorem~6.3 erhalten wir $e \in C^\Imc$.
+  \item[{\boldmath "`$\Rightarrow$"'}] 
+    Wir gehen wieder per Induktion über die Struktur von $C$ vor.
+    %
+    \begin{description}
+      \item[Induktionsanfang.]
+        Wenn $C=A$ für einen Konzeptnamen $A$,
+        dann ist $\Imc_C = \bullet^{\text{{\normalsize $A$}}}$,
+        und $\rho = \{(d_W,e)\}$ ist eine Simulation von $\Imc_C$ nach \Imc.
+        
+        Für $C=\top$ argumentieren wir analog.
+      \item[Induktionsschritt.]
+        Wir müssen wieder zwei Fälle gemäß des äußersten Konstruktors
+        von $C$ unterscheiden $(\lnot,\exists)$:
+        %
+        \goodbreak
+        \begin{description}
+          \item[{\boldmath $C=D \sqcap E$.}]
+            Dann ist $\Imc_C$ wie folgt aufgebaut.
+            %
+            \begin{center}
+              \begin{tikzpicture}[%
+                >=Latex,baseline=.2pt,
+                every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=8mm},
+                every edge/.style={draw=black,thin}
+              ]
+  %              \node[state] (d) [right=45mm of d2] {$d_W$};
+                \draw
+                  (0,0) node[state,anchor=center] (dW) {$d_W$} --
+                  (-.6,-2) -- (-2,-1) -- cycle
+                  (0,0) -- (.6,-2) -- (2,-1) -- cycle
+                ;
+                
+                \node [below left =5mm and 3mm of dW] {$\Imc_D$};
+                \node [below right=5mm and 3mm of dW] {$\Imc_E$};
+                \node [above left=-3mm and 2mm of dW] {$\Imc_C$};
+              \end{tikzpicture}%
+            \end{center}
+            %
+            \parI
+            Nach Induktionsvoraussetzung 
+            gibt es Simulationen $\rho_D$ für $(\Imc_D,d_W) \precsim (\Imc,e)$
+            und $\rho_E$ für $(\Imc_E,d_W) \precsim (\Imc,e)$.
+            Nun lässt sich leicht prüfen, dass $\rho_D \cup \rho_E$
+            ebenfalls eine Simulation ist;
+            dies zeigt $(\Imc_C,d_W) \precsim (\Imc,e)$.
+            \parI
+          \item[{\boldmath $C=\exists r.D$.}]
+            Aus der Voraussetzung $e \in C^\Imc$
+            folgt zunächst mit der Semantik von "`$\exists$"',
+            dass es ein $e' \in \Delta^\Imc$ gibt mit
+            $(e,e') \in r^\Imc$ und $e' \in D^\Imc$.
+            
+            Weiterhin ist $\Imc_C$ wie folgt aufgebaut.
+            %
+            \begin{center}
+              \begin{tikzpicture}[%
+                >=Latex,baseline=.2pt,
+                every state/.style={draw=black,thin,fill=black!10,inner sep=.6mm,minimum size=8mm},
+                every edge/.style={draw=black,thin}
+              ]
+  %              \node[state] (d) [right=45mm of d2] {$d_W$};
+                \draw
+                  (0,0) node[state,anchor=center] (d) {$d$} --
+                  (-1,-2) -- (1,-2) -- cycle
+                ;
+                \node [state,above=7mm of d] (dW) {$d_W$};
+                
+                \node [below=8mm of d] {$\Imc_D$};
+                \node [above left=-3mm and 2mm of dW] {$\Imc_C$};
+                
+                \path[->] (dW) edge node[right] {$r$} (d);
+              \end{tikzpicture}%
+            \end{center}
+            %
+            \parI
+            Die Induktionsvoraussetzung liefert nun eine Simulation
+            $\rho$ für $(\Imc_D,d_W) \precsim (\Imc,e')$.
+            Nun lässt sich leicht prüfen, dass $\rho \cup \{(d_W,e)\}$
+            ebenfalls eine Simulation ist;
+            dies zeigt $(\Imc_C,d_W) \precsim (\Imc,e)$.
+            \qedhere
+        \end{description}
+    \end{description}
+\end{description}
 
 % ===================================================================
-\section*{T6.7~ \dots}
+\section*{T6.7~ Charakterisierung von Subsumtion}
 
 \dots
 
 % ===================================================================
-\section*{T6.8~ \dots}
+\section*{T6.8~ Maximale Simulation}
 
 \dots
 
