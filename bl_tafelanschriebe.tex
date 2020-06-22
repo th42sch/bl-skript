@@ -4117,16 +4117,65 @@ Es gilt also sowohl $e \in C^\Imc$ als auch $(\Imc_C,d_W) \precsim (\Imc,e)$.
     \end{description}
 \end{description}
 
+\pagebreak
 % ===================================================================
 \section*{T6.7~ Charakterisierung von Subsumtion}
 
-\dots
+\textsfbf{Lemma 6.10.}~
+Für alle \EL-Konzepte $C$, $D$ gilt:
+\begin{center}
+  $C \sqsubseteq D$ ~gdw.~ $(\Imc_D,d_W) \precsim (\Imc_C,d_W)$
+\end{center}
+
+\textsfbf{Beweis.}
+\begin{description}
+  \item[{\boldmath "`$\Rightarrow$"'}] 
+    Angenommen $C \sqsubseteq D$.
+    Wir betrachten das kanonische Modell $\Imc_C$ von $C$.
+    Wegen $d_W \in C^{\Imc_C}$ (Lemma~6.8) und $C \sqsubseteq D$ gilt $d_W \in D^{\Imc_C}$.
+    Aus Lemma~6.9 (angewendet auf $D,\Imc_C,d_W$) folgt nun
+    $(\Imc_D,d_W) \precsim (\Imc_C,d_W)$.
+  \item[{\boldmath "`$\Leftarrow$"'}] 
+    Angenommen $(\Imc_D,d_W) \precsim (\Imc_C,d_W)$ (i).
+    Um zu zeigen, dass $C \sqsubseteq D$,
+    betrachten wir eine beliebige Interpretation \Imc und eine Instanz $d \in C^\Imc$.
+    Zu zeigen ist $d \in D^\Imc$.
+    
+    Aus $d \in C^\Imc$ folgt mit Lemma~6.9: $(\Imc_C,d_W) \precsim (\Imc,d)$ (ii).
+    Wegen (i) und (ii) gibt es also
+    %
+    \begin{itemize}
+      \item
+        eine Simulation $\rho_1$ von $\Imc_D$ nach $\Imc_C$ mit $\rho_1(d_W) = d_W$\quad und
+      \item
+        eine Simulation $\rho_2$ von $\Imc_C$ nach $\Imc$ mit $\rho_2(d_W) = d$.
+    \end{itemize}
+    %
+    Die Komposition $\rho_1 \circ \rho_2$ ist eine Simulation von $\Imc_D$
+    nach \Imc mit $(\rho_1 \circ \rho_2)(d_W) = d$;
+    somit liefert Lemma~6.9 (angewendet auf $D,\Imc,d$) wie gewünscht $d \in D^\Imc$.
+    \qedhere
+\end{description}
 
 % ===================================================================
 \section*{T6.8~ Maximale Simulation}
 
-\dots
+Um die maximale Simulation $\rho$ von $\Imc_D$ nach $\Imc_C$ zu bestimmen,
+berechnet man eine Folge $\rho_0,\rho_1,\dots$ von Relationen wie folgt.
+%
+\begin{align*}
+  \rho_0 & = \{(e,d) \in \Delta^{\Imc_D} \times \Delta^{\Imc_C} \mid e \in A^{\Imc_D} \text{~impliziert~} d \in A^{\Imc_C} \text{~für alle Konzeptnamen $A$}\} \\
+  \rho_{i+1} & = \rho_i \setminus \{(e,d) \mid \text{es gibt einen Rollennamen $r$ und~} (e,e') \in r^{\Imc_D}, \\[-1mm]
+                     & \hspace*{26mm} \text{so dass~} (e',d') \notin \rho_i \text{~für alle~} (d,d') \in r^{\Imc_C}\}
+\end{align*}
+%
+Diese Folge ist monoton und stabilisiert sich nach höchstens $|C|\cdot|D|$ Schritten;
+das resultierende $\rho_i$ ist die größte Simulation von $\Imc_D$ nach $\Imc_C$
+in dem Sinne, dass (i) $\rho_i$ eine Simulation von $\Imc_D$ nach $\Imc_C$ ist und
+(ii) jede Simulation von $\Imc_D$ nach $\Imc_C$ in $\rho_i$ enthalten ist
+(zeige (i) und (ii) selbst).
 
+\pagebreak
 % ===================================================================
 \section*{T6.9~ Beispiel Normalisierung}
 

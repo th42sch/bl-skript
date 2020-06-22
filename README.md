@@ -13,13 +13,13 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
   * Kapitel 3 vollständig bis auf Bild in T3.8 
   * Kapitel 4 vollständig
   * Kapitel 5 vollständig
-  * Kapitel 6: T6.1–T6.6, T6.9–T6.13
+  * Kapitel 6 vollständig
 
 ## Versionsgeschichte
 
 ### SoSe 2020
 
-**21./22.6.2020**&nbsp; T6.1–T6.6, T6.9–T6.13 hinzugefügt<br>
+**21./22.6.2020**&nbsp; T6.1–T6.13 hinzugefügt<br>
 **14.6.2020**&nbsp; T5.11–T5.15 hinzugefügt<br>
 **8./9.6.2020**&nbsp; kleine Korrektur in T5.1; T5.8–T5.10 hinzugefügt<br>
 **2.6.2020**&nbsp; kleine Korrektur in T5.2<br>
