@@ -7,7 +7,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 <code>make</code> oder
 <code>pdflatex bl_tafelanschriebe</code> aufrufen.
 
-## Stand (22.6.2020)
+## Stand (23.6.2020)
 
   * Kapitel 2 vollständig
   * Kapitel 3 vollständig bis auf Bild in T3.8 
@@ -19,7 +19,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
 ### SoSe 2020
 
-**21./22.6.2020**&nbsp; T6.1–T6.13 hinzugefügt<br>
+**21.–23.6.2020**&nbsp; T6.1–T6.13 hinzugefügt<br>
 **14.6.2020**&nbsp; T5.11–T5.15 hinzugefügt<br>
 **8./9.6.2020**&nbsp; kleine Korrektur in T5.1; T5.8–T5.10 hinzugefügt<br>
 **2.6.2020**&nbsp; kleine Korrektur in T5.2<br>

@@ -3808,7 +3808,7 @@ Das \ALC-Konzept $\forall r.A$ ist nicht in $\EL$ ausdrückbar.
 %
 \parII
 \textsfbf{Beweis.}~
-Aogenommen es gebe ein \EL-Konzept $C$, das äquivalent zu $\forall r.A$ ist.
+Angenommen es gebe ein \EL-Konzept $C$, das äquivalent zu $\forall r.A$ ist.
 Da für die obige Interpretation $\Imc_1$ gilt $d_1 \in (\forall r.A)^{\Imc_1}$,
 ist also $d_1 \in C^{\Imc_1}$.
 Da $(\Imc_1,d_1) \precsim (\Imc_2,d_2)$, folgt mit dem Simulationstheorem
@@ -3834,7 +3834,7 @@ Zwei Anmerkungen zu Lemma~6.5 und dessen Beweis:
 \section*{T6.4~ {\boldmath Erfüllbarkeit in \EL}}
 
 \textsfbf{Lemma 6.6.}
-Jedes \EL-Konzept ist erfüllbar bzgl.\ jeder TBox.
+Jedes \EL-Konzept ist erfüllbar bzgl.\ jeder \EL-TBox.
 %
 \parII
 \textsfbf{Beweis.}~
@@ -3991,8 +3991,8 @@ sowie folgende Simulation $\rho$ von $\Imc_C$ in eine Interpretation \Imc.
     \node [above right=0mm and -1mm of reps] {$A$};
     \node [right=0mm of r1]   {$A,B$};
   
-    \node [above left=0mm and 1mm of leps] {$\Imc_1$};
-    \node [above left=0mm and 1mm of reps] {$\Imc_2$};
+    \node [above left=0mm and 1mm of leps] {$\Imc_C$};
+    \node [above left=0mm and 1mm of reps] {$\Imc$};
   
     \path[->]
       (leps) edge node[pos=.4, left]       {$r$} (l0)
