@@ -414,7 +414,9 @@ $\Tmc \models \term{Laptop} \sqsubseteq \term{MobilerPC}$
 und $\Tmc \models \term{MobilerPC} \sqsubseteq \term{Laptop}$ gelten.
 
 % ===================================================================
-\section*{T2.9~ Wechselseitige Reduktion der Schlussfolgerungsprobleme}
+%\section*{T2.9~ Wechselseitige Reduktion der Schlussfolgerungsprobleme}
+\newcommand{\Interreduktionen}{T2.9}
+\section*{\hypertarget{Interreduktionen}{\Interreduktionen}~ Wechselseitige Reduktion der Schlussfolgerungsprobleme}
 
 \textsfbf{Lemma 2.9}~
 \begin{enumerate}
@@ -4367,6 +4369,328 @@ unterscheiden drei Fälle entsprechend der Normalform:
 
 \part{ABoxen und Anfragebeantwortung}
 
+% ===================================================================
+%\section*{T7.1~ Beispiel-ABox}
+\newcommand{\BspABox}{T7.1}
+\section*{\hypertarget{BspABox}{\BspABox}~ Beispiel-ABox}
+
+Folgendes ist eine mögliche ABox im Hochschulkontext.
+\[
+\begin{array}{@{}r@{~}l@{~}l@{}}
+  \Amc = \{ & \textsf{StudentIn}(\textsf{hanna}), & \\
+            & \textsf{Person}(\textsf{klaus}), & \\
+            & \textsf{bekanntMit}(\textsf{hanna},\textsf{klaus}), & \\
+            & \textsf{TheorieVL}(\textsf{b$\ell$VL}), & \\
+            & \textsf{hört}(\textsf{klaus},\textsf{b$\ell$VL}), & \\
+            & \textsf{VL}(\textsf{logikVL}) & \}
+\end{array}
+\]
+Sie besagt, dass Hanna Studentin und Klaus eine Person ist,
+dass Hanna mit Klaus bekannt ist, dass die Beschreibungslogik-Vorlesung
+(\textsf{b$\ell$VL}) eine Theorievorlesung ist und von Klaus gehört wird
+und dass die Logik-Vorlesung (\textsf{logikVL}) eine Vorlesung (\textsf{VL}) ist.
+Die 3. und 5. Zeile sind Rollenassertionen; die übrigen sind Konzeptassertionen.
+Die verwendeten Individuen sind \textsf{hanna}, \textsf{klaus},
+\textsf{b$\ell$VL}, \textsf{logikVL} (alle beginnen wie üblich mit Kleinbuchstaben). 
+
+% ===================================================================
+%\section*{T7.2~ Beispiel-Modell einer ABox}
+\newcommand{\BspABoxModell}{T7.2}
+\section*{\hypertarget{BspABoxModell}{\BspABoxModell}~ Beispiel-Modell einer ABox}
+\newcommand{\mytab}[1]{\begin{tabular}{@{}c@{}}#1\end{tabular}}
+
+Die folgende Interpretation \Imc ist Modell der ABox \Amc aus
+\textsf{\hyperlink{BspABox}{\BspABox}}.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,rectangle, rounded corners=1.5mm,inner sep=2mm,minimum size=7mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state] (hanna)                                        {\textsf{hanna}};
+    \node[state] (klaus)   [right=40mm of hanna]                {\textsf{klaus}};
+    \node[state] (wilma)   [right=40mm of klaus]                {\textsf{wilma}};
+    \node[state] (blVL)    [below right=25mm and 12mm of hanna] {\textsf{b$\ell$VL}};
+    \node[state] (logikVL) [below right=25mm and -6mm of klaus] {\textsf{logikVL}};
+  
+    \node [above=-1mm of hanna]   {\mytab{\textsf{Person}\\[-2pt]\textsf{StudentIn}}};
+    \node [above=-1mm of klaus]   {\mytab{\textsf{Person}\\[-2pt]\textsf{StudentIn}}};
+    \node [above=0mm of wilma]  {\textsf{Person}};
+    \node [below=0mm of blVL]    {\mytab{\textsf{TheorieVL}\\[-2pt]\textsf{VL}}};
+    \node [below=0mm of logikVL] {\mytab{\textsf{TheorieVL}\\[-2pt]\textsf{VL}}};
+  
+    \node [above left=0mm and 10mm of hanna] {$\Imc$};
+  
+    \path[->]
+      (hanna) edge [bend left=8] node [above]               {\textsf{bekanntMit}} (klaus)
+      (klaus) edge [bend left=8] node [below]               {\textsf{bekanntMit}} (hanna)
+      (klaus) edge [bend left=8] node [above]               {\textsf{bekanntMit}} (wilma)
+      (wilma) edge [bend left=8] node [below]               {\textsf{bekanntMit}} (klaus)
+      (hanna) edge               node [pos=.6,above right]  {\textsf{hört}} (blVL)
+      (klaus) edge               node [pos=.6,above left]   {\textsf{hört}} (blVL)
+      (klaus) edge               node [pos=.55,right]       {\textsf{hört}} (logikVL)
+    ;
+    
+  \end{tikzpicture}
+\end{center}
+%
+\Imc erfüllt alle Assertionen aus \Amc, wie man durch Ablesen leicht überprüfen kann;
+also ist \Imc tatsächlich ein Modell von \Amc gemäß Definition~7.2.
+Man beachte, dass \Imc auch viele weitere Assertionen wahr macht,
+die gar nicht in \Amc vorkommen, z.\,B. \textsf{Person}(\textsf{wilma})
+oder \textsf{hört}(\textsf{hanna},\textsf{b$\ell$VL}).
+Dies wird jedoch durch Definition~7.2 nicht ausgeschlossen,
+damit ABoxen unvollständiges Wissen repräsentieren können.
+
+% ===================================================================
+\section*{T7.3~ Beispiel für Konsistenz und Instanz}
+
+Wir betrachten die Wissensbasis $\Kmc = (\Tmc,\Amc)$
+mit \Amc aus \textsf{\hyperlink{BspABox}{\BspABox}} und
+%\[
+%\begin{array}{@{}r@{~}r@{~}c@{~}l@{~}l@{}}
+%  \Tmc = \{ & \textsf{StudentIn} & \equiv & \textsf{Person} \sqcap \exists\,\textsf{hört}.\textsf{VL}, & \\
+%            & \textsf{TheorieVL} & \sqsubseteq & \textsf{VL} & \}.
+%\end{array}
+%\]
+\[
+  \Tmc = \{\, \textsf{StudentIn} \equiv \textsf{Person} \sqcap \exists\,\textsf{hört}.\textsf{VL}, \quad
+  \textsf{TheorieVL} \sqsubseteq \textsf{VL} \,\}.
+\]
+%Nun gilt:
+%%
+\begin{description}
+  \item[{\boldmath \Kmc ist konsistent,}]
+    weil \Imc aus \textsf{\hyperlink{BspABoxModell}{\BspABoxModell}}
+    ein Modell von \Tmc und \Amc ist.
+  \item[{\boldmath $\Kmc \models \textsf{StudentIn}(\textsf{klaus})$}]
+    (d.\,h.\ \textsf{klaus} ist eine Instanz von \textsf{StudentIn} bzgl.\ \Kmc):
+    
+    Sei \Imc ein Modell von \Kmc, also ein Modell von \Amc und \Tmc.
+    Wegen \Amc muss dann gelten:
+    %
+    \begin{itemize}
+      \item
+        $(\textsf{klaus},\textsf{b$\ell$VL}) \in \textsf{hört}^\Imc$
+      \item
+        $\textsf{b$\ell$VL} \in \textsf{TheorieVL}^\Imc$
+      \item
+        $\textsf{klaus} \in \textsf{Person}^\Imc$
+    \end{itemize}
+    %
+    Mit der zweiten Zeile von \Tmc folgt dann $\textsf{b$\ell$VL} \in \textsf{VL}^\Imc$
+    und mit der ersten Zeile wie gewünscht $\textsf{klaus} \in \textsf{StudentIn}^\Imc$.
+  \item[{\boldmath $\Kmc \not\models \textsf{TheorieVL}(\textsf{logikVL})$}]
+    (d.\,h.\ \textsf{logikVL} ist \emph{keine} Instanz von \textsf{theorieVL} bzgl.\ \Kmc):
+    
+    Die Assertion $\textsf{TheorieVL}(\textsf{logikVL})$ ist zwar im obigen Modell \Imc erfüllt,
+    aber wenn man dort $\textsf{TheorieVL}^\Imc = \{\textsf{b$\ell$VL}\}$ setzt,
+    dann ist \Imc immer noch ein Modell von \Amc und \Tmc (prüfe jede Zeile aus
+    \Amc und \Tmc nach!), aber nicht von $\textsf{TheorieVL}(\textsf{logikVL})$.
+\end{description}
+
+\enlargethispage{10mm}
+% ===================================================================
+\section*{T7.4~ Reduktionen zwischen Konsistenz- und Instanzproblem}
+
+\textsfbf{Lemma~7.5.}~
+%
+\begin{enumerate}
+  \item[(1)]
+    $\Kmc$ ist konsistent ~gdw.~ $\Kmc \not\models A(a)$, für einen neuen Konzeptnamen $A$.
+  \item[(2)]
+    $(\Tmc,\Amc) \models A(a)$ ~gdw.~ $(\Tmc \cup \{ \overline{A} \equiv \neg A \},~\Amc \cup \{ \overline{A}(a) \})$ inkonsistent ist.
+\end{enumerate}
+
+\parII
+\textsfbf{Beweis.}~
+Wir verwenden ähnliche semantische Argumente wie in
+\textsf{\hyperlink{Interreduktionen}{\Interreduktionen}}.
+%
+\begin{enumerate}
+  \item[(1)]
+%    \begin{center}
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular}[t]{@{}lcl@{}}
+        \Kmc ist konsistent
+        & gdw. & \Kmc hat ein Modell \\
+        & gdw. & \Kmc hat ein Modell \Imc mit $a \notin A^\Imc$ \\
+        & gdw. & $\Kmc \not\models A(a)$
+      \end{tabular}
+%    \end{center}
+    %
+    \parII
+    Das erste "`gdw."' gilt wegen der Definition von Konsistenz (Def.~7.4);
+    die zweite gilt, weil $A$ nicht in \Kmc vorkommt;
+    das dritte "`gdw."' gilt auch wegen Def.~7.4 (Instanz).
+  \item[(2)]
+    Hier zeigen wir die Kontraposition, also
+    %
+    \begin{center}
+      $(\Tmc,\Amc) \not\models A(a)$ ~gdw.~ $(\Tmc \cup \{ \overline{A} \equiv \neg A \},~\Amc \cup \{ \overline{A}(a) \})$ konsistent ist.
+    \end{center}
+    %
+    Es gilt:
+    %
+    \begin{center}
+      \renewcommand{\arraystretch}{1.2}
+      \begin{tabular}[t]{@{}lcl@{}}
+        $(\Tmc,\Amc) \not\models A(a)$
+        & gdw. & es gibt ein Modell \Imc von $(\Tmc,\Amc)$ mit $a \notin A^\Imc$ \\
+        & gdw. & es gibt ein Modell \Imc von $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc)$ mit $a \notin \overline{A}^\Imc$ \\
+        & gdw. & es gibt ein Modell \Imc von $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc \cup \{\overline{A}(a)\})$ \\
+        & gdw. & $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc \cup \{\overline{A}(a)\})$ ist konsistent
+      \end{tabular}
+    \end{center}
+    %
+    Das erste und letzte "`gdw."' gilt wieder wegen Def.~7.4.
+    Für das zweite "`gdw."' ist die Richtung "`$\Rightarrow$"' offensichtlich,
+    da die TBox nur erweitert wird; die Richtung "`$\Leftarrow$"' gilt,
+    weil man $\overline{A}	^\Imc = \Delta^\Imc \setminus A^\Imc$ setzen kann.
+    Das dritte "`gdw."' gilt nach der Semantik von ABoxen (Def.~7.2).
+    \qedhere
+\end{enumerate}
+
+\goodbreak
+% ===================================================================
+\section*{T7.5~ Beispiele für Instanzanfragen}
+
+Mögliche Instanzanfragen in den vergangenen Beispielen und deren Bedeutung:
+%
+\begin{center}
+  \begin{tabular}{@{}ll@{}}
+    \textsf{StudentIn} & "`gib alle Studierenden"' \\
+    \textsf{VL}        & "`gib alle Vorlesungen"' \\
+    \textsf{TheorieVL} & "`gib alle Theorievorlesungen"' \\
+  \end{tabular}
+\end{center}
+
+% ===================================================================
+\section*{T7.6~ Datenbankinstanzen versus Interpretationen}
+
+Die Aussage, dass jede Datenbankinstanz einer Interpretation entspricht (und umgekehrt),
+wird durch folgendes Beispiel veranschaulicht.
+Wir betrachten die Interpretation \Imc mit
+%
+%\begin{align*}
+%  \Delta^\Imc & = \{d_1,\dots,d_{10}\} \\
+%  A^\Imc      & = \{d_1,d_2,d_5,d_8\}  \\
+%  B^\Imc      & = \{d_5,d_{10}\}       \\
+%  r^\Imc      & = \{(d_2,d_5),\,(d_4,d_1),\,(d_7,d_2)\} \\
+%  s^\Imc      & = \{(d_3,d_8)\}
+%\end{align*}
+\begin{xalignat*}{3}
+  \Delta^\Imc & = \{d_1,\dots,d_{10}\}                  &
+  A^\Imc      & = \{d_1,d_2,d_5,d_8\}                   &
+  r^\Imc      & = \{(d_2,d_5),\,(d_4,d_1),\,(d_7,d_2)\} \\
+              & &
+  B^\Imc      & = \{d_5,d_{10}\}                        &
+  s^\Imc      & = \{(d_3,d_8)\}
+\end{xalignat*}
+%
+Diese Interpretation entspricht einer Datenbank,
+die aus je zwei einspaltigen Tabellen für $A,B$
+und zweispaltigen Tabellen für $r,s$ besteht, mit folgenden Inhalten
+(die Spaltennamen \textsf{col}, $\textsf{col}_{\textsf{1}}$, $\textsf{col}_{\textsf{2}}$
+sind willkürlich gewählt):
+%
+\begin{center}
+  \begin{tabular}[t]{lc}
+    \cline{2-2}\rule{0pt}{12pt}%
+    $A$ & \textsf{col} \\
+    \cline{2-2}\rule{0pt}{12pt}%
+        & $d_1$ \\
+        & $d_2$ \\
+        & $d_5$ \\
+        & $d_8$ \\
+    \cline{2-2}
+  \end{tabular}
+  \qquad
+  \begin{tabular}[t]{lc}
+    \cline{2-2}\rule{0pt}{12pt}%
+    $B$ & \textsf{col} \\
+    \cline{2-2}\rule{0pt}{12pt}%
+        & $d_5$    \\
+        & $d_{10}$ \\
+    \cline{2-2}
+  \end{tabular}
+  \qquad
+  \begin{tabular}[t]{lcc}
+    \cline{2-3}\rule{0pt}{12pt}%
+    $r$ & $\textsf{col}_{\textsf{1}}$ & $\textsf{col}_{\textsf{2}}$ \\
+    \cline{2-3}\rule{0pt}{12pt}%
+        & $d_2$ & $d_5$ \\
+        & $d_4$ & $d_1$ \\
+        & $d_7$ & $d_2$ \\
+    \cline{2-3}
+  \end{tabular}
+  \qquad
+  \begin{tabular}[t]{lcc}
+    \cline{2-3}\rule{0pt}{12pt}%
+    $s$ & $\textsf{col}_{\textsf{1}}$ & $\textsf{col}_{\textsf{2}}$ \\
+    \cline{2-3}\rule{0pt}{12pt}%
+        & $d_3$ & $d_8$ \\
+    \cline{2-3}
+  \end{tabular}
+\end{center}
+
+% ===================================================================
+\section*{T7.7~ Beispiele für Homomorphismen und Antworten}
+
+Wir betrachten die Interpretation \Imc im unteren Bild rechts
+und die CQ
+\[
+  q(x_1,x_2) = \exists y~ r(\underline{x_1},y) \land r(\underline{x_2},y) \land A(y),
+\]
+die im Bild links als Graph gezeichnet ist (freie Variablen sind unterstrichen).
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    \node[state,fill=none] (x1)                                 {$\underline{x_1}$};
+    \node[state,fill=none] (x2) [right=12mm of x1]              {$\underline{x_2}$};
+    \node[state,fill=none] (y)  [below right=8mm and 5mm of x1] {$y$};
+    
+    \node[state] (a) [right=30mm of x2]             {$a$};
+    \node[state] (b) [right=12mm of a]              {$b$};
+    \node[state] (c) [below right=8mm and 5mm of a] {$c$};
+
+    \node [left =0mm of y] {$A$};
+    \node [above=0mm of b] {$A$};
+    \node [right=0mm of c] {$A$};
+    
+    \node [above left=0mm and 3mm of x1] {$q(x_1,x_2)$};
+    \node [above left=0mm and 3mm of a] {\Imc};
+  
+    \path[->]
+      (x1) edge              node[pos=.4,below left]  {$r$} (y)
+      (x2) edge              node[pos=.4,below right] {$r$} (y)
+      (a)  edge              node[pos=.4,below left]  {$r$} (c)
+      (b)  edge              node[pos=.4,below right] {$r$} (c)
+      (a)  edge              node[above]              {$r$} (b)
+      (b)  edge [loop right] node[right]              {$r$} ()
+    ;
+    
+  \end{tikzpicture}
+\end{center}
+%
+Dann gibt es z.\,B.\ folgende Homomorphismen von $q(x_1,x_2)$ nach \Imc:
+%
+\begin{itemize}
+  \item
+    $x_1 \mapsto a$,~ $x_2 \mapsto b$,~ $y \mapsto c$
+  \item
+    $x_1 \mapsto a$,~ $x_2 \mapsto a$,~ $y \mapsto c$
+\end{itemize}
+%
+Der erste Homomorphismus liefert die Antwort $(a,b)$, der zweite die Antwort $(a,a)$.
+
+%\goodbreak
+%\dots\ Wird fortgesetzt. \dots
 
 %% ===================================================================
 %% ===================================================================
