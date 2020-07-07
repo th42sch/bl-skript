@@ -4689,6 +4689,402 @@ Dann gibt es z.\,B.\ folgende Homomorphismen von $q(x_1,x_2)$ nach \Imc:
 %
 Der erste Homomorphismus liefert die Antwort $(a,b)$, der zweite die Antwort $(a,a)$.
 
+\section*{T7.8~ Beispiel für sichere Antworten}
+
+Wir betrachten die ABox $\Amc$ mit
+%
+\[\Amc = \{\ \textsf{Person}(h), \textsf{Person}(k), \textsf{TheorieVL}(b),
+\textsf{hört}(h,b)\ \}.\]
+%
+und die Ontology-mediated query $Q=(q(x),\Tmc)$ mit
+%
+\begin{align*}
+  %
+  \Tmc & = \{\ \textsf{TheorieVL}\sqsubseteq \textsf{VL}, \exists
+  \textsf{hört}.\textsf{VL}\sqsubseteq \textsf{Stud}\ \} \\
+  %
+  q(\underline x) & = \exists y~\textsf{Stud}(\underline x)\wedge
+  \textsf{hört}(\underline x,y)\wedge
+  \textsf{VL}(y)
+  %
+\end{align*}
+%
+Wir wollen $\text{cert}(Q,\Amc)$ berechnen und betrachten dafür die
+folgende Interpretation $\Imc$.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    
+    \node[state] (a)                                {$h$};
+    \node[state] (b) [right=12mm of a]              {$k$};
+    \node[state] (c) [below right=8mm and 5mm of a] {$b$};
+
+    \node [left =0mm of a] {$\textsf{Person},\textsf{Student}$};
+    \node [right=0mm of b] {$\textsf{Person}$};
+    \node [right=0mm of c] {$\textsf{TheorieVL},\textsf{VL}$};
+    
+    \node [above left=8mm and 8mm of a] {\Imc:};
+  
+    \path[->]
+      (a)  edge              node[pos=.4,below left]  {$r$} (c)
+%       (b)  edge              node[pos=.4,below right] {$r$} (c)
+%       (a)  edge              node[above]              {$r$} (b)
+%       (b)  edge [loop right] node[right]              {$r$} ()
+    ;
+    
+  \end{tikzpicture}
+\end{center}
+%
+Wir machen folgende Beobachtungen: 
+%
+\begin{enumerate}
+
+  \item $\Imc$ ist ein Modell von $\Amc,\Tmc$,
+
+  \item Jedes Modell von $\Amc,\Tmc$ ``enthält'' \Imc,
+
+  \item $h\in\text{ans}(q,\Imc)$,
+
+  \item $k,b\notin\text{ans}(q,\Imc)$,
+
+\end{enumerate}
+%
+Aus~1 und~4 folgt, dass $k,b$ keine sicheren Antworten sind. Und
+aus~1,~2,~3 folgt, dass $h$ eine sichere Antwort ist, also:  
+%
+\[\text{cert}(Q,\Amc)=\{h\}.\]
+
+\section*{T7.9~ Beweis von Lemma 7.12}
+
+``$\Rightarrow$'' Angenommen $\Amc\not\models Q$. Dann gibt es ein
+Modell $\Imc$ von $\Amc$ und \Tmc mit $\Imc\not\models q$, also
+$D^\Imc=\emptyset$. Für jedes $a\in\text{Ind}(\Amc)$ setze
+$f(a)=X$ für ein beliebiges $X\in\{R,G,B\}$ mit $a\in X^\Imc$ (ein
+solches $X$ existiert immer wegen der ersten Konzeptinklusion in
+\Tmc). Wegen der letzten drei Konzeptinklusionen in \Tmc und
+$D^\Imc=\emptyset$ ist $f$ eine $3$-Färbung. 
+
+\smallskip
+``$\Leftarrow$'' Angenommen $\Amc$ hat eine $3$-Färbung $f$. Wir
+definieren eine Interpretation $\Imc$ basierend auf $f$:
+%
+\begin{align*}
+  %
+  \Delta^\Imc & = \text{Ind}(\Amc) \\
+  %
+  r^\Imc & = \{(a,b)\mid r(a,b)\in \Amc\} \\
+  %
+  X^\Imc & = \{a\mid f(a)=X\}, && X\in \{R,G,B\} \\
+  %
+  D^\Imc & = \emptyset
+  %
+\end{align*}
+%
+Man kann sich überzeugen, dass $\Imc$ ein Modell von \Tmc und \Amc ist
+und $\Imc\not\models q$.
+
+\section*{T7.10~ Beispiel SQL-Rewritings}
+
+Wir zeigen, dass $p_3$ ein SQL-Rewriting von $Q_3$ ist, dass also für
+alle ABoxen $\Amc$, $\text{cert}(Q_3,\Amc)=\text{ans}(p_3,\Amc)$, 
+
+\medskip ``$\subseteq$'': Sei $a\in\text{cert}(Q_3,\Amc)$, also
+$a\in\text{ans}(q(\underline x),\Imc)$ für alle Modelle \Imc von
+$\Amc$ und \Tmc. Also gibt es in jedem solchen \Imc ein
+$d\in\Delta^\Imc$ sodass $(a,d)\in r^\Imc$ und $a\in A^\Imc$. Wir
+beobachten:
+%
+\begin{itemize}
+
+  \item für jedes $d\in\Delta^\Imc$ mit $(a,d)\in r^\Imc$ muss 
+    $r(a,d)$ muss in der ABox vorkommen: Falls nicht, können wir
+    \Imc ändern indem wir $(a,d)$ aus $r^\Imc$ entfernen. Das
+    erhaltene $\Imc'$ ist immer noch ein Modell von \Amc und \Tmc.
+
+  \item Wenn $A(a)$ nicht in der ABox vorkommt, muss $B(d)$ in der
+    ABox vorkommen, für ein $d$ mit $(a,d)\in r^\Imc$ (und damit
+    $r(a,d)\in \Amc$). Falls $B(d)$ nicht vorkommt, können wir
+    $d$ aus $B^\Imc$ entfernen und erhalten immer noch ein Modell von
+    \Amc und \Tmc.
+
+\end{itemize}
+%
+Zusammen haben wir also: es muss ein Individuum $d$ geben sodass
+$r(a,d)\in \Amc$ und entweder $A(a)\in \Amc$ oder $B(d)\in \Amc$. Das
+entspricht aber genau $p_3$.
+
+\smallskip ``$\supseteq$'': Sei $a\in \text{ans}(p_3(\underline
+x),\Amc)$. Wir unterscheiden zwei Fälle entsprechend der beiden
+Disjunkte von $p_3(\underline x)$:
+%
+\begin{itemize}
+
+  \item es gibt ein $b\in\text{Ind}(\Amc)$ sodass $A(a)\in\Amc$ und
+    $r(a,b)\in \Amc$;
+
+  \item es gibt ein $b\in\text{Ind}(\Amc)$ sodass 
+    $r(a,b)\in \Amc$ und $B(b)\in \Amc$;
+
+\end{itemize}
+%
+Sei nun $\Imc$ ein beliebiges Modell von \Amc und \Tmc. Im ersten Fall
+gilt $a\in \text{ans}(q(\underline x),\Imc)$, da \Imc ein Modell von \Amc. Im
+zweiten Fall gilt $a\in \text{ans}(q(\underline x),\Imc)$, da
+$a\in A^\Imc$ aus $r(a,b),B(b)\in \Amc$ und $\exists r.B\sqsubseteq
+A\in\Tmc$ folgt. 
+
+\section*{T7.11~ Beispiel für eine Reach-ABox}
+
+Wir betrachten die folgende grafische Darstellung einer ABox: 
+
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    
+    \node[state] (a)                                {$a$};
+    \node[state] (b) [above right=10mm and 10mm of a] {$\phantom{b}$};
+    \node[state] (c) [below right=10mm and 10mm of a] {$\phantom{c}$};
+    \node[state] (b1) [right=10mm of b] {$\phantom{b}$};
+    \node[state] (c1) [right=10mm of c] {$\phantom{c}$};
+    \node[state] (d) [below right=10mm and 10mm of b1] {$b$};
+
+
+    \node [left=0mm of a] {$\textsf{Start}$};
+    \node [right=0mm of d] {$\textsf{Ziel},M$};
+    
+    \node [above left=8mm and 8mm of a] {\Amc:};
+  
+    \path[->]
+      (a)  edge              node[pos=.4,above left]  {$r$} (b)
+      (a)  edge              node[pos=.4,below left]  {$r$} (c)
+      (b)  edge              node[pos=.5,above]  {$r$} (b1)
+      (c1)  edge             node[pos=.5,above]  {$r$} (c)
+      (b)  edge              node[pos=.5,left]  {$r$} (c)
+      (b1)  edge              node[pos=.5,left]  {$r$} (c1)
+      (d)  edge              node[pos=.4,above right]  {$r$} (b1)
+      (c1)  edge              node[pos=.6,below right]  {$r$} (d)
+      (b1)  edge              node[pos=.5,left]  {$r$} (c)
+    ;
+    
+  \end{tikzpicture}
+\end{center}
+%
+Man kann sich leicht überlegen, dass wegen 
+der Konzeptinklusion $\exists r.M\sqsubseteq M\in \Tmc$ jedes Modell
+von \Amc und \Tmc, die folgende Interpretation $\Imc$ ``enthält.''
+
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    
+    \node[state] (a)                                {$a$};
+    \node[state] (b) [above right=10mm and 10mm of a] {$\phantom{b}$};
+    \node[state] (c) [below right=10mm and 10mm of a] {$\phantom{c}$};
+    \node[state] (b1) [right=10mm of b] {$\phantom{b}$};
+    \node[state] (c1) [right=10mm of c] {$\phantom{c}$};
+    \node[state] (d) [below right=10mm and 10mm of b1] {$b$};
+
+
+    \node [left=0mm of a] {$\textsf{Start},M$};
+    \node [right=0mm of d] {$\textsf{Ziel},M$};
+    \node [right=0mm of c1] {$M$};
+    \node [right=0mm of b1] {$M$};
+    \node [above=0mm of b] {$M$};
+    
+    \node [above left=8mm and 8mm of a] {\Imc:};
+  
+    \path[->]
+      (a)  edge              node[pos=.4,above left]  {$r$} (b)
+      (a)  edge              node[pos=.4,below left]  {$r$} (c)
+      (b)  edge              node[pos=.5,above]  {$r$} (b1)
+      (c1)  edge             node[pos=.5,above]  {$r$} (c)
+      (b)  edge              node[pos=.5,left]  {$r$} (c)
+      (b1)  edge              node[pos=.5,left]  {$r$} (c1)
+      (d)  edge              node[pos=.4,above right]  {$r$} (b1)
+      (c1)  edge              node[pos=.6,below right]  {$r$} (d)
+      (b1)  edge              node[pos=.5,left]  {$r$} (c)
+    ;
+    
+  \end{tikzpicture}
+\end{center}
+%
+Intuitiv gesprochen wird $M$ an jedem Knoten erzwungen, der $b$
+erreichen kann.
+
+\section*{T7.12~ Beispiel DL-Lite TBox}
+
+Die folgende TBox ist eine DL-Lite TBox:  
+%
+\begin{align}
+  %
+  \Tmc = \{\ \textsf{Professor}& \sqsubseteq\textsf{Dozent},
+  \label{eq:dllite1} \\
+  %
+  \textsf{Dozent}& \sqsubseteq\textsf{Person}, \label{eq:dllite2} \\
+  %
+  \textsf{Dozent}& \sqsubseteq\exists \textsf{lehrt},
+  \label{eq:dllite3} \\
+  %
+  \exists\textsf{hältVL}^-& \sqsubseteq\textsf{VL}, \label{eq:dllite4} \\
+  %
+  \textsf{VL}& \sqsubseteq\exists\textsf{hältVL}^-, \label{eq:dllite5} \\
+  %
+  \textsf{hältVL}& \sqsubseteq\textsf{lehrt}\ \} \label{eq:dllite6}
+  %
+\end{align}
+%
+Dabei sind~\eqref{eq:dllite1}--\eqref{eq:dllite5} Konzeptinklusionen
+und~\eqref{eq:dllite6} eine Rolleninklusion. 
+
+Die Semantik von DL-Lite TBoxen ist wie erwartet; erinnert euch an die
+Semantik von Rolleninklusionen aus Kapitel~5.
+
+\section*{T7.13~ Beispiel SQL-Rewriting}
+
+Sei $Q=(q(\underline x),\Tmc)$ eine Ontology-mediated Query mit
+%
+\begin{align*}
+  %
+  q(\underline x)=\exists y~&\textsf{Person}(\underline x)\wedge
+  \textsf{lehrt}(\underline x,y))\wedge\textsf{VL}(y) \\[-1mm]
+  %
+  & \hspace{5mm}\alpha\hspace{20mm}\beta\hspace{14mm}\gamma
+  %
+\end{align*}
+%
+und $\Tmc$ wie in \textsf{T7.12}. Dabei sind $\alpha,\beta,\gamma$
+einfach Abkürzungen für die einzelnen Konjunkte.  Dann ist die
+folgende Anfrage $p(\underline x)$ ein SQL-rewriting von $Q$:
+%
+\begin{align*}
+  %
+  p(\underline x) = \exists y~&\big(\textsf{Dozent}(\underline x)\vee
+  \textsf{Professor}(\underline x)\vee \textsf{Person}(\underline
+  x)\big) \wedge{}\\[-1mm]
+  %
+  &
+  \hspace{3mm}\tiny{\eqref{eq:dllite2}\rightsquigarrow\alpha} \hspace{5mm}\tiny{\eqref{eq:dllite1},\eqref{eq:dllite2}\rightsquigarrow\alpha}
+  \hspace{11mm}\tiny{\alpha}\\
+%
+& \big(\textsf{lehrt}(\underline x,y)\wedge \textsf{VL}(y)\big)\vee
+\textsf{hältVL}(\underline x,y)\\[-1mm]
+%
+  & \hspace{7mm}\tiny{\beta} \hspace{15mm}\tiny{\gamma}
+  \hspace{11mm}\tiny{\eqref{eq:dllite6}\rightsquigarrow
+  \beta,\eqref{eq:dllite4}\rightsquigarrow \gamma}
+%  %
+\end{align*}
+%
+Die Idee ist, das man einzelne Konjunkte aus der konjunktiven Anfrage
+durch eine Disjunktion von allem ersetzt was dieses Konjunkt
+impliziert.\footnote{Die ganze Wahrheit ist natürlich etwas
+komplizierter, aber für den Anfang genügt diese Inuition.}
+ Die Implikationen sind an den entsprechenden Stellen
+sichtbar gemacht. Zum Beispiel bedeutet
+``$\eqref{eq:dllite2}\rightsquigarrow\alpha$'' unter
+$\textsf{Dozent}(\underline x)$, dass $\textsf{Dozent}(\underline x)$
+das Konjunkt $\alpha=\textsf{Person}(\underline x)$ impliziert
+wegen~\eqref{eq:dllite2}: $\textsf{Dozent}\sqsubseteq
+\textsf{Person}$. Beachtet, dass auch zwei Konjunkte 
+von einem impliziert werden können. Im Beispiel ist das der Fall bei
+$\textsf{hältVL}(\underline x,y)$, welches zusammen mit der TBox die
+beiden Konjunkte $\textsf{lehrt}(\underline x,y))\wedge\textsf{VL}(y)$ impliziert. 
+
+\section*{T7.14~ Beispiel universelles Modell}
+
+Seien $\Amc,\Tmc$ gegeben durch:
+%
+\begin{align*}
+  %
+  \Tmc & = \{\ A\sqsubseteq \exists r,\ B\sqsubseteq\exists s,\ \exists
+  t^-\sqsubseteq A,\ \exists s^-\sqsubseteq B,\ r\sqsubseteq t,\
+s\sqsubseteq t\ \} \\
+  %
+  \Amc & = \{\ A(a),\ A(b),\ B(c),\ r(a,c)\ \}
+  %
+\end{align*}
+% 
+Das universelle Modell \Umc von $\Amc$ und \Tmc ist das folgende: 
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=11pt,
+    every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=6mm},
+    every edge/.style={draw=black,thin}
+  ]
+    
+    \node[state] (b)                   {$b$};
+    \node[state] (c) [right=40mm of b] {$c$};
+    \node[state] (a) [above=10mm of c] {$a$};
+    \node[state] (b1) [below=10mm of b] {$\phantom{b}$};
+    \node[state] (b2) [below=10mm of b1] {$\phantom{b}$};
+    \node[draw=none] (b3) [below=10mm of b2] {$\vdots$};
+
+    \node[state] (c1) [below left=17mm of c] {$\phantom{c}$};
+    \node[state] (c2) [below right=17mm of c] {$\phantom{c}$};
+
+    \node[state] (c11) [below=10mm of c1] {$\phantom{b}$};
+    \node[draw=none] (c111) [below=10mm of c11] {$\vdots$};
+
+    \node[state] (c21) [below left=17mm of c2] {$\phantom{c}$};
+    \node[state] (c22) [below right=17mm of c2] {$\phantom{c}$};
+
+    \node[draw=none] (c211) [below=10mm of c21] {$\vdots$};
+
+    \node[draw=none] (c221) [below left=17mm of c22] {$\vdots$};
+    \node[draw=none] (c222) [below right=17mm of c22] {$\vdots$};
+
+ 
+    \node [left=0mm of b] {$A$};
+    \node [right=0mm of a] {$A$};
+    \node [left=0mm of b1] {$A$};
+    \node [left=0mm of b2] {$A$};
+    \node [right=0mm of c] {$B$};
+    \node [left=0mm of c1] {$A$};
+    \node [left=0mm of c11] {$A$};
+    \node [right=0mm of c2] {$A,B$};
+    \node [right=0mm of c22] {$A,B$};
+    \node [right=0mm of c21] {$A$};
+    
+    \node [above left=8mm and 8mm of a] {\Umc};
+  
+    \path[->]
+      (b)  edge              node[left] {$r,t$} (b1)
+      (b1)  edge              node[left] {$r,t$} (b2)
+      (b2)  edge              node[left] {$r,t$} (b3)
+      (c)  edge              node[left] {$r,t$} (c1)
+      (c1)  edge              node[left] {$r,t$} (c11)
+      (c11)  edge              node[left] {$r,t$} (c111)
+      (a)  edge              node[right] {$r,t$} (c)
+      (c)  edge              node[right]  {$s,t$} (c2)
+      (c2)  edge              node[right]  {$r,t$} (c21)
+      (c21)  edge              node[right]  {$r,t$} (c211)
+      (c2)  edge              node[right]  {$s,t$} (c22)
+      (c22)  edge              node[right]  {$r,t$} (c221)
+      (c22)  edge              node[right]  {$s,t$} (c222)
+    ;
+
+    \node[draw=none] (bl) [below left=2mm and 15mm of b] {};
+    \node[draw=none] (cr) [below right=2mm and 60mm of c] {};
+    \node[draw=none] (labove) [right=30mm of c] {\small ABox Individuen};
+    \node[draw=none] (lbelow) [below=5mm of labove] {\small neue Elemente};
+    
+    \draw[-] (bl) -- (cr);
+  \end{tikzpicture}
+\end{center}
+
+
+%
 %\goodbreak
 %\dots\ Wird fortgesetzt. \dots
 
@@ -4703,4 +5099,5 @@ Der erste Homomorphismus liefert die Antwort $(a,b)$, der zweite die Antwort $(a
 \addcontentsline{toc}{part}{Literaturverzeichnis}
 \bibliographystyle{babalpha}
 \bibliography{\jobname.bib}
+
 \end{document}
