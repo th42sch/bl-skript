@@ -4787,7 +4787,10 @@ definieren eine Interpretation $\Imc$ basierend auf $f$:
 Man kann sich überzeugen, dass $\Imc$ ein Modell von \Tmc und \Amc ist
 und $\Imc\not\models q$.
 
-\section*{T7.10~ Beispiel SQL-Rewritings}
+% ===================================================================
+%\section*{T7.10~ Beispiel SQL-Rewritings}
+\newcommand{\BspRewritings}{T7.10}
+\section*{\hypertarget{BspRewritings}{\BspRewritings}~ Beispiel SQL-Rewritings}
 
 Wir zeigen, dass $p_3$ ein SQL-Rewriting von $Q_3$ ist, dass also für
 alle ABoxen $\Amc$, $\text{cert}(Q_3,\Amc)=\text{ans}(p_3,\Amc)$, 
@@ -4921,18 +4924,18 @@ von \Amc und \Tmc, die folgende Interpretation $\Imc$ ``enthält.''
 Intuitiv gesprochen wird $M$ an jedem Knoten erzwungen, der $b$
 erreichen kann.
 
-\section*{T7.12~ Beispiel DL-Lite TBox}
+\section*{T7.12~ Beispiel DL-Lite-TBox}
 
-Die folgende TBox ist eine DL-Lite TBox:  
+Die folgende TBox ist eine DL-Lite-TBox:  
 %
 \begin{align}
   %
-  \Tmc = \{\ \textsf{Professor}& \sqsubseteq\textsf{Dozent},
+  \Tmc = \{\ \textsf{ProfessorIn}& \sqsubseteq\textsf{DozentIn},
   \label{eq:dllite1} \\
   %
-  \textsf{Dozent}& \sqsubseteq\textsf{Person}, \label{eq:dllite2} \\
+  \textsf{DozentIn}& \sqsubseteq\textsf{Person}, \label{eq:dllite2} \\
   %
-  \textsf{Dozent}& \sqsubseteq\exists \textsf{lehrt},
+  \textsf{DozentIn}& \sqsubseteq\exists \textsf{lehrt},
   \label{eq:dllite3} \\
   %
   \exists\textsf{hältVL}^-& \sqsubseteq\textsf{VL}, \label{eq:dllite4} \\
@@ -4946,10 +4949,13 @@ Die folgende TBox ist eine DL-Lite TBox:
 Dabei sind~\eqref{eq:dllite1}--\eqref{eq:dllite5} Konzeptinklusionen
 und~\eqref{eq:dllite6} eine Rolleninklusion. 
 
-Die Semantik von DL-Lite TBoxen ist wie erwartet; erinnert euch an die
+Die Semantik von DL-Lite-TBoxen ist wie erwartet; erinnert euch an die
 Semantik von Rolleninklusionen aus Kapitel~5.
 
-\section*{T7.13~ Beispiel SQL-Rewriting}
+% ===================================================================
+%\section*{T7.13~ Beispiel SQL-Rewriting}
+\newcommand{\BspRewriting}{T7.13}
+\section*{\hypertarget{BspRewriting}{\BspRewriting}~ Beispiel SQL-Rewriting}
 
 Sei $Q=(q(\underline x),\Tmc)$ eine Ontology-mediated Query mit
 %
@@ -4968,12 +4974,12 @@ folgende Anfrage $p(\underline x)$ ein SQL-rewriting von $Q$:
 %
 \begin{align*}
   %
-  p(\underline x) = \exists y~&\big(\textsf{Dozent}(\underline x)\vee
-  \textsf{Professor}(\underline x)\vee \textsf{Person}(\underline
+  p(\underline x) = \exists y~&\big(\textsf{DozentIn}(\underline x)\vee
+  \textsf{ProfessorIn}(\underline x)\vee \textsf{Person}(\underline
   x)\big) \wedge{}\\[-1mm]
   %
   &
-  \hspace{3mm}\tiny{\eqref{eq:dllite2}\rightsquigarrow\alpha} \hspace{5mm}\tiny{\eqref{eq:dllite1},\eqref{eq:dllite2}\rightsquigarrow\alpha}
+  \hspace{3mm}\tiny{\eqref{eq:dllite2}\rightsquigarrow\alpha} \hspace{11mm}\tiny{\eqref{eq:dllite1},\eqref{eq:dllite2}\rightsquigarrow\alpha}
   \hspace{11mm}\tiny{\alpha}\\
 %
 & \big(\textsf{lehrt}(\underline x,y)\wedge \textsf{VL}(y)\big)\vee
@@ -4992,9 +4998,9 @@ komplizierter, aber für den Anfang genügt diese Inuition.}
  Die Implikationen sind an den entsprechenden Stellen
 sichtbar gemacht. Zum Beispiel bedeutet
 ``$\eqref{eq:dllite2}\rightsquigarrow\alpha$'' unter
-$\textsf{Dozent}(\underline x)$, dass $\textsf{Dozent}(\underline x)$
+$\textsf{DozentIn}(\underline x)$, dass $\textsf{DozentIn}(\underline x)$
 das Konjunkt $\alpha=\textsf{Person}(\underline x)$ impliziert
-wegen~\eqref{eq:dllite2}: $\textsf{Dozent}\sqsubseteq
+wegen~\eqref{eq:dllite2}: $\textsf{DozentIn}\sqsubseteq
 \textsf{Person}$. Beachtet, dass auch zwei Konjunkte 
 von einem impliziert werden können. Im Beispiel ist das der Fall bei
 $\textsf{hältVL}(\underline x,y)$, welches zusammen mit der TBox die
@@ -5076,12 +5082,102 @@ Das universelle Modell \Umc von $\Amc$ und \Tmc ist das folgende:
 
     \node[draw=none] (bl) [below left=2mm and 15mm of b] {};
     \node[draw=none] (cr) [below right=2mm and 60mm of c] {};
-    \node[draw=none] (labove) [right=30mm of c] {\small ABox Individuen};
+    \node[draw=none] (labove) [right=30mm of c] {\small ABox-Individuen};
     \node[draw=none] (lbelow) [below=5mm of labove] {\small neue Elemente};
     
     \draw[-] (bl) -- (cr);
   \end{tikzpicture}
 \end{center}
+
+\pagebreak
+% ===================================================================
+\section*{T7.15~ Einbettbarkeit des universellen Modells in alle Modelle}
+
+\textsfbf{Lemma~7.17.}~
+Für jedes Modell \Imc von \Amc und \Tmc gilt:~ $\Umc \rightarrow \Imc$.
+
+\parII
+\textsfbf{Beweis.}~
+Sei $\Umc_0,\Umc_1,\dots$ die Folge der Interpretationen
+aus der Konstruktion von \Umc.
+Wir konstruieren Abbildungen $h_0,h_1,\dots$, so dass jedes $h_i$
+ein Homomorphismus von $\Umc_i$ nach \Imc ist.
+Der gewünschte Homomorphismus $h$ von \Umc nach \Imc ergibt sich im Limit.
+
+Um $h_0$ zu konstruieren, definieren wir $h_0(a) = a$ für alle Individuen
+$a \in \textsf{Ind}(\Amc)$.
+Da \Imc Modell von \Amc ist und $\Umc_0$ genau die Assertionen aus \Amc
+repräsentiert, überprüft man leicht, dass $h_0$ ein Homomorphismus
+von $\Umc_0$ nach \Imc ist.
+
+Um $h_1,h_2,\dots$ zu konstruieren, gehen wir induktiv vor:
+wir nehmen an, $h_i$ sei bereits definiert.
+Daraus konstruieren wir $h_{i+1}$ per Fallunterscheidung gemäß
+der Regel, die in der
+Konstruktion von $\Umc_{i+1}$ aus $\Umc_i$
+angewendet wurde:
+%
+\begin{description}
+  \item[\textsf{R1}]
+    Dann gibt es $d \in C^{\Umc_i}$ und $C \sqsubseteq A \in \Tmc$,
+    so dass $A^{\Umc_{i+1}} = A^{\Umc_i} \cup \{d\}$.
+    Da $h_i$ ein Homomorphismus ist, gilt $h(d) \in C^{\Imc}$
+    (denn man kann zeigen,
+    dass Homomorphismen DL-Lite-Konzepte "`bewahren"',
+    ähnlich wie Simulationen \EL-Konzepte gemäß Theorem~6.3 "`bewahren"').
+    Da \Imc ein Modell von \Tmc ist, folgt aus 
+    $h(d) \in C^{\Imc}$, dass $h(d) \in A^{\Imc}$ gilt.
+    Deshalb können wir $h_{i+1} = h$ setzen und erhalten einen Homomorphismus
+    von $\Umc_{i+1}$ nach \Imc.
+  \item[\textsf{R2}]
+    Dann gibt es $d \in C^{\Umc_i}$ und $C \sqsubseteq \exists R \in \Tmc$,
+    so dass $\Delta^{\Umc_{i+1}} = \Delta^{\Umc_i} \cup \{e\}$
+    und $R^{\Umc_{i+1}} = R^{\Umc_i} \cup \{(d,e)\}$.
+    Da $h_i$ ein Homomorphismus ist, gilt $h(d) \in C^{\Imc}$,
+    also $h(d) \in (\exists r)^{\Imc}$.
+    Wir können somit ein $f \in \Delta^{\Imc}$ mit $(d,f) \in r^\Imc$ wählen
+    und $h_{i+1} = h_i \cup \{e \mapsto f\}$ setzen, was einen Homomorphismus liefert.
+  \item[\textsf{R3}]
+    Ähnlich zu \textsfbf{R1}.
+    \qedhere
+\end{description}
+
+\enlargethispage{15mm}
+% ===================================================================
+\section*{T7.16~ {\boldmath Nicht-Lokalität von \EL-OMQs}}
+
+Für \EL-OMQs (und damit für \ALC-OMQs) gilt Theorem~7.19 \emph{nicht},
+selbst wenn die Funktion $|Q|^2+|Q|$ gegen eine beliebige Funktion
+$F(|Q|)$ ausgetauscht wird. Betrachten wir dazu die Erreichbarkeits-OMQ
+$(q,\Tmc)$ von Folie~7.37 mit
+%
+\begin{align*}
+  \Tmc & = \{~  \textsf{Ziel} \sqsubseteq \textsf{Markiert},~ \exists r.\textsf{Markiert} \sqsubseteq \textsf{Markiert} ~\} \\
+  q    & = \exists x \, \big(\textsf{Markiert}(x) \wedge \textsf{Start}(x)\big)
+\end{align*}
+%
+und folgende ABox \Amc.
+\vspace*{-\baselineskip}
+\[
+  S \mathrel{\underbrace{\underset{x}{\longrightarrow}\, \underset{x}{\longrightarrow} \,\cdots\, \underset{x}{\longrightarrow}}_{f(|Q|)+1}} T
+\]
+Dann gilt $\Amc \models Q$, aber $\Bmc \not\models Q$
+für \emph{alle} $\Bmc \subsetneq \Amc$.
+
+\parII
+Die Nicht-Lokalität von $Q$ zeigt sich auch beim Versuch,
+ein Rewriting mit der Vorgehensweise aus
+\textsf{\hyperlink{BspRewriting}{\BspRewriting}} zu konstruieren:
+%
+\begin{align*}
+  & \exists x\,\big(\textsf{Start}(x) \land \textsf{Ziel}(x)\big) \\
+  & \land \exists x_1\exists x_2\,\big(\textsf{Start}(x_1) \land r(x_1,x_2) \land \textsf{Ziel}(x_2)\big) \\
+  & \land \exists x_1\exists x_2\exists x_3\,\big(\textsf{Start}(x_1) \land r(x_1,x_2) \land r(x_2,x_3) \land \textsf{Ziel}(x_3)\big) \\[-4pt]
+  & \;\vdots
+\end{align*}
+
+
+
 
 
 %
