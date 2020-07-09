@@ -4538,7 +4538,7 @@ Wir verwenden ähnliche semantische Argumente wie in
       \begin{tabular}[t]{@{}lcl@{}}
         $(\Tmc,\Amc) \not\models A(a)$
         & gdw. & es gibt ein Modell \Imc von $(\Tmc,\Amc)$ mit $a \notin A^\Imc$ \\
-        & gdw. & es gibt ein Modell \Imc von $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc)$ mit $a \notin \overline{A}^\Imc$ \\
+        & gdw. & es gibt ein Modell \Imc von $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc)$ mit $a \in \overline{A}^\Imc$ \\
         & gdw. & es gibt ein Modell \Imc von $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc \cup \{\overline{A}(a)\})$ \\
         & gdw. & $(\Tmc \cup \{\overline{A} \equiv \neg A\},~\Amc \cup \{\overline{A}(a)\})$ ist konsistent
       \end{tabular}
@@ -4924,7 +4924,10 @@ von \Amc und \Tmc, die folgende Interpretation $\Imc$ ``enthält.''
 Intuitiv gesprochen wird $M$ an jedem Knoten erzwungen, der $b$
 erreichen kann.
 
-\section*{T7.12~ Beispiel DL-Lite-TBox}
+% ===================================================================
+%\section*{T7.12~ Beispiel DL-Lite-TBox}
+\newcommand{\BspDLLite}{T7.12}
+\section*{\hypertarget{BspDLLite}{\BspDLLite}~ Beispiel DL-Lite-TBox}
 
 Die folgende TBox ist eine DL-Lite-TBox:  
 %
@@ -4968,7 +4971,8 @@ Sei $Q=(q(\underline x),\Tmc)$ eine Ontology-mediated Query mit
   %
 \end{align*}
 %
-und $\Tmc$ wie in \textsf{T7.12}. Dabei sind $\alpha,\beta,\gamma$
+und $\Tmc$ wie in \textsf{\hyperlink{BspDLLite}{\BspDLLite}}. 
+Dabei sind $\alpha,\beta,\gamma$
 einfach Abkürzungen für die einzelnen Konjunkte.  Dann ist die
 folgende Anfrage $p(\underline x)$ ein SQL-rewriting von $Q$:
 %
@@ -5006,7 +5010,10 @@ von einem impliziert werden können. Im Beispiel ist das der Fall bei
 $\textsf{hältVL}(\underline x,y)$, welches zusammen mit der TBox die
 beiden Konjunkte $\textsf{lehrt}(\underline x,y))\wedge\textsf{VL}(y)$ impliziert. 
 
-\section*{T7.14~ Beispiel universelles Modell}
+% ===================================================================
+%\section*{T7.14~ Beispiel universelles Modell}
+\newcommand{\BspUnivModell}{T7.14}
+\section*{\hypertarget{BspUnivModell}{\BspUnivModell}~ Beispiel universelles Modell}
 
 Seien $\Amc,\Tmc$ gegeben durch:
 %
@@ -5142,7 +5149,7 @@ angewendet wurde:
     \qedhere
 \end{description}
 
-\enlargethispage{15mm}
+\enlargethispage{12mm}
 % ===================================================================
 \section*{T7.16~ {\boldmath Nicht-Lokalität von \EL-OMQs}}
 
@@ -5161,8 +5168,8 @@ und folgende ABox \Amc.
 \[
   S \mathrel{\underbrace{\underset{x}{\longrightarrow}\, \underset{x}{\longrightarrow} \,\cdots\, \underset{x}{\longrightarrow}}_{f(|Q|)+1}} T
 \]
-Dann gilt $\Amc \models Q$, aber $\Bmc \not\models Q$
-für \emph{alle} $\Bmc \subsetneq \Amc$.
+Dann gilt $\Amc \models Q$, aber $\Amc' \not\models Q$
+für \emph{alle} $\Amc' \subsetneq \Amc$.
 
 \parII
 Die Nicht-Lokalität von $Q$ zeigt sich auch beim Versuch,
@@ -5176,10 +5183,236 @@ ein Rewriting mit der Vorgehensweise aus
   & \;\vdots
 \end{align*}
 
+% ===================================================================
+\section*{T7.17~ {\boldmath Existenz "`kleiner Zeugen"'}}
 
+\newcommand{\drawUnivModel}[2]{%
+  \node[state]            (a)                                 {$a_1$};
+  \node[state,fill=#1,#2] (b) [below left =6mm and 15mm of a] {$a_2$};
+  \node[state,fill=#1,#2] (c) [below=8mm of a]                {$a_3$};
+  \node[state,#2]         (d) [below right=6mm and 15mm of a] {$a_4$};
+  
+  \node (a1) [above left =12mm and -10mm of a] {};
+  \node (a2) [above right=11mm and  13mm of a] {};
+  \node (b1) [below left =17mm and  17mm of b] {};
+  \node (b2) [below right=19mm and -10mm of b] {};
+  \node (c1) [below left =17mm and   2mm of c] {};
+  \node (c2) [below right=19mm and   2mm of c] {};
+  \node (d1) [below left =19mm and -10mm of d] {};
+  \node (d2) [below right=17mm and  17mm of d] {};
+  
+  \node[ellipse,draw=black,thin,fit=(a) (b) (c) (d),inner sep=-2mm] (ell) {};
+  
+  \node [above left= 0mm and  0mm of ell] {\Amc};
+  \node [above left=10mm and 10mm of ell] {\Umc};
 
+  \path[->]
+    (b) edge                 node[pos=.4,above left] {$s$} (a)
+    (b) edge                 node[above]             {$s$} (c)
+    (c) edge                 node[right]             {$r$} (a)
+    (c) edge [bend right=10] node[below]             {$r$} (d)
+    (d) edge [bend right=10] node[above]             {$r$} (c)
+  ;
+  
+  \path[-]
+    \foreach \x in {a,b,c,d} {(\x) edge (\x1) (\x) edge (\x2)}
+  ;
+}
 
+\newcommand{\addMh}{%
+  \node[inner sep=0mm,minimum size=0mm] (b3) [below left = 9mm and   7mm of b] {};
+  \node[inner sep=0mm,minimum size=0mm] (b4) [below right=12mm and  -8mm of b] {};
+  \node[inner sep=0mm,minimum size=0mm] (c3) [below left =13mm and   0mm of c] {};
+  \node[inner sep=0mm,minimum size=0mm] (c4) [below right=11mm and  -.5mm of c] {};
+  
+  \path[-,every edge/.style={draw=blue!50!black,thick},densely dashed]
+    (b) edge (b3) (b3) edge (b4) (b4) edge (b)
+    (c) edge (c3) (c3) edge (c4) (c4) edge (c)
+  ;
+  
+  \node[inner sep=0mm,minimum size=0mm] (leg0)  [above right=0mm and 25mm of ell] {};
+  \node[inner sep=0mm,minimum size=0mm] (leg01) [below left =4mm and 1.5mm of leg0] {};
+  \node[inner sep=0mm,minimum size=0mm] (leg02) [below right=4mm and 1.5mm of leg0] {};
+  
+  \node[above right=-1mm and 2mm of leg02] {$h$};
 
+  \path[-,every edge/.style={draw=blue!50!black,thick},densely dashed]
+    (leg0) edge (leg01) (leg01) edge (leg02) (leg02) edge (leg0)
+  ;
+  
+  \node[state,fill=blue!50,minimum size=4mm] (leg1) [below=6mm of leg0] {};
+  \node[right=1mm of leg1]{$M$};
+
+%  \path[->,every edge/.style={draw=blue!50!black,thick},densely dashed]
+%    (b) edge [bend right=15] (c)
+%   ;
+%
+}
+
+\newcommand{\drawLegendN}{%
+  \node[state,very thick,draw=red!90!black,fill=none,minimum size=4mm] (leg2) [below= 2mm of leg1] {};
+  \node[right=1mm of leg2]{$N$};
+}
+
+\newcommand{\addAprime}{%
+  \node[ellipse,draw=black,thin,fit=(b) (c) (d),inner sep=0mm] (ell) {};  
+}
+
+\textbfsf{Theorem~7.19.}~
+Sei $Q=(q,\Tmc)$ OMQ mit DL-Lite-TBox \Tmc und $n = |Q|^2+|Q|$.
+Dann gilt für alle ABoxen \Amc:
+
+Wenn $\Amc \models Q$, dann gibt es $\Amc' \subseteq \Amc$
+mit $|\textsf{Ind}(\Amc')| \leq n$ und $\Amc' \models Q$.
+
+\parII
+\textsfbf{Beweis.}~
+Wegen $\Amc \models Q$ gilt wegen Lemma~7.18: $\Umc \models q$.
+Per Konstruktion (Folie~7.42 und
+\textsf{\hyperlink{BspUnivModell}{\BspUnivModell}}) hat \Umc die folgende Form.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=2pt,
+    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,semithick}
+  ]
+    \drawUnivModel{black!10}{thin}
+  \end{tikzpicture}
+\end{center}
+%
+Das Bild ist exemplarisch und schematisch.
+Die offenen "`Dreiecke"', die aus den ABox-Individuen
+heraushängen, deuten die Teilbäume von namenlosen Elementen an, die man durch
+wiederholtes Anwenden der Regel \textsf{R2} erhält.
+
+Sei nun $h$ ein Homomorphismus von $q$ nach \Umc,
+und sei $M$ die Menge der Individuen $a \in \textsf{Ind}(\Amc)$,
+für die gilt: $h$ bildet eine Variable aus $q$
+auf $a$ oder ein Element des Teilbaums unter $a$ ab.
+Es gilt $|M| < |q|$.
+Im folgenden Bild sind die (endlich vielen) Bilder von $h$
+durch die gestrichelten blauen Linien dargestellt
+und die Elemente von $M$ durch die etwas dunklere, blaue Füllung.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=2pt,
+    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,semithick}
+  ]
+    \drawUnivModel{blue!50}{thin}
+    \addMh
+  \end{tikzpicture}
+\end{center}
+%
+Wir erweitern nun die Menge $M$ wie folgt zur Menge $N$:
+Wenn $a \in M$ und $R$ eine (eventuell inverse) Rolle in \Tmc ist,
+und es ein $b$ gibt mit $R(a,b) \in \Amc$, dann wähle ein solches $b$
+und füge es zu $N$ hinzu.
+In unserem Beispiel muss ein $r$-Nachfolger und $r$-Vorgänger von $a_3$
+hinzugefügt werden, also $a_4$.
+Im folgenden Bild sind die Elemente von $N$ durch 
+dicke rote Linien umrandet.
+%
+\begin{center}
+  \begin{tikzpicture}[%
+    >=Latex,baseline=2pt,
+    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,semithick}
+  ]
+    \drawUnivModel{blue!50}{very thick,draw=red!90!black}
+    \addMh
+    \drawLegendN
+  \end{tikzpicture}
+\end{center}
+%
+Sei nun $\Amc'$ die Einschränkung von \Amc auf $N$:
+%
+\begin{center}
+  \dots\ Bild folgt \dots
+%  \begin{tikzpicture}[%
+%    >=Latex,baseline=2pt,
+%    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
+%    every edge/.style={draw=black,semithick}
+%  ]
+%    \drawUnivModel{blue!50}{very thick,draw=red!90!black}
+%    \addMh
+%    \drawLegendN
+%    \addAprime
+%  \end{tikzpicture}
+\end{center}
+%
+Wir müssen noch zeigen, dass $\Amc'$ tatsächlich die gewünschte ABox ist.
+Nach Konstruktion ist $\Amc' \subseteq \Amc$.
+Außerdem ist $|\textsf{Ind}(\Amc')| \leq n$,
+denn $\textsf{Ind}(\Amc') = N$ und
+$|N| \leq |q| \cdot (|\Tmc| + 1) \leq |Q|^2 + |Q|$.
+Es bleibt zu zeigen: $\Amc' \models Q$.
+
+Dazu betrachten wir das universelle Modell $\Umc'$ von $\Amc'$ und \Tmc.
+Sei außerdem $\Umc|_M$ die Einschränkung von \Umc 
+auf die Individuen in $M$ und deren Subbäume:
+%
+\begin{center}
+  \dots\ Bild folgt \dots
+\end{center}
+%
+Wir möchten nun zeigen, dass $q \to \Umc'$ gilt,
+denn dann folgt $\Amc' \to Q$ mit Lemma~7.18.
+Für $q \to \Umc'$ genügt es wiederum zu zeigen,
+dass $\Umc|_M \to \Umc'$,
+denn der Homomorphismus $h$ bezeugt $q \to \Umc|_M$,
+und die Komposition der zwei Homomorphismen liefert dann $q \to \Umc'$.
+
+Um nun noch $\Umc|_M \to \Umc'$ zu zeigen,
+betrachten wir die Folge $\Umc_0,\Umc_1,\dots$ der Interpretationen
+aus der Konstruktion von \Umc sowie die entsprechenden Einschränkungen
+$\Umc_0|_M,\Umc_1|_M,\dots$ auf $M$.
+Wir konstruieren nun eine Folge $h_0 \subseteq h_1 \subseteq h_2 \subseteq \dots$
+von Homomorphismen $h_i$ von $\Umc_i|_M$ nach $\Umc'$.
+Da diese Folge monoton wächst, liefert ihr Limit den gewünschten Homomorphismus
+von $\Umc|_M$ nach $\Umc'$.
+
+Wir konstruieren die $h_i$ per Induktion über $i$ und stellen dabei zusätzlich
+folgende Eigenschaft sicher:
+%
+\[
+  d \in C^{\Umc_i} \,\Rightarrow\, h_i(d) \in C^{\Umc'}\quad \text{~für alle~} d \in \Delta^{\Umc_i|_M} \text{~und DL-Lite-Konzepte~} C
+  \tag{$*$}
+\]
+%
+Diese Eigenschaft folgt nicht daraus, dass $h_i$ ein Homomorphismus ist,
+denn auf der rechten Seite der Implikation steht $C^{\Umc'}$ und nicht $C^{\Umc_i}$.
+Sie wird aber durch die Erweiterung von $M$ zu $N$ sichergestellt,
+wie wir gleich sehen werden.
+
+Um $h_0$ zu konstruieren, setzen wir $h_0(a)$ für alle $a \in M$.
+Da wir $M$ zu $N = \textsf{Ind}(\Amc')$ erweitert haben,
+ist $(*)$ erfüllt: wenn zum Beispiel $a \in (\exists r)^{\Umc_0}$ ist,
+dann gibt es per Definition von $\Umc_0$ eine Assertion $r(a,b) \in \Amc$,
+und somit gibt es nach Konstruktion von $N$ auch ein $r(a,b') \in \Amc'$;
+also ist $h_0(a) = a \in (\exists r)^{\Umc'}$.
+
+Für den Induktionsschritt sei der Homomorphismus $h_i$ von $\Umc_i|_M$ nach $\Umc'$
+bereits definiert und erfülle $(*)$.
+Um daraus $h_{i+1}$ zu konstruieren, wenden wir eine Fallunterscheidung gemäß
+der Regel an, die angewendet wurde, um $\Umc_{i+1}$ aus $\Umc_i$ zu
+konstruieren.
+%
+\begin{description}
+  \item[\textsf{R1}]
+    Dann gibt es $d \in C^{\Umc_i}$ und $C \sqsubseteq A \in \Tmc$,
+    so dass $A^{\Umc_{i+1}} = A^{\Umc_i} \cup \{d\}$.
+    Wenn $d \notin \Delta^{\Umc_i|_M}$, dann ist nichts zu tun.
+    Ist hingegen $d \in M$, dann gilt mit $(*)$ $h(d) \in C^{\Umc'}$.
+    Da $\Umc'$ Modell von \Tmc ist, gilt $d \in A^{\Umc'}$.
+    Wir können also $h_{i+1} = h_i$ setzen
+    und erhalten einen Homomorphismus, der $(*)$ erfüllt.
+  \item[\textsf{R2} und \textsf{R3}]
+    Analog.
+    \qedhere
+\end{description}
 %
 %\goodbreak
 %\dots\ Wird fortgesetzt. \dots
