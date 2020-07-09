@@ -4842,7 +4842,7 @@ A\in\Tmc$ folgt.
 
 \section*{T7.11~ Beispiel für eine Reach-ABox}
 
-Wir betrachten die folgende grafische Darstellung einer ABox: 
+Wir betrachten die folgende grafische Darstellung einer ABox \Amc: 
 
 \begin{center}
   \begin{tikzpicture}[%
@@ -4860,7 +4860,7 @@ Wir betrachten die folgende grafische Darstellung einer ABox:
 
 
     \node [left=0mm of a] {$\textsf{Start}$};
-    \node [right=0mm of d] {$\textsf{Ziel},M$};
+    \node [right=0mm of d] {$\textsf{Ziel},\textsf{Markiert}$};
     
     \node [above left=8mm and 8mm of a] {\Amc:};
   
@@ -4880,8 +4880,8 @@ Wir betrachten die folgende grafische Darstellung einer ABox:
 \end{center}
 %
 Man kann sich leicht überlegen, dass wegen 
-der Konzeptinklusion $\exists r.M\sqsubseteq M\in \Tmc$ jedes Modell
-von \Amc und \Tmc, die folgende Interpretation $\Imc$ ``enthält.''
+der Konzeptinklusion \mbox{$\exists r.\textsf{Markiert}\sqsubseteq \textsf{Markiert}\in \Tmc$} jedes Modell
+von \Amc und \Tmc die folgende Interpretation $\Imc$ "`enthält."'
 
 \begin{center}
   \begin{tikzpicture}[%
@@ -4898,11 +4898,11 @@ von \Amc und \Tmc, die folgende Interpretation $\Imc$ ``enthält.''
     \node[state] (d) [below right=10mm and 10mm of b1] {$b$};
 
 
-    \node [left=0mm of a] {$\textsf{Start},M$};
-    \node [right=0mm of d] {$\textsf{Ziel},M$};
-    \node [right=0mm of c1] {$M$};
-    \node [right=0mm of b1] {$M$};
-    \node [above=0mm of b] {$M$};
+    \node [left=0mm of a] {$\textsf{Start},\textsf{Markiert}$};
+    \node [right=0mm of d] {$\textsf{Ziel},\textsf{Markiert}$};
+    \node [right=0mm of c1] {\textsf{Markiert}};
+    \node [right=0mm of b1] {\textsf{Markiert}};
+    \node [above=0mm of b] {\textsf{Markiert}};
     
     \node [above left=8mm and 8mm of a] {\Imc:};
   
@@ -4921,7 +4921,7 @@ von \Amc und \Tmc, die folgende Interpretation $\Imc$ ``enthält.''
   \end{tikzpicture}
 \end{center}
 %
-Intuitiv gesprochen wird $M$ an jedem Knoten erzwungen, der $b$
+Intuitiv gesprochen wird \textsf{Markiert} an jedem Knoten erzwungen, der $b$
 erreichen kann.
 
 % ===================================================================
