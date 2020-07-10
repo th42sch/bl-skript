@@ -5371,7 +5371,8 @@ aus der Konstruktion von \Umc sowie die entsprechenden Einschränkungen
 $\Umc_0|_M,\Umc_1|_M,\dots$ auf $M$.
 Wir konstruieren nun eine Folge $h_0 \subseteq h_1 \subseteq h_2 \subseteq \dots$
 von Homomorphismen $h_i$ von $\Umc_i|_M$ nach $\Umc'$.
-Da diese Folge monoton wächst, liefert ihr Limit den gewünschten Homomorphismus
+Da die Folge $\Umc_0|_M,\Umc_1|_M,\dots$ im Limit $\Umc_M$ erreicht,
+liefert das Limit der Folge $h_0 \subseteq h_1 \subseteq h_2 \subseteq \dots$den gewünschten Homomorphismus
 von $\Umc|_M$ nach $\Umc'$.
 
 Wir konstruieren die $h_i$ per Induktion über $i$ und stellen dabei zusätzlich
@@ -5413,6 +5414,50 @@ konstruieren.
     Analog.
     \qedhere
 \end{description}
+
+
+\section*{T7.18~ Beweis von Korollar 7.21}
+
+``$\Rightarrow$'' Folgt direkt aus Theorem~7.19.
+
+\smallskip
+
+``$\Leftarrow$'' Sei $\Bmc$ ein kleiner $Q$-Zeuge und $\Bmc\subseteq^*
+\Amc$ (also $\Bmc$ enthalten in \Amc bis auf Individuenumbenennung).
+Angenommen $\Amc\not\models Q$. Dann gibt es ein Modell \Imc von \Amc
+und \Tmc mit $\Imc\not\models q$. Da $\Bmc\subseteq^*\Amc$, kann
+$\Imc$ durch Umbenennung von Individuen zu Modell $\Imc'$ von \Bmc und
+\Tmc gemacht werden. Es gilt allerdings nach wie vor $\Imc'\not\models
+q$, im Widerspruch zur Annahme, dass $\Bmc$ ein kleiner $Q$-Zeuge ist. 
+
+
+\section*{T7.19~ Beweis von Lemma 7.22}
+
+Anstelle eines Beweises machen wir ein Beispiel, das leicht zu einem
+vollständigen Beweis verallgemeinert werden kann.
+
+Sei $\Bmc=\{\ A(a_1), r(a_1,a_2)\ \}$. Dann ist $q_\Bmc$ die folgende
+SQL-Anfrage: 
+%
+\begin{align*}
+  %
+  & \texttt{SELECT NONE} \\
+  %
+  & \texttt{FROM } A,r \\
+  %
+  & \texttt{WHERE } A.\text{col} = r.\text{col1} \texttt{ AND }
+  r.\text{col1} \neq r.\text{col2}
+  %
+\end{align*}
+%
+Beachte, dass das \texttt{NONE} im \texttt{SELECT}-Teil einer Booleschen 
+Anfrage entspricht. Außerdem entspricht die Bedingung $r.\text{col1} \neq
+r.\text{col2}$ im \texttt{WHERE}-Teil der Ungleichheit von $a_1$ und
+$a_2$.
+  
+
+
+
 %
 %\goodbreak
 %\dots\ Wird fortgesetzt. \dots
