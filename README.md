@@ -9,7 +9,7 @@ Hier findet ihr die Tafelanschriebe für die Vorlesung „Beschreibungslogik“.
 
 ## Stand (13.7.2020)
 
-Alle Kapitel (2–7) vollständig, bis auf Bild in T3.8 
+Alle Kapitel (2–7) vollständig, bis auf Bild in T3.4 
 
 ## Versionsgeschichte
 
