@@ -3364,10 +3364,15 @@ Dann gilt:
 \end{align*}
 %
 Und damit:
-%
-\[{\underbrace{(\text{hört}\circ\text{angebotenVon}\sqsubseteq
+
+\parI
+\scalebox{.98}[1]{%
+${\underbrace{(\text{hört}\circ\text{angebotenVon}\sqsubseteq
   \text{eingeschriebenAn})}_{\rho}}^\Imc =
-\{\text{hanna},\text{BL},\text{fahrzeugbau},\text{uni$\_$hb},\text{hs$\_$hb}\}\]
+\{\text{hanna},\text{BL},\text{fahrzeugbau},\text{uni$\_$hb},\text{hs$\_$hb}\}$
+}
+
+\parI
 Deshalb gilt:
 %
 \begin{itemize}
@@ -4709,7 +4714,7 @@ und die Ontology-mediated query $Q=(q(x),\Tmc)$ mit
   %
 \end{align*}
 %
-Wir wollen $\text{cert}(Q,\Amc)$ berechnen und betrachten dafür die
+Wir wollen $\textsf{cert}(Q,\Amc)$ berechnen und betrachten dafür die
 folgende Interpretation $\Imc$.
 %
 \begin{center}
@@ -4747,16 +4752,16 @@ Wir machen folgende Beobachtungen:
 
   \item Jedes Modell von $\Amc,\Tmc$ ``enthält'' \Imc,
 
-  \item $h\in\text{ans}(q,\Imc)$,
+  \item $h\in\textsf{ans}(q,\Imc)$,
 
-  \item $k,b\notin\text{ans}(q,\Imc)$,
+  \item $k,b\notin\textsf{ans}(q,\Imc)$,
 
 \end{enumerate}
 %
 Aus~1 und~4 folgt, dass $k,b$ keine sicheren Antworten sind. Und
 aus~1,~2,~3 folgt, dass $h$ eine sichere Antwort ist, also:  
 %
-\[\text{cert}(Q,\Amc)=\{h\}.\]
+\[\textsf{cert}(Q,\Amc)=\{h\}.\]
 
 \section*{T7.9~ Beweis von Lemma 7.12}
 
@@ -4793,52 +4798,59 @@ und $\Imc\not\models q$.
 \section*{\hypertarget{BspRewritings}{\BspRewritings}~ Beispiel SQL-Rewritings}
 
 Wir zeigen, dass $p_3$ ein SQL-Rewriting von $Q_3$ ist, dass also für
-alle ABoxen $\Amc$, $\text{cert}(Q_3,\Amc)=\text{ans}(p_3,\Amc)$, 
+alle ABoxen $\Amc$ gilt:
+\[
+  \textsf{cert}(Q_3,\Amc) = \textsf{ans}(p_3,\Amc)
+\]
 
-\medskip ``$\subseteq$'': Sei $a\in\text{cert}(Q_3,\Amc)$, also
-$a\in\text{ans}(q(\underline x),\Imc)$ für alle Modelle \Imc von
-$\Amc$ und \Tmc. Also gibt es in jedem solchen \Imc ein
-$d\in\Delta^\Imc$ sodass $(a,d)\in r^\Imc$ und $a\in A^\Imc$. Wir
-beobachten:
-%
-\begin{itemize}
+\begin{description}
+  \item[{\boldmath "`$\subseteq$"':}]
+    Sei $a\in\textsf{cert}(Q_3,\Amc)$, also
+    $a\in\textsf{ans}(q(\underline x),\Imc)$ für alle Modelle \Imc von
+    $\Amc$ und \Tmc. Also gibt es in jedem solchen \Imc ein
+    $d\in\Delta^\Imc$ sodass $(a,d)\in r^\Imc$ und $a\in A^\Imc$. Wir
+    beobachten:
+    %
+    \begin{itemize}
+    
+      \item Für jedes $d\in\Delta^\Imc$ mit $(a,d)\in r^\Imc$ muss 
+        $r(a,d)$ muss in der ABox vorkommen: Falls nicht, können wir
+        \Imc ändern indem wir $(a,d)$ aus $r^\Imc$ entfernen. Das
+        erhaltene $\Imc'$ ist immer noch ein Modell von \Amc und \Tmc.
+    
+      \item Wenn $A(a)$ nicht in der ABox vorkommt, muss $B(d)$ in der
+        ABox vorkommen, für ein $d$ mit $(a,d)\in r^\Imc$ (und damit
+        $r(a,d)\in \Amc$). Falls $B(d)$ nicht vorkommt, können wir
+        $d$ aus $B^\Imc$ entfernen und erhalten immer noch ein Modell von
+        \Amc und \Tmc.
+    
+    \end{itemize}
+    %
+    Zusammen haben wir also: es muss ein Individuum $d$ geben sodass
+    $r(a,d)\in \Amc$ und entweder $A(a)\in \Amc$ oder $B(d)\in \Amc$. Das
+    entspricht aber genau $p_3$.
+  \item[{\boldmath "`$\supseteq$"':}]
+    Sei $a\in \textsf{ans}(p_3(\underline
+    x),\Amc)$. Wir unterscheiden zwei Fälle entsprechend der beiden
+    Disjunkte von $p_3(\underline x)$:
+    %
+    \begin{enumerate}
+    
+      \item Es gibt ein $b\in\text{Ind}(\Amc)$, sodass $A(a)\in\Amc$ und
+        $r(a,b)\in \Amc$.
+    
+      \item Es gibt ein $b\in\text{Ind}(\Amc)$, sodass 
+        $r(a,b)\in \Amc$ und $B(b)\in \Amc$.
+    
+    \end{enumerate}
+    %
+    Sei nun $\Imc$ ein beliebiges Modell von \Amc und \Tmc. Im ersten Fall
+    gilt $a\in \textsf{ans}(q(\underline x),\Imc)$, da \Imc ein Modell von \Amc. Im
+    zweiten Fall gilt $a\in \textsf{ans}(q(\underline x),\Imc)$, da
+    $a\in A^\Imc$ aus $r(a,b),B(b)\in \Amc$ und $\exists r.B\sqsubseteq
+    A\in\Tmc$ folgt. 
+\end{description}
 
-  \item für jedes $d\in\Delta^\Imc$ mit $(a,d)\in r^\Imc$ muss 
-    $r(a,d)$ muss in der ABox vorkommen: Falls nicht, können wir
-    \Imc ändern indem wir $(a,d)$ aus $r^\Imc$ entfernen. Das
-    erhaltene $\Imc'$ ist immer noch ein Modell von \Amc und \Tmc.
-
-  \item Wenn $A(a)$ nicht in der ABox vorkommt, muss $B(d)$ in der
-    ABox vorkommen, für ein $d$ mit $(a,d)\in r^\Imc$ (und damit
-    $r(a,d)\in \Amc$). Falls $B(d)$ nicht vorkommt, können wir
-    $d$ aus $B^\Imc$ entfernen und erhalten immer noch ein Modell von
-    \Amc und \Tmc.
-
-\end{itemize}
-%
-Zusammen haben wir also: es muss ein Individuum $d$ geben sodass
-$r(a,d)\in \Amc$ und entweder $A(a)\in \Amc$ oder $B(d)\in \Amc$. Das
-entspricht aber genau $p_3$.
-
-\smallskip ``$\supseteq$'': Sei $a\in \text{ans}(p_3(\underline
-x),\Amc)$. Wir unterscheiden zwei Fälle entsprechend der beiden
-Disjunkte von $p_3(\underline x)$:
-%
-\begin{itemize}
-
-  \item es gibt ein $b\in\text{Ind}(\Amc)$ sodass $A(a)\in\Amc$ und
-    $r(a,b)\in \Amc$;
-
-  \item es gibt ein $b\in\text{Ind}(\Amc)$ sodass 
-    $r(a,b)\in \Amc$ und $B(b)\in \Amc$;
-
-\end{itemize}
-%
-Sei nun $\Imc$ ein beliebiges Modell von \Amc und \Tmc. Im ersten Fall
-gilt $a\in \text{ans}(q(\underline x),\Imc)$, da \Imc ein Modell von \Amc. Im
-zweiten Fall gilt $a\in \text{ans}(q(\underline x),\Imc)$, da
-$a\in A^\Imc$ aus $r(a,b),B(b)\in \Amc$ und $\exists r.B\sqsubseteq
-A\in\Tmc$ folgt. 
 
 \section*{T7.11~ Beispiel für eine Reach-ABox}
 
@@ -4880,8 +4892,8 @@ Wir betrachten die folgende grafische Darstellung einer ABox \Amc:
 \end{center}
 %
 Man kann sich leicht überlegen, dass wegen 
-der Konzeptinklusion \mbox{$\exists r.\textsf{Markiert}\sqsubseteq \textsf{Markiert}\in \Tmc$} jedes Modell
-von \Amc und \Tmc die folgende Interpretation $\Imc$ "`enthält."'
+der Konzeptinklusion $\exists r.\textsf{Markiert}\sqsubseteq \textsf{Markiert}$ aus \Tmc
+jedes Modell von \Amc und \Tmc die folgende Interpretation $\Imc$ "`enthält"'.
 
 \begin{center}
   \begin{tikzpicture}[%
@@ -4965,9 +4977,9 @@ Sei $Q=(q(\underline x),\Tmc)$ eine Ontology-mediated Query mit
 \begin{align*}
   %
   q(\underline x)=\exists y~&\textsf{Person}(\underline x)\wedge
-  \textsf{lehrt}(\underline x,y))\wedge\textsf{VL}(y) \\[-1mm]
+  \textsf{lehrt}(\underline x,y))\wedge\textsf{VL}(y) \\[-2mm]
   %
-  & \hspace{5mm}\alpha\hspace{20mm}\beta\hspace{14mm}\gamma
+  & \hspace{5mm}{\scriptstyle\alpha\hspace{20mm}\beta\hspace{14mm}\gamma}
   %
 \end{align*}
 %
@@ -4980,18 +4992,18 @@ folgende Anfrage $p(\underline x)$ ein SQL-rewriting von $Q$:
   %
   p(\underline x) = \exists y~&\big(\textsf{DozentIn}(\underline x)\vee
   \textsf{ProfessorIn}(\underline x)\vee \textsf{Person}(\underline
-  x)\big) \wedge{}\\[-1mm]
+  x)\big) \wedge{}\\[-2mm]
   %
   &
-  \hspace{3mm}\tiny{\eqref{eq:dllite2}\rightsquigarrow\alpha} \hspace{11mm}\tiny{\eqref{eq:dllite1},\eqref{eq:dllite2}\rightsquigarrow\alpha}
-  \hspace{11mm}\tiny{\alpha}\\
+  \hspace{4mm}{\scriptstyle\eqref{eq:dllite2}\;\rightsquigarrow\;\alpha} \hspace{11mm}{\scriptstyle\eqref{eq:dllite1},\,\eqref{eq:dllite2}\;\rightsquigarrow\;\alpha}
+  \hspace{12mm}{\scriptstyle\alpha}\\[2mm]
 %
 & \big(\textsf{lehrt}(\underline x,y)\wedge \textsf{VL}(y)\big)\vee
-\textsf{hältVL}(\underline x,y)\\[-1mm]
+\textsf{hältVL}(\underline x,y)\\[-2mm]
 %
-  & \hspace{7mm}\tiny{\beta} \hspace{15mm}\tiny{\gamma}
-  \hspace{11mm}\tiny{\eqref{eq:dllite6}\rightsquigarrow
-  \beta,\eqref{eq:dllite4}\rightsquigarrow \gamma}
+  & \hspace{7mm}\scriptstyle{\beta} \hspace{15mm}\scriptstyle{\gamma}
+  \hspace{11mm}\scriptstyle{\eqref{eq:dllite6}\;\rightsquigarrow\;
+  \beta,~\eqref{eq:dllite4}\;\rightsquigarrow\;\gamma}
 %  %
 \end{align*}
 %
