@@ -5203,7 +5203,7 @@ ein Rewriting mit der Vorgehensweise aus
   
   \node[ellipse,draw=black,thin,fit=(a) (b) (c) (d),inner sep=-2mm] (ell) {};
   
-  \node [above left= 0mm and  0mm of ell] {\Amc};
+  \node [above left= -1mm and  0mm of ell] {\Amc};
   \node [above left=10mm and 10mm of ell] {\Umc};
 
   \path[->]
@@ -5255,7 +5255,21 @@ ein Rewriting mit der Vorgehensweise aus
 }
 
 \newcommand{\addAprime}{%
-  \node[ellipse,draw=black,thin,fit=(b) (c) (d),inner sep=0mm] (ell) {};  
+  \begin{scope}[
+    every node/.style={inner sep=0mm,minimum size=0mm}
+  ]
+    \node (line0) [left=6mm of ell] {};
+    \node (line1) [above=2mm of b]  {};
+    \node (line2) [above=2mm of c]  {};
+    \node (line3) [above=2mm of d]  {};
+    \node (line4) [right=6mm of ell] {};
+  \end{scope}
+  
+  \node [text=red!90!black,below right=-.5mm and 0mm of line0] {$\Amc'$};
+
+  \draw[-,red!90!black,thick,dashed,rounded corners]
+    (line0) .. controls (line1) .. (line2) .. controls (line3) .. (line4)
+  ;
 }
 
 \textbfsf{Theorem~7.19.}~
@@ -5330,17 +5344,17 @@ dicke rote Linien umrandet.
 Sei nun $\Amc'$ die Einschränkung von \Amc auf $N$:
 %
 \begin{center}
-  \dots\ Bild folgt \dots
-%  \begin{tikzpicture}[%
-%    >=Latex,baseline=2pt,
-%    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
-%    every edge/.style={draw=black,semithick}
-%  ]
-%    \drawUnivModel{blue!50}{very thick,draw=red!90!black}
-%    \addMh
-%    \drawLegendN
-%    \addAprime
-%  \end{tikzpicture}
+%  \dots\ Bild folgt \dots
+  \begin{tikzpicture}[%
+    >=Latex,baseline=2pt,
+    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,semithick}
+  ]
+    \drawUnivModel{blue!50}{very thick,draw=red!90!black}
+    \addMh
+    \drawLegendN
+    \addAprime
+  \end{tikzpicture}
 \end{center}
 %
 Wir müssen noch zeigen, dass $\Amc'$ tatsächlich die gewünschte ABox ist.
