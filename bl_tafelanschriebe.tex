@@ -5188,27 +5188,27 @@ ein Rewriting mit der Vorgehensweise aus
 
 \newcommand{\drawUnivModel}[2]{%
   \node[state]            (a)                                 {$a_1$};
-  \node[state,fill=#1,#2] (b) [below left =6mm and 15mm of a] {$a_2$};
+  \node[state,fill=#1,#2] (b) [below left =6mm and 14mm of a] {$a_2$};
   \node[state,fill=#1,#2] (c) [below=8mm of a]                {$a_3$};
-  \node[state,#2]         (d) [below right=6mm and 15mm of a] {$a_4$};
+  \node[state,#2]         (d) [below right=6mm and 14mm of a] {$a_4$};
   
-  \node (a1) [above left =12mm and -10mm of a] {};
-  \node (a2) [above right=11mm and  13mm of a] {};
-  \node (b1) [below left =17mm and  17mm of b] {};
-  \node (b2) [below right=19mm and -10mm of b] {};
-  \node (c1) [below left =17mm and   2mm of c] {};
-  \node (c2) [below right=19mm and   2mm of c] {};
-  \node (d1) [below left =19mm and -10mm of d] {};
-  \node (d2) [below right=17mm and  17mm of d] {};
+  \node (a1) [above left =10mm and  -9mm of a] {};
+  \node (a2) [above right= 9mm and  11mm of a] {};
+  \node (b1) [below left =14mm and  10mm of b] {};
+  \node (b2) [below right=16mm and  -5mm of b] {};
+  \node (c1) [below left =14mm and   2mm of c] {};
+  \node (c2) [below right=14mm and   2mm of c] {};
+  \node (d1) [below left =16mm and  -5mm of d] {};
+  \node (d2) [below right=14mm and  12mm of d] {};
   
   \node[ellipse,draw=black,thin,fit=(a) (b) (c) (d),inner sep=-2mm] (ell) {};
   
   \node [above left= -1mm and  0mm of ell] {\Amc};
-  \node [above left=10mm and 10mm of ell] {\Umc};
+  \node [above left=7mm and 7mm of ell] {\Umc};
 
   \path[->]
-    (b) edge                 node[pos=.4,above left] {$s$} (a)
-    (b) edge                 node[above]             {$s$} (c)
+    (b) edge                 node[pos=.6,left=1mm]   {$s$} (a)
+    (b) edge                 node[below=-.5mm]       {$s$} (c)
     (c) edge                 node[right]             {$r$} (a)
     (c) edge [bend right=10] node[below]             {$r$} (d)
     (d) edge [bend right=10] node[above]             {$r$} (c)
@@ -5219,17 +5219,21 @@ ein Rewriting mit der Vorgehensweise aus
   ;
 }
 
-\newcommand{\addMh}{%
-  \node[inner sep=0mm,minimum size=0mm] (b3) [below left = 9mm and   7mm of b] {};
-  \node[inner sep=0mm,minimum size=0mm] (b4) [below right=12mm and  -8mm of b] {};
+\newcommand{\addM}{%
+  \node[inner sep=0mm,minimum size=0mm] (b3) [below left = 9mm and 4.2mm of b] {};
+  \node[inner sep=0mm,minimum size=0mm] (b4) [below right=12mm and  -5mm of b] {};
   \node[inner sep=0mm,minimum size=0mm] (c3) [below left =13mm and   0mm of c] {};
   \node[inner sep=0mm,minimum size=0mm] (c4) [below right=11mm and  -.5mm of c] {};
-  
+}
+
+\newcommand{\addh}{%  
   \path[-,every edge/.style={draw=blue!50!black,thick},densely dashed]
     (b) edge (b3) (b3) edge (b4) (b4) edge (b)
     (c) edge (c3) (c3) edge (c4) (c4) edge (c)
   ;
-  
+}
+
+\newcommand{\drawLegendMh}{%
   \node[inner sep=0mm,minimum size=0mm] (leg0)  [above right=0mm and 25mm of ell] {};
   \node[inner sep=0mm,minimum size=0mm] (leg01) [below left =4mm and 1.5mm of leg0] {};
   \node[inner sep=0mm,minimum size=0mm] (leg02) [below right=4mm and 1.5mm of leg0] {};
@@ -5242,11 +5246,6 @@ ein Rewriting mit der Vorgehensweise aus
   
   \node[state,fill=blue!50,minimum size=4mm] (leg1) [below=6mm of leg0] {};
   \node[right=1mm of leg1]{$M$};
-
-%  \path[->,every edge/.style={draw=blue!50!black,thick},densely dashed]
-%    (b) edge [bend right=15] (c)
-%   ;
-%
 }
 
 \newcommand{\drawLegendN}{%
@@ -5270,6 +5269,54 @@ ein Rewriting mit der Vorgehensweise aus
   \draw[-,red!90!black,thick,dashed,rounded corners]
     (line0) .. controls (line1) .. (line2) .. controls (line3) .. (line4)
   ;
+}
+
+\newcommand{\drawUM}{%
+%  \path[->,every edge/.style={draw=blue!50,very thick}]
+%    (b) edge (c)
+%  ;
+  \begin{scope}[on background layer]
+    \fill[blue!50]
+      (b.center) -- (c.center) -- (c2.center) -- (b1.center) -- cycle;
+    ;
+    
+    \node [above=2mm of b1,text=blue!50!black] {{\boldmath $\Umc|_M$}};
+  \end{scope}
+}
+
+\newcommand{\offs}{71.5mm}
+\newcommand{\drawUprime}{%
+  \begin{scope}[%
+    every state/.style={very thick,draw=red!90!black,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={very thick,draw=red!90!black}
+  ]
+    \node[state,draw=none,fill=none] (a') [right=\offs of a] {};
+    \node[state] (b') [right=\offs of b] {$a_2$};
+    \node[state] (c') [right=\offs of c] {$a_3$};
+    \node[state] (d') [right=\offs of d] {$a_4$};
+    
+    \node (b1') [right=\offs of b1] {};
+    \node (b2') [right=\offs of b2] {};
+    \node (c1') [right=\offs of c1] {};
+    \node (c2') [right=\offs of c2] {};
+    \node (d1') [right=\offs of d1] {};
+    \node (d2') [right=\offs of d2] {};
+
+    \path[-]
+      \foreach \x in {b,c,d} {(\x') edge (\x1') (\x') edge (\x2')}
+    ;
+
+    \path[->]
+      (b') edge                 node[pos=.45,below=0mm] {$s$} (c')
+      (c') edge [bend right=10] node[below]             {$r$} (d')
+      (d') edge [bend right=10] node[above]             {$r$} (c')
+    ;
+
+  \end{scope}
+
+  \node [ellipse,draw=black,thin,fit=(a') (b') (c') (d'),inner sep=-2mm] (ell') {};
+  \node [below right=-2mm and 4mm of ell',text=red!90!black] {{\boldmath $\Umc'$}};
+  
 }
 
 \textbfsf{Theorem~7.19.}~
@@ -5316,7 +5363,9 @@ und die Elemente von $M$ durch die etwas dunklere, blaue Füllung.
     every edge/.style={draw=black,semithick}
   ]
     \drawUnivModel{blue!50}{thin}
-    \addMh
+    \addM
+    \addh
+    \drawLegendMh
   \end{tikzpicture}
 \end{center}
 %
@@ -5336,7 +5385,9 @@ dicke rote Linien umrandet.
     every edge/.style={draw=black,semithick}
   ]
     \drawUnivModel{blue!50}{very thick,draw=red!90!black}
-    \addMh
+    \addM
+    \addh
+    \drawLegendMh
     \drawLegendN
   \end{tikzpicture}
 \end{center}
@@ -5344,14 +5395,15 @@ dicke rote Linien umrandet.
 Sei nun $\Amc'$ die Einschränkung von \Amc auf $N$:
 %
 \begin{center}
-%  \dots\ Bild folgt \dots
   \begin{tikzpicture}[%
     >=Latex,baseline=2pt,
     every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
     every edge/.style={draw=black,semithick}
   ]
     \drawUnivModel{blue!50}{very thick,draw=red!90!black}
-    \addMh
+    \addM
+    \addh
+    \drawLegendMh
     \drawLegendN
     \addAprime
   \end{tikzpicture}
@@ -5369,7 +5421,16 @@ Sei außerdem $\Umc|_M$ die Einschränkung von \Umc
 auf die Individuen in $M$ und deren Subbäume:
 %
 \begin{center}
-  \dots\ Bild folgt \dots
+  \begin{tikzpicture}[%
+    >=Latex,baseline=2pt,
+    every state/.style={draw=black,semithick,fill=black!10,inner sep=.5mm,minimum size=6mm},
+    every edge/.style={draw=black,semithick}
+  ]
+    \drawUnivModel{blue!50}{}
+    \addM
+    \drawUM
+    \drawUprime
+  \end{tikzpicture}
 \end{center}
 %
 Wir möchten nun zeigen, dass $q \to \Umc'$ gilt,
