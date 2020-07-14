@@ -868,7 +868,108 @@ Es gibt Interpretationen \Imc und \Jmc und $d \in \Imc$, $e \in \Jmc$, so dass
   Betrachte die folgenden Interpretationen \Imc und \Jmc.
   %
   \begin{center}
-    \dots\ Bild folgt \dots
+    \begin{tikzpicture}[%
+      >=Latex,baseline=.2pt,
+      every state/.style={draw=black,thin,fill=black!10,inner sep=.4mm,minimum size=4mm},
+      level 1/.style = {sibling distance = 11mm, level distance = 12mm},
+      level 2/.style = {sibling distance = 11mm, level distance =  9mm},
+      edge from parent/.style = {draw=black, thin, ->}%
+    ]
+      \node[state,minimum size=6mm] (d) {$d$}
+        child{
+          node[state] {}
+          edge from parent node[pos=.6,left=.2mm] {$r$}
+        }
+        child{
+          node[state] {}
+          child{
+            node[state] {}
+            edge from parent node[left] {$r$}
+          }
+          edge from parent node[pos=.6,left=-.2mm] {$r$}
+        }
+        child{
+          node[state] {}
+          child{
+            node[state] {}
+            child{
+              node[state] {}
+              edge from parent node[left] {$r$}
+            }
+            edge from parent node[left] {$r$}
+          }
+          edge from parent node[pos=.6,left=-.2mm] {$r$}
+        }
+        child{
+          node[state] {}
+          child{
+            node[state] {}
+            child{
+              node[state] {}
+              child{
+                node[state] {}
+                edge from parent node[left] {$r$}
+              }
+              edge from parent node[left] {$r$}
+            }
+            edge from parent node[left] {$r$}
+          }
+          edge from parent node[pos=.6,left=.4mm] {$r$}
+        }
+        child{
+          node {$\cdots$}
+          edge from parent[draw=none]
+        }
+      ;
+    
+      \node[state,minimum size=6mm] (e) [right=70mm of d] {$e$}
+        child{
+          node[state] {}
+          edge from parent node[pos=.6,left=.2mm] {$r$}
+        }
+        child{
+          node[state] {}
+          child{
+            node[state] {}
+            edge from parent node[left] {$r$}
+          }
+          edge from parent node[pos=.6,left=-.2mm] {$r$}
+        }
+        child{
+          node[state] {}
+          child{
+            node[state] {}
+            child{
+              node[state] {}
+              edge from parent node[left] {$r$}
+            }
+            edge from parent node[left] {$r$}
+          }
+          edge from parent node[pos=.6,left=-.2mm] {$r$}
+        }
+        child{
+          node {$\cdots$}
+          edge from parent[draw=none]
+        }
+        child{
+          node[state,minimum size=6mm] {$e'$}
+          child{
+            node[state] {}
+            child{
+              node[state] {}
+              child{
+                node[inner sep=-1mm] {$\vdots$}
+                edge from parent node[left] {$r$}
+              }
+              edge from parent node[left] {$r$}
+            }
+            edge from parent node[left] {$r$}
+          }
+          edge from parent node[pos=.6,left=1.6mm] {$r$}
+        }
+      ;
+    
+    \end{tikzpicture}%
   \end{center}
   %
   Es gilt (ii):
