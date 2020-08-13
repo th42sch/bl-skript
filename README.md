@@ -15,7 +15,7 @@ Alle Kapitel (2–7) vollständig.
 
 ### SoSe 2020
 
-**12.8.2020**&nbsp; kleine Korrektur in T6.6<br>
+**12./13.8.2020**&nbsp; kleine Korrekturen in T6.5, T6.6<br>
 **13./14.7.2020**&nbsp; Bilder in T3.4 und T7.17 vervollständigt; Korrektur in T7.16; kleine redaktionelle Korrekturen<br>
 **10.7.2020**&nbsp; T7.18–T7.19 hinzugefügt<br>
 **8./9.7.2020**&nbsp; T7.15–T7.17 hinzugefügt<br>
